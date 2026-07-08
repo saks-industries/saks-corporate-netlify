@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wireframe — Saks Industries LLC</title>
+  <link rel="stylesheet" href="wireframe.css" />
+</head>
+<body>
+
+  <div class="doc-header">
+    <span class="doc-title">Wireframe — Saks Industries LLC</span>
+    <div style="display:flex;align-items:center;gap:20px;">
+      <span class="doc-meta" id="doc-meta">Home · Desktop (1280px) · v0.1</span>
+      <div class="asset-toggle">
+        <button class="toggle-btn active" data-mode="wireframe">Wireframe</button>
+        <button class="toggle-btn"        data-mode="demo">Demo Assets</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <div class="wireframe">
+      <div id="wf-nav-mount"><div class="wf-loading">loading nav…</div></div>
+      <div id="wf-page"><div class="wf-loading">loading…</div></div>
+      <div id="wf-footer-mount"><div class="wf-loading">loading footer…</div></div>
+    </div>
+
+    <div class="annotations" id="annotations"></div>
+
+  </div>
+
+  <script>
+    // ── Demo content definitions ──────────────────────────────────────────────
+    const DEMO = {
+      nav: {
+        logo: 'SAKS INDUSTRIES',
+      },
+      home: {
+        heroImg: 'https://picsum.photos/seed/saks-hero/600/420',
+        heroTag: 'Microsoft AI Cloud Partner · AWS Partner',
+        heroH1:  'Enterprise Cloud',
+        heroH1b: 'Solutions',
+        heroSub: 'Empowering businesses with cutting-edge cloud',
+        heroSub2:'infrastructure and AI-driven capabilities.',
+        partnerLabel: 'Trusted Certifications',
+        sectionTitle: 'Our Services',
+        sectionSub:   'End-to-end cloud solutions tailored for enterprise growth.',
+        sectionSub2:  'From migration to AI integration and beyond.',
+        cards: [
+          { icon: '☁️', title: 'Cloud Migration',       desc: 'Seamless lift-and-shift and re-architecture of workloads to Azure & AWS.',  cta: 'Learn more →' },
+          { icon: '🤖', title: 'AI Integration',         desc: 'Embed Microsoft AI and AWS SageMaker into your existing business workflows.', cta: 'Learn more →' },
+          { icon: '⚙️', title: 'DevOps & Automation',   desc: 'CI/CD pipelines, IaC with Terraform, and container-native delivery.', cta: 'Learn more →' },
+        ],
+        news: [
+          { date: '2025.06.15', tag: 'News',    title: 'Saks Industries achieves Microsoft AI Cloud Partner status' },
+          { date: '2025.03.01', tag: 'Product', title: 'Launching new managed DevOps service tier for SMEs' },
+          { date: '2024.05.01', tag: 'News',    title: 'Website launched — welcome to Saks Industries' },
+        ],
+      },
+      about: {
+        sectionTitle: 'About Us',
+        missionLines: [
+          'Saks Industries LLC is a cloud-native technology partner headquartered in Tokyo,',
+          'Japan. We specialize in architecting scalable, secure, and cost-efficient cloud',
+          'infrastructure on Microsoft Azure and Amazon Web Services.',
+          'Our mission is to accelerate digital transformation for businesses of all sizes —',
+          'from fast-growing startups to established enterprises.',
+        ],
+        stats: [
+          { num: '5+',  label: 'Years in Business' },
+          { num: '50+', label: 'Enterprise Clients' },
+          { num: '120+',label: 'Projects Delivered' },
+        ],
+        teamTitle: 'Our Team',
+        teamSub:   'The people behind Saks Industries.',
+        team: [
+          { name: 'Alex Saks',      role: 'CEO & Founder',       seed: 'alex' },
+          { name: 'Yuki Tanaka',    role: 'CTO',                 seed: 'yuki' },
+          { name: 'Maria Chen',     role: 'Cloud Architect',     seed: 'maria' },
+          { name: 'James Park',     role: 'DevOps Lead',         seed: 'james' },
+        ],
+      },
+      products: {
+        sectionTitle: 'Products & Solutions',
+        sectionSub:   'Purpose-built cloud products for modern enterprises.',
+        sectionSub2:  'Backed by Microsoft Azure and AWS infrastructure.',
+        products: [
+          { seed: 'cloud-infra',  tag: 'Infrastructure', name: 'SaksCloud Managed Infrastructure', desc: 'Fully managed multi-cloud infrastructure with 99.99% SLA, auto-scaling, and 24/7 monitoring.' },
+          { seed: 'ai-platform',  tag: 'AI / ML',        name: 'SaksAI Platform',                  desc: 'Plug-and-play AI pipeline integrating Azure OpenAI and AWS SageMaker for enterprise workloads.' },
+          { seed: 'devops-suite', tag: 'DevOps',         name: 'SaksOps Automation Suite',         desc: 'End-to-end CI/CD and GitOps automation with Terraform, Kubernetes, and observability built-in.' },
+          { seed: 'security',     tag: 'Security',       name: 'SaksShield Security',               desc: 'Zero-trust network architecture and compliance tooling for GDPR, SOC 2, and ISO 27001.' },
+        ],
+      },
+      contact: {
+        sectionTitle:  'Get in Touch',
+        sectionSub:    'We\'d love to discuss how we can help your business.',
+        formLabels:    ['Full Name', 'Business Email', 'Subject', 'Message'],
+        formPlaceholders: ['John Smith', 'you@company.com', 'Project inquiry…', 'Tell us about your project…'],
+        infoBlocks: [
+          { icon: '📍', title: 'Headquarters', lines: ['Shibuya-ku, Tokyo 150-0001', 'Japan'] },
+          { icon: '✉️', title: 'Email',         lines: ['contact@saks.industries'] },
+          { icon: '🔗', title: 'Contact Form',  lines: ['go.saks.industries/a54vAx'] },
+        ],
+      },
+      footer: {
+        logo: 'SAKS INDUSTRIES',
+        descLines: ['Enterprise cloud solutions', 'powered by Azure & AWS.', '© 2025 Saks Industries LLC'],
+        col2Title: 'Company',
+        col2Links: ['Home', 'About', 'Products', 'Contact'],
+        col3Title: 'Legal',
+        col3Links: ['Privacy Policy', 'Terms of Service', 'Cookie Policy'],
+        copy: '© 2025 Saks Industries LLC. All rights reserved.',
+      },
+    };
+
+    // ── Transform helpers ─────────────────────────────────────────────────────
+    function asText(el, text, cls) {
+      el.textContent = text;
+      el.className = cls;
+    }
+
+    function applyDemoToNav(mount) {
+      const logo = mount.querySelector('.nav-logo');
+      if (logo) { logo.textContent = DEMO.nav.logo; logo.className = 'demo-logo'; }
+    }
+
+    function applyDemoToPage(page, mount) {
+      if (page === 'home') applyDemoHome(mount);
+      if (page === 'about') applyDemoAbout(mount);
+      if (page === 'products') applyDemoProducts(mount);
+      if (page === 'contact') applyDemoContact(mount);
+    }
+
+    function applyDemoHome(m) {
+      const d = DEMO.home;
+      // Hero image
+      const heroImg = m.querySelector('.hero-image');
+      if (heroImg) {
+        heroImg.classList.add('demo-img');
+        heroImg.innerHTML = `<img src="${d.heroImg}" alt="hero">`;
+      }
+      // Hero text
+      const setText = (sel, text, cls) => { const el = m.querySelector(sel); if (el) asText(el, text, cls); };
+      setText('.hero-tag',   d.heroTag,   'demo-text');
+      setText('.hero-h1',    d.heroH1,    'demo-text' + ' bar dark hero-h1');
+      setText('.hero-h1b',   d.heroH1b,   'demo-text' + ' bar dark hero-h1b');
+      setText('.hero-sub',   d.heroSub,   'demo-text');
+      setText('.hero-sub2',  d.heroSub2,  'demo-text');
+      // Hero h1 needs bigger font
+      ['hero-h1','hero-h1b'].forEach(c => {
+        const el = m.querySelector(`.${c}`);
+        if (el) { el.style.cssText = 'background:none;height:auto;font-size:26px;font-weight:800;color:#111;line-height:1.1;'; }
+      });
+      // Partners
+      const partnerLabel = m.querySelector('.partners-label');
+      if (partnerLabel) asText(partnerLabel, d.partnerLabel, 'demo-text');
+      const badges = m.querySelectorAll('.partner-badge');
+      if (badges[0]) { badges[0].textContent = 'Microsoft AI Cloud Partner'; badges[0].className = 'partner-badge demo-badge-ms'; }
+      if (badges[1]) { badges[1].textContent = 'AWS Partner Network'; badges[1].className = 'partner-badge demo-badge-aws'; }
+      // Section header
+      const sTitle = m.querySelector('.wf-services .section-title');
+      if (sTitle) asText(sTitle, d.sectionTitle, 'demo-text');
+      const sSub = m.querySelectorAll('.wf-services .section-subtitle, .wf-services .section-subtitle2');
+      if (sSub[0]) asText(sSub[0], d.sectionSub,  'demo-text');
+      if (sSub[1]) asText(sSub[1], d.sectionSub2, 'demo-text');
+      // Cards
+      m.querySelectorAll('.card').forEach((card, i) => {
+        const c = d.cards[i]; if (!c) return;
+        const icon  = card.querySelector('.card-icon');
+        const title = card.querySelector('.card-title');
+        const lines = card.querySelectorAll('.card-line');
+        const cta   = card.querySelector('.card-cta');
+        if (icon)  { icon.textContent = c.icon; icon.className = 'card-icon demo-card-icon'; }
+        if (title) asText(title, c.title, 'demo-card-title');
+        // Distribute desc across line elements, or replace all with one
+        if (lines.length) {
+          lines[0].textContent = c.desc;
+          lines[0].className = 'demo-card-desc';
+          lines[0].style.gridColumn = '1/-1';
+          for (let j = 1; j < lines.length; j++) lines[j].remove();
+        }
+        if (cta) asText(cta, c.cta, 'demo-card-cta');
+      });
+      // News
+      m.querySelectorAll('.news-item').forEach((row, i) => {
+        const n = d.news[i]; if (!n) return;
+        const date  = row.querySelector('.news-date');
+        const tag   = row.querySelector('.news-tag');
+        const title = row.querySelector('.news-title');
+        if (date)  asText(date,  n.date, 'news-date demo-news-date');
+        if (tag)   asText(tag,   n.tag,  'news-tag demo-news-tag');
+        if (title) asText(title, n.title,'news-title demo-news-title');
+      });
+    }
+
+    function applyDemoAbout(m) {
+      const d = DEMO.about;
+      // Section title
+      const sTitle = m.querySelector('.section-title');
+      if (sTitle) asText(sTitle, d.sectionTitle, 'demo-text');
+      // Mission paragraph lines
+      const paraLines = m.querySelectorAll('.wf-about-mission > div > .bar');
+      paraLines.forEach((el, i) => {
+        el.textContent = d.missionLines[i] || '';
+        el.style.cssText = 'background:none;height:auto;font-size:13px;color:#444;line-height:1.8;';
+      });
+      // Stats
+      m.querySelectorAll('.stat-cell').forEach((cell, i) => {
+        const s = d.stats[i]; if (!s) return;
+        const num   = cell.querySelector('.stat-num');
+        const label = cell.querySelector('.stat-label');
+        if (num)   asText(num,   s.num,   'stat-num demo-stat-num');
+        if (label) asText(label, s.label, 'stat-label demo-stat-label');
+      });
+      // Team header
+      const tTitle = m.querySelector('.wf-team .section-title');
+      const tSub   = m.querySelector('.wf-team .section-subtitle');
+      if (tTitle) asText(tTitle, d.teamTitle, 'demo-text');
+      if (tSub)   asText(tSub,   d.teamSub,   'demo-text');
+      // Team cards
+      m.querySelectorAll('.team-card').forEach((card, i) => {
+        const t = d.team[i]; if (!t) return;
+        const avatar = card.querySelector('.team-avatar');
+        const name   = card.querySelector('.team-name');
+        const role   = card.querySelector('.team-role');
+        if (avatar) {
+          avatar.className = 'team-avatar demo-team-avatar';
+          avatar.innerHTML = `<img src="https://picsum.photos/seed/${t.seed}/64/64" alt="${t.name}">`;
+        }
+        if (name) asText(name, t.name, 'team-name demo-team-name');
+        if (role) asText(role, t.role, 'team-role demo-team-role');
+      });
+    }
+
+    function applyDemoProducts(m) {
+      const d = DEMO.products;
+      const sTitle = m.querySelector('.section-title');
+      const sSubs  = m.querySelectorAll('.section-subtitle, .section-subtitle2');
+      if (sTitle)  asText(sTitle,   d.sectionTitle, 'demo-text');
+      if (sSubs[0]) asText(sSubs[0], d.sectionSub,  'demo-text');
+      if (sSubs[1]) asText(sSubs[1], d.sectionSub2, 'demo-text');
+      m.querySelectorAll('.product-card').forEach((card, i) => {
+        const p = d.products[i]; if (!p) return;
+        const img  = card.querySelector('.product-img');
+        const tag  = card.querySelector('.product-tag');
+        const name = card.querySelector('.product-name');
+        const lines= card.querySelectorAll('.product-line');
+        const cta  = card.querySelector('.product-cta');
+        if (img)  { img.className = 'product-img demo-product-img'; img.innerHTML = `<img src="https://picsum.photos/seed/${p.seed}/480/160" alt="${p.name}">`; }
+        if (tag)  asText(tag,  p.tag,  'product-tag demo-product-tag');
+        if (name) asText(name, p.name, 'product-name demo-product-name');
+        if (lines.length) {
+          lines[0].textContent = p.desc;
+          lines[0].className = 'demo-product-desc';
+          for (let j = 1; j < lines.length; j++) lines[j].remove();
+        }
+        if (cta) { cta.textContent = 'Learn More'; cta.className = 'product-cta demo-product-cta'; }
+      });
+    }
+
+    function applyDemoContact(m) {
+      const d = DEMO.contact;
+      const sTitle = m.querySelector('.section-title');
+      const sSub   = m.querySelector('.section-subtitle');
+      if (sTitle) asText(sTitle, d.sectionTitle, 'demo-text');
+      if (sSub)   asText(sSub,   d.sectionSub,   'demo-text');
+      // Form labels + inputs
+      m.querySelectorAll('.form-field').forEach((field, i) => {
+        const label = field.querySelector('.form-label');
+        const input = field.querySelector('.form-input, .form-textarea');
+        if (label) asText(label, d.formLabels[i] || '', 'form-label demo-form-label');
+        if (input) {
+          input.classList.add('demo-form-input');
+          input.setAttribute('placeholder', d.formPlaceholders[i] || '');
+        }
+      });
+      // Info blocks
+      m.querySelectorAll('.info-block').forEach((block, i) => {
+        const info = d.infoBlocks[i]; if (!info) return;
+        const icon  = block.querySelector('.info-icon');
+        const title = block.querySelector('.info-title');
+        const lines = block.querySelectorAll('.info-line');
+        if (icon)  { icon.className = 'info-icon'; icon.style.cssText = 'background:none;font-size:18px;width:20px;height:20px;'; icon.textContent = info.icon; }
+        if (title) asText(title, info.title, 'info-title demo-info-title');
+        info.lines.forEach((text, j) => {
+          if (lines[j]) asText(lines[j], text, 'info-line demo-info-line');
+        });
+      });
+    }
+
+    function applyDemoToFooter(mount) {
+      const d = DEMO.footer;
+      const logo = mount.querySelector('.footer-logo');
+      if (logo) asText(logo, d.logo, 'footer-logo demo-footer-logo');
+      const descLines = mount.querySelectorAll('.footer-desc .footer-line');
+      descLines.forEach((el, i) => { if (d.descLines[i]) asText(el, d.descLines[i], 'footer-line demo-footer-line'); });
+      const c2Title = mount.querySelector('.footer-grid > div:nth-child(2) .footer-col-title');
+      if (c2Title) asText(c2Title, d.col2Title, 'footer-col-title demo-footer-col-title');
+      mount.querySelectorAll('.footer-grid > div:nth-child(2) .footer-link').forEach((el, i) => {
+        if (d.col2Links[i]) asText(el, d.col2Links[i], 'footer-link demo-footer-link');
+      });
+      const c3Title = mount.querySelector('.footer-grid > div:nth-child(3) .footer-col-title');
+      if (c3Title) asText(c3Title, d.col3Title, 'footer-col-title demo-footer-col-title');
+      mount.querySelectorAll('.footer-grid > div:nth-child(3) .footer-link').forEach((el, i) => {
+        if (d.col3Links[i]) asText(el, d.col3Links[i], 'footer-link demo-footer-link');
+      });
+      const copy = mount.querySelector('.footer-copy');
+      if (copy) asText(copy, d.footer?.copy || d.copy || DEMO.footer.copy, 'footer-copy demo-footer-copy');
+    }
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    let currentPage = null;
+    let isDemoMode  = false;
+
+    // ── Fragment loader ───────────────────────────────────────────────────────
+    async function loadFragment(mountId, src) {
+      const el = document.getElementById(mountId);
+      try {
+        const res = await fetch(src);
+        if (!res.ok) throw new Error(`${res.status} ${src}`);
+        el.innerHTML = await res.text();
+      } catch (err) {
+        el.innerHTML = `<div class="wf-loading" style="color:#c00">Failed: ${src}</div>`;
+      }
+    }
+
+    // ── Apply demo to all currently loaded mounts ─────────────────────────────
+    function applyDemo() {
+      document.body.classList.add('demo-mode');
+      applyDemoToNav(document.getElementById('wf-nav-mount'));
+      applyDemoToPage(currentPage, document.getElementById('wf-page'));
+      applyDemoToFooter(document.getElementById('wf-footer-mount'));
+    }
+
+    async function removeDemo() {
+      document.body.classList.remove('demo-mode');
+      // Re-load nav + footer + page to restore original placeholder HTML
+      await Promise.all([
+        loadFragment('wf-nav-mount',    'fragments/nav.html'),
+        loadFragment('wf-footer-mount', 'fragments/footer.html'),
+        loadFragment('wf-page',         `fragments/pages/${currentPage}.html`),
+      ]);
+      // Re-apply active nav state
+      document.querySelectorAll('.nav-link-btn').forEach(el => {
+        el.classList.toggle('active', el.dataset.page === currentPage);
+      });
+    }
+
+    // ── Page router ───────────────────────────────────────────────────────────
+    async function loadPage(name) {
+      if (name === currentPage) return;
+      currentPage = name;
+
+      const pageEl = document.getElementById('wf-page');
+      pageEl.classList.add('switching');
+      await new Promise(r => setTimeout(r, 100));
+
+      await loadFragment('wf-page', `fragments/pages/${name}.html`);
+
+      pageEl.classList.remove('switching');
+      pageEl.style.animation = 'none';
+      pageEl.offsetHeight;
+      pageEl.style.animation = '';
+
+      document.querySelectorAll('.nav-link-btn').forEach(el => {
+        el.classList.toggle('active', el.dataset.page === name);
+      });
+
+      const label = name.charAt(0).toUpperCase() + name.slice(1);
+      document.getElementById('doc-meta').textContent =
+        `${label}  ·  Desktop (1280px)  ·  v0.1`;
+
+      renderAnnotations(name);
+
+      // Re-apply demo transforms if mode is active
+      if (isDemoMode) {
+        applyDemoToPage(name, document.getElementById('wf-page'));
+      }
+    }
+
+    // ── Toggle handler ────────────────────────────────────────────────────────
+    document.querySelector('.asset-toggle').addEventListener('click', async (e) => {
+      const btn = e.target.closest('.toggle-btn');
+      if (!btn) return;
+      const mode = btn.dataset.mode;
+      if ((mode === 'demo') === isDemoMode) return;
+
+      document.querySelectorAll('.asset-toggle .toggle-btn').forEach(b => {
+        b.classList.toggle('active', b === btn);
+      });
+
+      isDemoMode = mode === 'demo';
+      if (isDemoMode) applyDemo();
+      else            await removeDemo();
+    });
+
+    // ── Nav click delegation ──────────────────────────────────────────────────
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-page]');
+      if (btn) loadPage(btn.dataset.page);
+    });
+
+    // ── Annotations ──────────────────────────────────────────────────────────
+    const ANNOTATIONS = {
+      home: [
+        { num:1, title:'Navigation Bar',     desc:'Sticky top bar. Logo left, links (Home · About · Products · Contact), primary CTA linking to the contact form.',  tip:'Sticky on scroll · 64px height' },
+        { num:2, title:'Hero Section',        desc:'Split layout — image left, copy right. Tagline, headline, description. Two CTAs: "View Products" (primary) + "Learn More" (ghost).',  tip:'Full-viewport height recommended' },
+        { num:3, title:'Partnership Badges',  desc:'Trust strip below hero. Shows Microsoft AI Cloud Partner and AWS Partner badges with official colors in demo mode.', tip:'Use official partner badge assets' },
+        { num:4, title:'Services / Products', desc:'3-column card grid. Each card: icon, service name, short description, inline "Learn more →" CTA.',  tip:'Links to /products page' },
+        { num:5, title:'News / Updates',      desc:'Lightweight feed: date (YYYY.MM.DD), category tag, headline text.',  tip:'Show latest 3–5 entries' },
+        { num:6, title:'Footer',              desc:'Dark background, 3-column: brand + desc, site links, legal links. Bottom bar: copyright + social icons.', tip:'© 2025 Saks Industries LLC' },
+      ],
+      about: [
+        { num:1, title:'Navigation Bar',  desc:'Same persistent nav. "About" link is active/highlighted.', tip:'Active state on current page' },
+        { num:2, title:'Mission & Stats', desc:'Company mission statement, followed by 3-column stat row (years, clients, projects delivered).', tip:'Stats reinforce credibility' },
+        { num:3, title:'Team Grid',       desc:'4-column grid of team member cards. Each: avatar, name, role.', tip:'Link each card to a bio page' },
+        { num:4, title:'Footer',          desc:'Same persistent footer across all pages.', tip:'© 2025 Saks Industries LLC' },
+      ],
+      products: [
+        { num:1, title:'Navigation Bar',  desc:'Same persistent nav. "Products" link is active/highlighted.', tip:'Active state on current page' },
+        { num:2, title:'Products Grid',   desc:'2-column card grid. Each card: product image, category tag, name, description, "Learn More" CTA.', tip:'Add filter/sort controls above grid as needed' },
+        { num:3, title:'Footer',          desc:'Same persistent footer across all pages.', tip:'© 2025 Saks Industries LLC' },
+      ],
+      contact: [
+        { num:1, title:'Navigation Bar', desc:'Same persistent nav. "Contact" CTA is highlighted.', tip:'Active state on current page' },
+        { num:2, title:'Contact Layout', desc:'Left: form with Name, Email, Subject, Message, Submit. Right: HQ address, email, contact form link, and partner badges.', tip:'Form submits to go.saks.industries' },
+        { num:3, title:'Footer',         desc:'Same persistent footer across all pages.', tip:'© 2025 Saks Industries LLC' },
+      ],
+    };
+
+    function renderAnnotations(page) {
+      const panel = document.getElementById('annotations');
+      panel.innerHTML = (ANNOTATIONS[page] || []).map(a => `
+        <div class="ann-block">
+          <div class="ann-num">${a.num}</div>
+          <div class="ann-content">
+            <div class="ann-title">${a.title}</div>
+            <div class="ann-desc">
+              ${a.desc}
+              ${a.tip ? `<br><span class="ann-tip">${a.tip}</span>` : ''}
+            </div>
+          </div>
+        </div>`).join('');
+    }
+
+    // ── Bootstrap ─────────────────────────────────────────────────────────────
+    Promise.all([
+      loadFragment('wf-nav-mount',    'fragments/nav.html'),
+      loadFragment('wf-footer-mount', 'fragments/footer.html'),
+    ]).then(() => loadPage('home'));
+  </script>
+
+</body>
+</html>
