@@ -634,6 +634,20 @@
     let activePanel  = 'annotations';
 
     // ══════════════════════════════════════════════════════════════════════════
+    // NAV ACTIVE STATE
+    // ══════════════════════════════════════════════════════════════════════════
+    const KNOWN_PAGES = ['home', 'about', 'products', 'contact'];
+
+    function setActiveNav(name) {
+      document.querySelectorAll('.nav-link-btn').forEach(el => {
+        const isActive = el.dataset.page === name;
+        el.classList.toggle('active', isActive);
+        if (isActive) el.setAttribute('aria-current', 'page');
+        else el.removeAttribute('aria-current');
+      });
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
     // FRAGMENT LOADER
     // ══════════════════════════════════════════════════════════════════════════
     async function loadFragment(mountId, src) {
@@ -654,6 +668,9 @@
       if (name === currentPage) return;
       currentPage = name;
 
+      // Keep the URL deep-linkable to the current page
+      if (location.hash.slice(1) !== name) history.pushState(null, '', `#${name}`);
+
       // Hide heatmap during transition
       if (heatmapOn) toggleHeatmap(false);
 
@@ -665,8 +682,7 @@
       pageEl.style.animation = 'none'; pageEl.offsetHeight; pageEl.style.animation = '';
 
       // Update active nav link
-      document.querySelectorAll('.nav-link-btn').forEach(el =>
-        el.classList.toggle('active', el.dataset.page === name));
+      setActiveNav(name);
 
       // Update doc meta
       const label = name.charAt(0).toUpperCase() + name.slice(1);
@@ -1572,8 +1588,7 @@
         loadFragment('wf-footer-mount', 'fragments/footer.html'),
         loadFragment('wf-page',         `fragments/pages/${currentPage}.html`),
       ]);
-      document.querySelectorAll('.nav-link-btn').forEach(el =>
-        el.classList.toggle('active', el.dataset.page === currentPage));
+      setActiveNav(currentPage);
       setTimeout(renderComponentChart, 80);
     }
 
@@ -1584,6 +1599,11 @@
       // Nav page links
       const navBtn = e.target.closest('[data-page]');
       if (navBtn && !navBtn.closest('.asset-toggle') && !navBtn.closest('.panel-tab-bar')) {
+        // Let modified clicks (open in new tab, etc.) and non-anchor controls behave natively;
+        // otherwise drive the SPA transition ourselves so history isn't double-pushed.
+        if (navBtn.tagName === 'A' && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1)) {
+          e.preventDefault();
+        }
         loadPage(navBtn.dataset.page);
       }
     });
@@ -1615,6 +1635,12 @@
       if (btn && btn.dataset.lang !== currentLocale) setLocale(btn.dataset.lang);
     });
 
+    // Deep-link support: browser back/forward and direct hash edits load the matching page
+    window.addEventListener('hashchange', () => {
+      const page = location.hash.slice(1);
+      if (KNOWN_PAGES.includes(page)) loadPage(page);
+    });
+
     // ══════════════════════════════════════════════════════════════════════════
     // BOOTSTRAP
     // ══════════════════════════════════════════════════════════════════════════
@@ -1625,7 +1651,8 @@
       // Load all annotation markdown files in parallel
       await Promise.all(['home','about','products','contact'].map(loadAnnotationsForPage));
       if (currentLocale !== 'en') setLocale(currentLocale);
-      loadPage('home');
+      const initialPage = KNOWN_PAGES.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'home';
+      loadPage(initialPage);
       renderFlowDiagram();
     });
   </script>

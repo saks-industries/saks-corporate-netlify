@@ -4,25 +4,25 @@ _Exported: 2026-07-11_
 ---
 
 ## [1] Navigation Bar
-**Status:** open
+**Status:** resolved
 **Tip:** Sticky on scroll · 64px height
 
 Sticky top bar. Logo left, links (Home · About · Products · Contact), primary CTA linking to the contact form.
 
 **Discussion:**
-_No discussion yet._
+- SAK-11: nav links are now real `<a href="#page">` elements (deep-linkable, keyboard-focusable) with a visible focus outline and `aria-current="page"` on the active link, instead of placeholder `div`/`data-page` controls.
 **Pin:** .wf-nav @ 453,46
 
 ---
 
 ## [2] Hero Section
-**Status:** open
+**Status:** resolved
 **Tip:** Full-viewport height recommended
 
 Split layout — image left, copy right. Tagline, headline, description. Two CTAs: "View Products" (primary) + "Learn More" (ghost).
 
 **Discussion:**
-_No discussion yet._
+- SAK-11: "View Products" is now a real `<a href="#products">` (navigates + deep-links); "Learn More" is a real `<button type="button">`. Both are keyboard-focusable with a visible focus outline; destination for "Learn More" is intentionally left undecided pending board input (SAK-9), only the semantics/focusability were fixed.
 
 ---
 

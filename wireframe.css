@@ -229,6 +229,9 @@ body.demo-mode .wireframe { font-family: -apple-system, BlinkMacSystemFont, 'Seg
 }
 .nav-link-btn:hover { color: #222; background: #e4e4e4; }
 .nav-link-btn.active { color: #111; font-weight: bold; border-bottom: 2px solid #333; }
+.nav-link-btn:focus-visible {
+  outline: 2px solid #2d6cdf; outline-offset: 2px;
+}
 
 /* ── Page transition ── */
 @keyframes wf-fade-in {
@@ -400,12 +403,18 @@ body {
   width: 130px; height: 40px; background: #888; border-radius: 3px;
   display: flex; align-items: center; justify-content: center;
   font-size: 9px; color: #fff; letter-spacing: 1px;
+  font-family: inherit; text-decoration: none; border: none; cursor: pointer;
 }
 .btn-secondary {
   width: 130px; height: 40px; background: #fff;
   border: 2px solid #aaa; border-radius: 3px;
   display: flex; align-items: center; justify-content: center;
   font-size: 9px; color: #888; letter-spacing: 1px;
+  font-family: inherit; cursor: pointer;
+}
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible {
+  outline: 2px solid #2d6cdf; outline-offset: 2px;
 }
 
 /* ── 3. Partners ── */

@@ -3,13 +3,13 @@
 ---
 
 ## [1] Navigation Bar
-**Status:** open
+**Status:** resolved
 **Tip:** Active state on current page
 
 Same persistent nav. "Products" link is active/highlighted.
 
 **Discussion:**
-_No discussion yet._
+- SAK-11: nav links are now real `<a href="#page">` elements (deep-linkable, keyboard-focusable) with a visible focus outline and `aria-current="page"` on the active link, instead of placeholder `div`/`data-page` controls.
 
 ---
 
