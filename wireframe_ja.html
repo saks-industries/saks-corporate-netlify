@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ワイヤーフレーム — Saks Industries LLC</title>
+  <script>
+    // Redirect to the main wireframe with Japanese locale pre-selected.
+    // All content, analytics, and annotations will render in Japanese.
+    const p = new URLSearchParams(window.location.search);
+    p.set('lang', 'ja');
+    window.location.replace('wireframe.html?' + p.toString());
+  </script>
+</head>
+<body></body>
+</html>
