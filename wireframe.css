@@ -1,3 +1,104 @@
+/* ── Right panel (tabs: Annotations + Analytics) ── */
+.right-panel { display: flex; flex-direction: column; margin-left: -2px; }
+
+.panel-tab-bar {
+  display: flex;
+  border-left: 3px solid #333;
+  border-bottom: 2px solid #333;
+  background: #e8e8e8;
+  flex-shrink: 0;
+}
+.panel-tab {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+  background: none; border: none; cursor: pointer;
+  padding: 10px 16px; color: #666;
+  transition: background 0.15s, color 0.15s;
+  border-right: 1px solid #ccc;
+}
+.panel-tab:hover:not(.active) { background: #ddd; color: #333; }
+.panel-tab.active { background: #333; color: #fff; }
+
+.panel-content { display: none; flex-direction: column; }
+.panel-content.active { display: flex; }
+
+/* Annotations tab content (pre-existing .ann-block styles kept) */
+#annotations-content { display: flex; flex-direction: column; }
+
+/* ── Analytics panel ── */
+#analytics-panel { padding: 0; }
+
+.analytics-block {
+  padding: 16px 20px;
+  border-left: 3px solid #333;
+  border-bottom: 1px solid #ddd;
+  background: #f2f2f2;
+}
+.analytics-block:last-child { border-bottom: none; }
+
+.analytics-block-title {
+  font-size: 11px; font-weight: bold;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  color: #222; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 6px;
+}
+.analytics-block-title span { color: #888; font-weight: normal; font-size: 10px; letter-spacing: 0; text-transform: none; }
+
+/* Heatmap section */
+.heatmap-legend { display: flex; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+.heatmap-legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #666; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend-dot.hot  { background: radial-gradient(circle, rgba(255,30,30,0.9), rgba(255,120,0,0.6)); }
+.legend-dot.warm { background: radial-gradient(circle, rgba(255,200,0,0.9), rgba(255,200,0,0.4)); }
+.legend-dot.cool { background: radial-gradient(circle, rgba(0,100,255,0.7), rgba(0,100,255,0.3)); }
+
+.heatmap-toggle-btn {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase;
+  border: 1.5px solid #333; background: none; cursor: pointer;
+  padding: 5px 12px; border-radius: 2px; color: #333;
+  transition: background 0.15s, color 0.15s;
+  display: block; width: 100%; text-align: center;
+}
+.heatmap-toggle-btn.on  { background: #333; color: #fff; }
+.heatmap-toggle-btn:hover:not(.on) { background: #e0e0e0; }
+
+.heatmap-pattern-info {
+  margin-top: 10px; font-size: 10px; color: #888; line-height: 1.6;
+  padding: 8px 10px; background: #eaeaea; border-radius: 2px;
+}
+
+/* Component chart */
+.comp-chart { display: flex; flex-direction: column; gap: 8px; }
+.comp-row { display: grid; grid-template-columns: 80px 1fr 24px; align-items: center; gap: 8px; }
+.comp-label { font-size: 10px; color: #555; text-align: right; letter-spacing: 0.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.comp-bar-track { height: 8px; background: #e0e0e0; border-radius: 2px; overflow: hidden; }
+.comp-bar-fill  { height: 100%; background: #555; border-radius: 2px; transition: width 0.4s ease; }
+.comp-count { font-size: 10px; color: #333; font-weight: bold; }
+
+/* Claude's notes — two-part layout */
+.notes-part { margin-bottom: 14px; }
+.notes-part:last-child { margin-bottom: 0; }
+
+.notes-part-title {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.9px; text-transform: uppercase;
+  padding-bottom: 7px; margin-bottom: 8px;
+  border-bottom: 1.5px solid;
+}
+.notes-part-title.designer  { color: #1a7a4a; border-bottom-color: #27ae60; }
+.notes-part-title.discussion{ color: #7d4e00; border-bottom-color: #e8820c; }
+
+.note-list { display: flex; flex-direction: column; gap: 6px; }
+
+.note-item {
+  padding: 8px 10px; border-radius: 2px;
+  border-left: 2px solid transparent;
+  font-size: 10px; color: #444; line-height: 1.6;
+}
+.designer  .note-item { background: #f4fcf7; border-left-color: #2ecc71; }
+.discussion .note-item{ background: #fffbf2; border-left-color: #e8820c; }
+
 /* ── Assets toggle button ── */
 .asset-toggle {
   display: inline-flex;
@@ -240,24 +341,6 @@ body {
   letter-spacing: 1px;
 }
 
-/* Section badge */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  background: #333;
-  color: #fff;
-  font-size: 11px;
-  font-weight: bold;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 10;
-  flex-shrink: 0;
-}
-
 /* Section divider */
 .wf-section {
   position: relative;
@@ -390,8 +473,8 @@ body {
 .social-icons { display: flex; gap: 10px; }
 .social-icon  { width: 26px; height: 26px; background: #555; border-radius: 50%; }
 
-/* ── Annotations ── */
-.annotations {
+/* ── Annotations tab content ── */
+#annotations-content {
   display: flex;
   flex-direction: column;
 }
@@ -400,28 +483,22 @@ body {
   gap: 16px;
   padding: 20px 0 20px 28px;
   border-left: 3px solid #333;
-  margin-left: -2px;
   background: #f2f2f2;
   position: relative;
 }
-.ann-block::before {
-  content: '';
-  position: absolute;
-  left: -14px; top: 50%;
-  transform: translateY(-50%);
-  width: 12px; height: 2px;
-  background: #333;
-}
+.ann-block::before { display: none; }
 .ann-block + .ann-block { border-top: 1px solid #d0d0d0; }
 .ann-num {
   flex-shrink: 0;
   width: 24px; height: 24px;
   border-radius: 50%;
-  background: #333; color: #fff;
+  background: #1e40af; color: #fff;
   font-size: 11px; font-weight: bold;
   display: flex; align-items: center; justify-content: center;
   margin-top: 2px;
 }
+.ann-s-discussed .ann-num { background: #d97706; }
+.ann-s-resolved  .ann-num { background: #059669; }
 .ann-content { flex: 1; }
 .ann-title {
   font-size: 12px; font-weight: bold;
@@ -437,3 +514,225 @@ body {
   border: 1px solid #ccc; padding: 2px 7px;
   border-radius: 2px; color: #666;
 }
+
+/* ── Form Field Analysis (Part A: UX Funnel) ── */
+.form-analysis-summary { font-size:10px; color:#555; background:#eaeaea; border-radius:2px; padding:7px 10px; margin-bottom:12px; line-height:1.5; }
+.form-funnel-chart { display:flex; flex-direction:column; gap:10px; }
+.form-funnel-row { display:flex; flex-direction:column; gap:4px; }
+.form-funnel-row.is-summary-row { margin-top:4px; padding-top:10px; border-top:1px dashed #d4d4d4; }
+.form-funnel-row-header { display:flex; align-items:center; gap:6px; }
+.form-funnel-field-name { font-size:10px; color:#333; font-weight:600; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.form-funnel-pct { font-size:10px; color:#444; font-weight:bold; flex-shrink:0; min-width:30px; text-align:right; }
+.form-funnel-badge { font-size:9px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; padding:2px 6px; border-radius:2px; flex-shrink:0; }
+.form-funnel-badge.risk-low    { background:#e8f8ef; color:#1a7a4a; }
+.form-funnel-badge.risk-medium { background:#fff8e6; color:#8a5c00; }
+.form-funnel-badge.risk-high   { background:#fdecea; color:#b71c1c; }
+.form-funnel-bar-track { height:10px; background:#e8e8e8; border-radius:2px; overflow:hidden; }
+.form-funnel-bar-fill { height:100%; border-radius:2px; transition:width 0.5s ease; }
+.form-funnel-bar-fill.risk-low    { background:#2ecc71; }
+.form-funnel-bar-fill.risk-medium { background:#e8820c; }
+.form-funnel-bar-fill.risk-high   { background:#e74c3c; }
+.form-funnel-note { font-size:9px; color:#777; line-height:1.5; padding:4px 8px; background:#f7f7f7; border-left:2px solid #ddd; border-radius:0 2px 2px 0; }
+.form-funnel-row.is-summary-row .form-funnel-field-name { font-style:italic; color:#555; }
+.form-funnel-row.is-summary-row .form-funnel-bar-fill   { opacity:.7; }
+.form-funnel-row.is-summary-row .form-funnel-note       { background:#f2f2f2; border-left-color:#bbb; color:#888; font-style:italic; }
+
+/* ── Form Field Analysis (Part B: Clarity & Efficiency matrix) ── */
+.form-analysis-divider { height:1px; background:#ddd; margin:14px 0 0; }
+.ce-table { display:flex; flex-direction:column; border:1.5px solid #e0e0e0; border-radius:3px; overflow:hidden; margin-bottom:8px; }
+.ce-header { display:grid; grid-template-columns:1fr repeat(3,70px); background:#eaeaea; padding:5px 8px; gap:4px; }
+.ce-header span { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#666; }
+.ce-row { display:grid; grid-template-columns:1fr repeat(3,70px); padding:5px 8px; gap:4px; align-items:center; border-top:1px solid #f0f0f0; background:#fff; }
+.ce-row:hover { background:#fafafa; }
+.ce-field-name { font-size:10px; font-weight:600; color:#333; }
+.ce-badge { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; padding:2px 5px; border-radius:2px; text-align:center; cursor:default; }
+.ce-good { background:#e8f8ef; color:#1a7a4a; }
+.ce-warn { background:#fff8e6; color:#8a5c00; }
+.ce-bad  { background:#fdecea; color:#b71c1c; }
+.ce-summary { font-size:9px; color:#666; line-height:1.5; padding:6px 8px; background:#f5f5f5; border-radius:2px; }
+
+/* ── Form Field Analysis (Part C: Admin Efficiency KPIs) ── */
+.admin-kpi-grid { display:flex; flex-direction:column; gap:7px; margin-top:10px; }
+.admin-kpi-card { border-left:3px solid; border-radius:2px; padding:8px 10px; }
+.admin-kpi-card.admin-kpi-high   { background:#f4fcf7; border-left-color:#2ecc71; }
+.admin-kpi-card.admin-kpi-medium { background:#fffbf2; border-left-color:#e8820c; }
+.admin-kpi-card.admin-kpi-low    { background:#fef6f6; border-left-color:#e74c3c; }
+.admin-kpi-header { display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:4px; }
+.admin-kpi-label  { font-size:10px; font-weight:600; color:#333; flex:1; }
+.admin-kpi-value  { font-size:11px; font-weight:800; color:#111; flex-shrink:0; font-family:'Courier New',monospace; }
+.admin-kpi-note   { font-size:9px; color:#666; line-height:1.5; }
+
+/* ── Flow diagram ── */
+.flow-legend {
+  display: flex; gap: 14px; margin-top: 10px;
+  padding-top: 8px; border-top: 1px solid #e8e8e8;
+  flex-wrap: wrap;
+}
+.flow-legend-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 9px; color: #777; letter-spacing: 0.3px;
+}
+.fl-line {
+  display: inline-block; height: 2px; width: 20px; border-radius: 1px; flex-shrink: 0;
+}
+.fl-line.fl-primary { background: #2d6cdf; }
+.fl-line.fl-nav     { background: repeating-linear-gradient(90deg,#aaa 0,#aaa 4px,transparent 4px,transparent 7px); height:1.5px; }
+.fl-line.fl-action  { background: #27ae60; }
+
+/* ── Language toggle ── */
+.lang-toggle {
+  display: inline-flex;
+  border: 2px solid #333;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.lang-btn {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px; font-weight: bold; letter-spacing: 0.5px;
+  background: none; border: none; cursor: pointer;
+  padding: 4px 10px; color: #666;
+  transition: background 0.15s, color 0.15s;
+}
+.lang-btn + .lang-btn { border-left: 2px solid #333; }
+.lang-btn.active { background: #333; color: #fff; }
+.lang-btn:not(.active):hover { background: #e8e8e8; color: #333; }
+
+/* ── Annotation toolbar ── */
+.ann-toolbar {
+  display: flex; justify-content: flex-end; gap: 6px;
+  padding: 7px 12px;
+  border-left: 3px solid #333;
+  background: #e8e8e8;
+  border-bottom: 1px solid #d4d4d4;
+}
+.ann-action-btn {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase;
+  background: none; border: 1.5px solid #888; border-radius: 2px;
+  padding: 3px 10px; cursor: pointer; color: #555;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.ann-action-btn:hover { background: #333; color: #fff; border-color: #333; }
+
+/* ── Annotation block — updated for status + discussion ── */
+.ann-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 8px; margin-bottom: 5px;
+}
+/* Override old .ann-title inside .ann-content */
+.ann-content .ann-title {
+  font-size: 12px; font-weight: bold; text-transform: uppercase;
+  letter-spacing: 0.8px; color: #222; flex: 1;
+}
+
+/* Status badge */
+.ann-status-badge {
+  font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+  padding: 2px 8px; border-radius: 10px; border: none; cursor: pointer;
+  flex-shrink: 0; margin-top: 1px; transition: opacity 0.15s;
+  font-family: 'Courier New', Courier, monospace;
+}
+.ann-status-badge:hover { opacity: 0.7; }
+.s-open       { background: #dbeafe; color: #1e40af; }
+.s-discussed  { background: #fef3c7; color: #92400e; }
+.s-resolved   { background: #d1fae5; color: #065f46; }
+
+/* Dim resolved blocks */
+.ann-s-resolved { opacity: 0.5; transition: opacity 0.2s; }
+.ann-s-resolved:hover { opacity: 0.85; }
+
+/* Discussion thread */
+.ann-disc { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+.ann-disc-item  { display: flex; gap: 5px; align-items: baseline; }
+.ann-disc-dot   { font-size: 6px; color: #bbb; flex-shrink: 0; padding-top: 1px; }
+.ann-disc-text  { font-size: 10px; color: #555; line-height: 1.5; }
+.ann-disc-empty { font-size: 9px; color: #ccc; font-style: italic; }
+
+/* Comment input row */
+.ann-disc-row {
+  display: flex; gap: 4px; margin-top: 7px;
+}
+.ann-disc-input {
+  flex: 1; font-family: 'Courier New', Courier, monospace; font-size: 10px;
+  border: 1px solid #ddd; border-radius: 2px; padding: 4px 7px;
+  background: #fff; color: #333; outline: none;
+  transition: border-color 0.12s;
+}
+.ann-disc-input:focus { border-color: #999; }
+.ann-disc-submit {
+  font-size: 12px; background: none; border: 1px solid #ddd;
+  border-radius: 2px; padding: 2px 8px; cursor: pointer; color: #888;
+  transition: background 0.12s;
+}
+.ann-disc-submit:hover { background: #eee; }
+
+/* Add annotation form */
+.ann-add-form {
+  border-left: 3px solid #333; background: #f5f5f5;
+  padding: 14px 16px; display: flex; flex-direction: column;
+  gap: 8px; border-top: 1px dashed #ccc;
+}
+.ann-add-form input,
+.ann-add-form textarea {
+  font-family: 'Courier New', Courier, monospace; font-size: 10px;
+  border: 1.5px solid #ccc; border-radius: 2px; padding: 6px 8px;
+  background: #fff; color: #333; resize: vertical; outline: none;
+}
+.ann-add-form input:focus,
+.ann-add-form textarea:focus { border-color: #888; }
+.ann-add-btns { display: flex; gap: 6px; }
+.ann-add-btns button {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+  padding: 4px 14px; border-radius: 2px; cursor: pointer;
+}
+.ann-add-btns button:first-child { background: #333; color: #fff; border: none; }
+.ann-add-btns button:last-child  { background: none; border: 1.5px solid #aaa; color: #666; }
+
+/* ── Element picker (devtool-style) ── */
+.wireframe.picking { cursor: crosshair; }
+.wireframe.picking * { cursor: crosshair !important; }
+.pick-hover {
+  outline: 2px solid #2d6cdf !important;
+  outline-offset: -1px;
+  background-color: rgba(45,108,223,0.08) !important;
+}
+
+/* Pick button in annotation header */
+.ann-pick-btn {
+  font-size: 12px; line-height: 1;
+  background: none; border: 1.5px solid #ccc; border-radius: 50%;
+  width: 20px; height: 20px; padding: 0;
+  cursor: pointer; color: #999; flex-shrink: 0;
+  transition: color 0.12s, border-color 0.12s, background 0.12s;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.ann-pick-btn:hover { color: #2d6cdf; border-color: #2d6cdf; background: #e8f0ff; }
+.ann-pick-btn.is-pinned { color: #fff; background: #2d6cdf; border-color: #2d6cdf; }
+
+/* Pin badges on wireframe */
+#wf-pins .wf-pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid #fff;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 10px; font-weight: bold; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; pointer-events: auto;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+  transition: transform 0.12s;
+  padding: 0;
+}
+#wf-pins .wf-pin:hover { transform: translate(-50%, -50%) scale(1.25); z-index: 5; }
+#wf-pins .wf-pin.s-open      { background: #1e40af; }
+#wf-pins .wf-pin.s-discussed { background: #d97706; }
+#wf-pins .wf-pin.s-resolved  { background: #059669; opacity: 0.6; }
+
+/* Flash highlight when jumping from pin to annotation */
+@keyframes ann-flash-kf {
+  0%, 100% { background: #f2f2f2; }
+  25%, 75% { background: #dbeafe; }
+}
+.ann-flash { animation: ann-flash-kf 1.2s ease; }

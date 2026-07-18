@@ -9,407 +9,1095 @@
 <body>
 
   <div class="doc-header">
-    <span class="doc-title">Wireframe — Saks Industries LLC</span>
-    <div style="display:flex;align-items:center;gap:20px;">
+    <span class="doc-title" data-i18n="docTitle">Wireframe — Saks Industries LLC</span>
+    <div style="display:flex;align-items:center;gap:16px;">
       <span class="doc-meta" id="doc-meta">Home · Desktop (1280px) · v0.1</span>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn"        data-lang="ja">JA</button>
+      </div>
       <div class="asset-toggle">
-        <button class="toggle-btn active" data-mode="wireframe">Wireframe</button>
-        <button class="toggle-btn"        data-mode="demo">Demo Assets</button>
+        <button class="toggle-btn active" data-mode="wireframe" data-i18n="modeWireframe">Wireframe</button>
+        <button class="toggle-btn"        data-mode="demo"      data-i18n="modeDemo">Demo Assets</button>
       </div>
     </div>
   </div>
 
   <div class="layout">
 
-    <div class="wireframe">
+    <!-- Wireframe column -->
+    <div class="wireframe" style="position:relative;">
       <div id="wf-nav-mount"><div class="wf-loading">loading nav…</div></div>
       <div id="wf-page"><div class="wf-loading">loading…</div></div>
       <div id="wf-footer-mount"><div class="wf-loading">loading footer…</div></div>
+      <!-- Annotation pin badges overlay -->
+      <div id="wf-pins" style="position:absolute;inset:0;pointer-events:none;z-index:45;"></div>
+      <!-- Heatmap overlay (canvas drawn by JS) -->
+      <canvas id="heatmap-canvas"
+        style="position:absolute;top:0;left:0;pointer-events:none;display:none;z-index:50;"></canvas>
     </div>
 
-    <div class="annotations" id="annotations"></div>
+    <!-- Right panel (tabbed) -->
+    <div class="right-panel">
 
-  </div>
+      <div class="panel-tab-bar">
+        <button class="panel-tab active" data-panel="annotations" data-i18n="tabAnnotations">Annotations</button>
+        <button class="panel-tab"        data-panel="analytics"  data-i18n="tabAnalytics">Analytics</button>
+        <button class="panel-tab"        data-panel="form"       data-i18n="tabForm">Form</button>
+        <button class="panel-tab"        data-panel="flow"       data-i18n="tabFlow">Flow</button>
+      </div>
+
+      <!-- Annotations tab -->
+      <div id="annotations" class="panel-content active">
+        <div class="ann-toolbar">
+          <button class="ann-action-btn" id="btn-save-ann">Save</button>
+          <button class="ann-action-btn" id="btn-export-ann">Export .md</button>
+          <button class="ann-action-btn" id="btn-add-ann">+ Add</button>
+        </div>
+        <div id="annotations-content"></div>
+        <div class="ann-add-form" id="ann-add-form" style="display:none;">
+          <input  id="ann-add-title" placeholder="Section title…" />
+          <textarea id="ann-add-desc" rows="3" placeholder="Description…"></textarea>
+          <input  id="ann-add-tip"   placeholder="Tip (optional)…" />
+          <div class="ann-add-btns">
+            <button id="btn-ann-confirm">Add</button>
+            <button id="btn-ann-cancel">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics tab -->
+      <div id="analytics-panel" class="panel-content">
+
+        <!-- 1. Eye tracking -->
+        <div class="analytics-block">
+          <div class="analytics-block-title">
+            <span data-i18n="blockEyetrack">👁 Eye Tracking</span>
+            <span id="eyetrack-pattern-label">F-Pattern · Home</span>
+          </div>
+          <div class="heatmap-legend">
+            <div class="heatmap-legend-item"><div class="legend-dot hot"></div> High attention</div>
+            <div class="heatmap-legend-item"><div class="legend-dot warm"></div> Medium</div>
+            <div class="heatmap-legend-item"><div class="legend-dot cool"></div> Low</div>
+          </div>
+          <button class="heatmap-toggle-btn" id="heatmap-toggle">Show Heatmap Overlay</button>
+          <div class="heatmap-pattern-info" id="eyetrack-info">
+            Home uses an <strong>F-Pattern</strong>: users scan the nav bar, then sweep across
+            the hero headline and CTA, with attention dropping off toward the lower sections.
+          </div>
+        </div>
+
+        <!-- 2. Component count by section -->
+        <div class="analytics-block">
+          <div class="analytics-block-title" data-i18n="blockComponents">📊 Components by Section</div>
+          <div class="comp-chart" id="comp-chart">
+            <div class="wf-loading" style="font-size:10px;padding:8px 0;">Counting components…</div>
+          </div>
+        </div>
+
+        <!-- 3. Claude's design notes -->
+        <div class="analytics-block">
+          <div class="analytics-block-title" data-i18n="blockDesignReview">💬 Design Review</div>
+          <div id="note-list">
+            <div class="wf-loading" style="font-size:10px;padding:8px 0;">Analysing wireframe…</div>
+          </div>
+        </div>
+
+      </div><!-- /analytics-panel -->
+
+      <!-- Form tab -->
+      <div id="form-panel" class="panel-content">
+
+        <!-- Empty state (non-form pages) -->
+        <div class="analytics-block" id="form-empty-state" style="display:none;">
+          <div style="padding:20px 0;text-align:center;color:#aaa;font-size:11px;line-height:1.8;">
+            <span id="form-empty-text"></span>
+          </div>
+        </div>
+
+        <!-- Form content (Contact page) -->
+        <div id="form-analysis-content" style="display:none;">
+
+          <!-- Part A: UX Funnel -->
+          <div class="analytics-block">
+            <div class="analytics-block-title"><span data-i18n="blockFormAnalysis">📋 Form Field Analysis</span> <span data-i18n="b2bBenchmark">B2B Benchmark</span></div>
+            <div class="form-analysis-summary" id="form-analysis-summary"></div>
+            <div class="form-funnel-chart" id="form-funnel-chart"></div>
+          </div>
+
+          <!-- Part B: Clarity & Efficiency -->
+          <div class="analytics-block">
+            <div class="analytics-block-title"><span data-i18n="blockClarity">🔬 Clarity &amp; Efficiency</span> <span data-i18n="perFieldDesign">Per-field · Design quality</span></div>
+            <div id="clarity-matrix"></div>
+          </div>
+
+          <!-- Part C: Admin Efficiency -->
+          <div class="analytics-block">
+            <div class="analytics-block-title"><span data-i18n="blockAdmin">🗂 Admin Efficiency</span> <span data-i18n="postSubmit">Post-submit · Business ops</span></div>
+            <div class="admin-kpi-grid" id="admin-kpi-grid"></div>
+          </div>
+
+        </div>
+
+      </div><!-- /form-panel -->
+
+      <!-- Flow tab -->
+      <div id="flow-panel" class="panel-content">
+        <div class="analytics-block" style="padding:14px 16px;">
+          <div class="analytics-block-title"><span data-i18n="blockFlow">🗺 Page Flow</span> <span data-i18n="blockFlowSub">Transitions · Actions · Relations</span></div>
+          <div id="flow-diagram"></div>
+          <div class="flow-legend">
+            <div class="flow-legend-item"><span class="fl-line fl-primary"></span><span data-i18n="legendPrimary">Primary CTA</span></div>
+            <div class="flow-legend-item"><span class="fl-line fl-nav"></span><span data-i18n="legendNav">Nav link</span></div>
+            <div class="flow-legend-item"><span class="fl-line fl-action"></span><span data-i18n="legendAction">Form action</span></div>
+          </div>
+        </div>
+      </div><!-- /flow-panel -->
+
+    </div><!-- /right-panel -->
+
+  </div><!-- /layout -->
 
   <script>
-    // ── Demo content definitions ──────────────────────────────────────────────
-    const DEMO = {
-      nav: {
-        logo: 'SAKS INDUSTRIES',
+    // ══════════════════════════════════════════════════════════════════════════
+    // I18N
+    // ══════════════════════════════════════════════════════════════════════════
+    let currentLocale = new URLSearchParams(location.search).get('lang') || 'en';
+
+    const LOCALES = {
+      en: {
+        docTitle:'Wireframe — Saks Industries LLC',
+        tabAnnotations:'Annotations', tabAnalytics:'Analytics', tabForm:'Form', tabFlow:'Flow',
+        modeWireframe:'Wireframe', modeDemo:'Demo Assets',
+        heatmapShow:'Show Heatmap Overlay', heatmapHide:'Hide Heatmap Overlay',
+        blockEyetrack:'👁 Eye Tracking', blockComponents:'📊 Components by Section',
+        blockDesignReview:'💬 Design Review', blockFormAnalysis:'📋 Form Field Analysis',
+        blockClarity:'🔬 Clarity & Efficiency', blockAdmin:'🗂 Admin Efficiency',
+        blockFlow:'🗺 Page Flow', blockFlowSub:'Transitions · Actions · Relations',
+        b2bBenchmark:'B2B Benchmark', perFieldDesign:'Per-field · Design quality',
+        postSubmit:'Post-submit · Business ops',
+        designerVoice:"Designer's Voice", discussionPoints:'Discussion Points',
+        worksWell:'Works well', suggestion:'Suggestion', watch:'Watch',
+        ceField:'Field', ceClarity:'Clarity', cePosition:'Position', ceComplexity:'Complexity',
+        riskLow:'Low', riskMedium:'Medium', riskHigh:'High',
+        clarityClear:'Clear', clarityAmbiguous:'Ambiguous',
+        posOptimal:'Optimal', posAcceptable:'Acceptable',
+        compLow:'Low', compHigh:'High',
+        flowStart:'START', flowSent:'✓ Sent', flowFormSubmitted:'Form Submitted',
+        flowLanding:'Landing · Hero · Services', flowMissionTeam:'Mission · Team',
+        flowProductGrid:'Product Grid', flowFormInfo:'Form · Info',
+        flowNavGlobal:'🔗  All pages are mutually accessible via the navigation bar',
+        flowClickHint:'Click a page node to navigate the wireframe',
+        legendPrimary:'Primary CTA', legendNav:'Nav link', legendAction:'Form action',
+        navHome:'Home', navAbout:'About', navProducts:'Products', navContact:'Contact',
+        sectionNavigation:'Navigation', sectionFooter:'Footer',
+        formEmptyMsg:'Navigate to the', formEmptyPage:'Contact', formEmptyEnd:'page to see form analytics.',
+        edgeVisit:'', edgeNavAbout:'Nav: About', edgeCTAProducts:'CTA: View Products',
+        edgeCTAContact:'CTA: Contact', edgeGetQuote:'Get a Quote',
+        edgeNavContact:'Nav: Contact', edgeSubmit:'Submit form', edgeBack:'Logo / Back',
       },
-      home: {
-        heroImg: 'https://picsum.photos/seed/saks-hero/600/420',
-        heroTag: 'Microsoft AI Cloud Partner · AWS Partner',
-        heroH1:  'Enterprise Cloud',
-        heroH1b: 'Solutions',
-        heroSub: 'Empowering businesses with cutting-edge cloud',
-        heroSub2:'infrastructure and AI-driven capabilities.',
-        partnerLabel: 'Trusted Certifications',
-        sectionTitle: 'Our Services',
-        sectionSub:   'End-to-end cloud solutions tailored for enterprise growth.',
-        sectionSub2:  'From migration to AI integration and beyond.',
-        cards: [
-          { icon: '☁️', title: 'Cloud Migration',       desc: 'Seamless lift-and-shift and re-architecture of workloads to Azure & AWS.',  cta: 'Learn more →' },
-          { icon: '🤖', title: 'AI Integration',         desc: 'Embed Microsoft AI and AWS SageMaker into your existing business workflows.', cta: 'Learn more →' },
-          { icon: '⚙️', title: 'DevOps & Automation',   desc: 'CI/CD pipelines, IaC with Terraform, and container-native delivery.', cta: 'Learn more →' },
-        ],
-        news: [
-          { date: '2025.06.15', tag: 'News',    title: 'Saks Industries achieves Microsoft AI Cloud Partner status' },
-          { date: '2025.03.01', tag: 'Product', title: 'Launching new managed DevOps service tier for SMEs' },
-          { date: '2024.05.01', tag: 'News',    title: 'Website launched — welcome to Saks Industries' },
-        ],
-      },
-      about: {
-        sectionTitle: 'About Us',
-        missionLines: [
-          'Saks Industries LLC is a cloud-native technology partner headquartered in Tokyo,',
-          'Japan. We specialize in architecting scalable, secure, and cost-efficient cloud',
-          'infrastructure on Microsoft Azure and Amazon Web Services.',
-          'Our mission is to accelerate digital transformation for businesses of all sizes —',
-          'from fast-growing startups to established enterprises.',
-        ],
-        stats: [
-          { num: '5+',  label: 'Years in Business' },
-          { num: '50+', label: 'Enterprise Clients' },
-          { num: '120+',label: 'Projects Delivered' },
-        ],
-        teamTitle: 'Our Team',
-        teamSub:   'The people behind Saks Industries.',
-        team: [
-          { name: 'Alex Saks',      role: 'CEO & Founder',       seed: 'alex' },
-          { name: 'Yuki Tanaka',    role: 'CTO',                 seed: 'yuki' },
-          { name: 'Maria Chen',     role: 'Cloud Architect',     seed: 'maria' },
-          { name: 'James Park',     role: 'DevOps Lead',         seed: 'james' },
-        ],
-      },
-      products: {
-        sectionTitle: 'Products & Solutions',
-        sectionSub:   'Purpose-built cloud products for modern enterprises.',
-        sectionSub2:  'Backed by Microsoft Azure and AWS infrastructure.',
-        products: [
-          { seed: 'cloud-infra',  tag: 'Infrastructure', name: 'SaksCloud Managed Infrastructure', desc: 'Fully managed multi-cloud infrastructure with 99.99% SLA, auto-scaling, and 24/7 monitoring.' },
-          { seed: 'ai-platform',  tag: 'AI / ML',        name: 'SaksAI Platform',                  desc: 'Plug-and-play AI pipeline integrating Azure OpenAI and AWS SageMaker for enterprise workloads.' },
-          { seed: 'devops-suite', tag: 'DevOps',         name: 'SaksOps Automation Suite',         desc: 'End-to-end CI/CD and GitOps automation with Terraform, Kubernetes, and observability built-in.' },
-          { seed: 'security',     tag: 'Security',       name: 'SaksShield Security',               desc: 'Zero-trust network architecture and compliance tooling for GDPR, SOC 2, and ISO 27001.' },
-        ],
-      },
-      contact: {
-        sectionTitle:  'Get in Touch',
-        sectionSub:    'We\'d love to discuss how we can help your business.',
-        formLabels:    ['Full Name', 'Business Email', 'Subject', 'Message'],
-        formPlaceholders: ['John Smith', 'you@company.com', 'Project inquiry…', 'Tell us about your project…'],
-        infoBlocks: [
-          { icon: '📍', title: 'Headquarters', lines: ['Shibuya-ku, Tokyo 150-0001', 'Japan'] },
-          { icon: '✉️', title: 'Email',         lines: ['contact@saks.industries'] },
-          { icon: '🔗', title: 'Contact Form',  lines: ['go.saks.industries/a54vAx'] },
-        ],
-      },
-      footer: {
-        logo: 'SAKS INDUSTRIES',
-        descLines: ['Enterprise cloud solutions', 'powered by Azure & AWS.', '© 2025 Saks Industries LLC'],
-        col2Title: 'Company',
-        col2Links: ['Home', 'About', 'Products', 'Contact'],
-        col3Title: 'Legal',
-        col3Links: ['Privacy Policy', 'Terms of Service', 'Cookie Policy'],
-        copy: '© 2025 Saks Industries LLC. All rights reserved.',
+      ja: {
+        docTitle:'ワイヤーフレーム — Saks Industries LLC',
+        tabAnnotations:'注釈', tabAnalytics:'分析', tabForm:'フォーム', tabFlow:'フロー',
+        modeWireframe:'ワイヤーフレーム', modeDemo:'デモ表示',
+        heatmapShow:'ヒートマップを表示', heatmapHide:'ヒートマップを非表示',
+        blockEyetrack:'👁 視線追跡', blockComponents:'📊 コンポーネント数',
+        blockDesignReview:'💬 デザインレビュー', blockFormAnalysis:'📋 フォーム分析',
+        blockClarity:'🔬 明確さと効率', blockAdmin:'🗂 管理効率',
+        blockFlow:'🗺 ページフロー', blockFlowSub:'遷移・アクション・関係',
+        b2bBenchmark:'B2Bベンチマーク', perFieldDesign:'フィールド別・品質評価',
+        postSubmit:'送信後・業務効率',
+        designerVoice:'デザイナーの見解', discussionPoints:'検討事項',
+        worksWell:'良好', suggestion:'提案', watch:'要注意',
+        ceField:'フィールド', ceClarity:'明確さ', cePosition:'配置', ceComplexity:'複雑さ',
+        riskLow:'低', riskMedium:'中', riskHigh:'高',
+        clarityClear:'明確', clarityAmbiguous:'曖昧',
+        posOptimal:'最適', posAcceptable:'許容',
+        compLow:'低', compHigh:'高',
+        flowStart:'開始', flowSent:'✓ 送信済', flowFormSubmitted:'フォーム送信完了',
+        flowLanding:'ランディング・ヒーロー・サービス', flowMissionTeam:'ミッション・チーム',
+        flowProductGrid:'製品一覧', flowFormInfo:'フォーム・情報',
+        flowNavGlobal:'🔗  すべてのページはナビゲーションバーから相互にアクセス可能です',
+        flowClickHint:'ノードをクリックしてページに移動',
+        legendPrimary:'メインCTA', legendNav:'ナビリンク', legendAction:'フォームアクション',
+        navHome:'ホーム', navAbout:'会社概要', navProducts:'製品・サービス', navContact:'お問い合わせ',
+        sectionNavigation:'ナビゲーション', sectionFooter:'フッター',
+        formEmptyMsg:'フォーム分析を表示するには', formEmptyPage:'お問い合わせ', formEmptyEnd:'ページに移動してください。',
+        edgeVisit:'', edgeNavAbout:'ナビ: 会社概要', edgeCTAProducts:'CTA: 製品を見る',
+        edgeCTAContact:'CTA: お問い合わせ', edgeGetQuote:'見積もり依頼',
+        edgeNavContact:'ナビ: お問い合わせ', edgeSubmit:'フォーム送信', edgeBack:'ロゴ / 戻る',
       },
     };
 
-    // ── Transform helpers ─────────────────────────────────────────────────────
-    function asText(el, text, cls) {
-      el.textContent = text;
-      el.className = cls;
-    }
+    function t(key) { return LOCALES[currentLocale]?.[key] ?? LOCALES.en[key] ?? key; }
+    function L(en, ja) { return currentLocale === 'ja' ? ja : en; }
 
-    function applyDemoToNav(mount) {
-      const logo = mount.querySelector('.nav-logo');
-      if (logo) { logo.textContent = DEMO.nav.logo; logo.className = 'demo-logo'; }
-    }
+    // ── JA content data ───────────────────────────────────────────────────────
+    const EYETRACK_INFO_JA = {
+      home:     { pattern:'F字パターン · ホーム',     desc:'ホームページは<strong>F字パターン</strong>：ユーザーはナビバー全体をスキャンし、ヒーロー見出しとCTAを横断した後、下部セクションへと視線が落ちていきます。' },
+      about:    { pattern:'Z字パターン · 会社概要',   desc:'会社概要ページは<strong>Z字パターン</strong>：見出しと数値実績を最初に確認（左→右）、その後チームカードへ斜めに視線が移動します。' },
+      products: { pattern:'F字パターン · 製品',       desc:'製品グリッドは強い<strong>初頭効果</strong>が働きます：左上の製品カードが最も注目を集め、右下にいくほど視線が急落します。' },
+      contact:  { pattern:'グーテンベルク図 · お問い合わせ', desc:'お問い合わせページは<strong>グーテンベルク図</strong>に従います：見出し（左上）→最初のフォームフィールド→送信ボタン（最終アンカー）の順に視線が流れます。' },
+    };
 
-    function applyDemoToPage(page, mount) {
-      if (page === 'home') applyDemoHome(mount);
-      if (page === 'about') applyDemoAbout(mount);
-      if (page === 'products') applyDemoProducts(mount);
-      if (page === 'contact') applyDemoContact(mount);
-    }
+    const DESIGN_NOTES_JA = {
+      home: {
+        designer: [
+          'ヒーロー分割レイアウト（左：画像、右：テキスト）はB2Bコーポレートサイトに最適 — ビジュアルが存在感を示し、テキストがピッチを完結させます。',
+          'パートナーバッジをヒーローとサービスの間に配置するのは正しい順序 — まず信頼を獲得し、その後製品を提示します。',
+          'サービスカード3枚は最適な数 — 少なすぎると物足りなく、4枚以上は認知負荷が増加します。',
+          'ニュースセクションは定期更新コンテンツを提供し、リピーターユーザーの再エンゲージメントを促進します。',
+        ],
+        discussion: [
+          '2つのCTAがほぼ同じ視覚的重みで配置されています — ビルド前に主要（塗りつぶし）と副次（アウトライン）を決定してください。',
+          'ニュースセクションがサービスファネルの下に位置し、見落とされる可能性があります — 上部への移動やフッター上のティッカー表示を検討してください。',
+          '長いページに「トップへ戻る」機能がありません — スティッキーCTAバーまたはアンカーリンクの追加を検討してください。',
+          'パートナーバッジ素材はMicrosoftとAWSの公式ガイドラインに従った承認が必要です。',
+        ],
+      },
+      about: {
+        designer: [
+          'ミッション文の直後に数値実績を配置するのは優れたB2Bパターン — 1スクロールで語りと証拠が完結します。',
+          '4名のチームグリッドはアバター・名前・役職の組み合わせで清潔感があり、小規模精鋭チームに適しています。',
+          '実績数値は視覚的なアンカーとして機能 — 実際のデータに置き換えると一層際立ちます。',
+        ],
+        discussion: [
+          '創業ストーリーや会社年表がありません — ミッションとチームの間にコンパクトなタイムラインを追加するか検討してください。',
+          '実績数値行がページ中央に位置し、F字パターンの視線が落ちている箇所です — セクション見出し直下への移動を検討してください。',
+          'チームセクションは固定サイズを前提としています — 人員増加時にカルーセルや「全員を見る」リンクが必要になるか今から計画してください。',
+        ],
+      },
+      products: {
+        designer: [
+          '2カラムグリッドは各製品カードに十分な余白を確保 — 3カラムより説明文が読みやすくなります。',
+          'カテゴリタグにより、目的を把握しているリピートビジターのスキャンが容易になります。',
+          '統一されたカード構造（画像→タグ→名前→説明→CTA）は予測可能で学習しやすいパターンです。',
+        ],
+        discussion: [
+          '左上カードは初頭効果により約3倍の注目を集めます — ビルド前に製品の掲載順戦略を決定してください。',
+          'すべてのカードに価格情報がありません — 価格帯の表示、「価格はお問い合わせください」、または「〜円から」を検討してください。',
+          'B2Bエンタープライズには「詳しく見る」より「デモを申し込む」や「見積もり依頼」の方が購買意欲を示すCTAとして適切です。',
+          '現在フィルターやカテゴリナビがありません — 製品数が6点を超えた時点で追加が必要になるか、今から検討してください。',
+        ],
+      },
+      contact: {
+        designer: [
+          '分割レイアウト（左：フォーム、右：情報）はB2Bに最適 — 「どこに送信するのか」という不安を解消しながらフォームを提示します。',
+          '情報コラムにパートナーバッジを再表示することで、コンバージョン地点での信頼性訴求が実現します。',
+          '4フィールドは適切な数 — B2B問い合わせフォームの認知負荷閾値以下です。',
+        ],
+        discussion: [
+          '件名フィールドは記入が困難で離脱の原因になりやすいです — 「お問い合わせ種別」のドロップダウンへの変更を検討してください。',
+          '「送信」は受動的なボタンテキストです — 「お問い合わせを送る」や「相談を始める」など意図を明確にする表現を検討してください。',
+          '右側の情報コラムはフォームに集中するユーザーに見落とされがちです — 背景色の変化で視覚的に分離することを検討してください。',
+          '送信ボタン付近にレスポンス時間の目安がありません — 「通常24時間以内にご返信します」などの一文追加を検討してください。',
+        ],
+      },
+    };
 
-    function applyDemoHome(m) {
-      const d = DEMO.home;
-      // Hero image
-      const heroImg = m.querySelector('.hero-image');
-      if (heroImg) {
-        heroImg.classList.add('demo-img');
-        heroImg.innerHTML = `<img src="${d.heroImg}" alt="hero">`;
+    const FORM_FIELD_ANALYSIS_JA = {
+      contact: {
+        summary: '約38%の総フォームコンバージョン率 · B2Bベンチマーク',
+        fields: [
+          { name:'氏名',               pct:96, risk:'low',    note:'最初のフィールドはコミットメントトリガーとして機能 — ここまで入力したユーザーはほとんど離脱しません。' },
+          { name:'ビジネスメール',     pct:88, risk:'low',    note:'プライバシーへの軽微な抵抗感あり — プライバシーポリシーへのリンクを追加すると摩擦を軽減できます。' },
+          { name:'件名',               pct:64, risk:'high',   note:'最も離脱が多いフィールド。自由入力形式は難易度が高く — お問い合わせ種別のドロップダウンへの変更を推奨します。' },
+          { name:'メッセージ',         pct:52, risk:'high',   note:'長文入力は認知負荷が高い — 文字数ガイドや「最低2〜3文」などのヒントで負荷を軽減できます。' },
+          { name:'送信',               pct:38, risk:'medium', note:'総フォームコンバージョン率。B2Bお問い合わせフォームの業界平均は35〜45%です。', isSummaryRow:true },
+        ],
+      },
+    };
+
+    const FIELD_CLARITY_JA = {
+      contact: {
+        summary: '総合フォーム効率：中程度 — 4フィールド中2つに完了率を下げるデザイン上の摩擦があります。',
+        fields: [
+          { name:'氏名',           clarity:'明確', position:'最適', complexity:'低', clarityNote:'曖昧さなし — 入力内容が明確です。',          posNote:'最初のフィールドとして正確 — 本人確認コミットメントを確立します。', compNote:'シンプルなテキスト入力 — 認知負荷が最小限です。' },
+          { name:'ビジネスメール', clarity:'明確', position:'最適', complexity:'低', clarityNote:'一般的な形式でバリデーション期待値が明確です。', posNote:'名前の次に正確 — 連絡先が本人確認後に来ます。',                       compNote:'自動入力対応 — ユーザーがためらうことはほぼありません。' },
+          { name:'件名',           clarity:'曖昧', position:'許容', complexity:'高', clarityNote:'"件名"はB2Bには曖昧すぎます — どの範囲で書けばよいかユーザーが迷います。', posNote:'3番目の位置は許容範囲ですが、ドロップダウンの方が効果的です。', compNote:'見出しを考え出す必要があり — フォーム内で認知負荷が最も高いフィールドです。' },
+          { name:'メッセージ',     clarity:'明確', position:'最適', complexity:'高', clarityNote:'目的は明確ですが汎用的 — 「プロジェクトについて説明してください」などのプロンプト追加を推奨。', posNote:'最後のフィールドとして正確 — すべての識別情報の後に詳細が来ます。', compNote:'長文テキストフィールド — 入力に最も時間がかかります。' },
+        ],
+      },
+    };
+
+    const ADMIN_EFFICIENCY_JA = {
+      contact: {
+        kpis: [
+          { label:'リード適格率',             value:'62%',   rating:'medium', note:'企業名・役職・予算フィールドがなく、B2Bリードスコアリングに必要な情報が不足しています。' },
+          { label:'推定対応時間/リード',       value:'約8分', rating:'low',    note:'件名とメッセージが非構造化テキストのため、ルーティング前に手動での読解が必要です。' },
+          { label:'不足ルーティングフィールド',value:'2',     rating:'low',    note:'企業名とお問い合わせ種別がなく、CRMの自動タグ付けができません。' },
+          { label:'自動ルーティング可能性',    value:'低',    rating:'low',    note:'お問い合わせ種別の構造化データがなく、営業・サポートへの自動振り分けが不可能です。' },
+          { label:'CRM適合度',                value:'部分的',rating:'medium', note:'氏名とメールはCRM対応済み。メッセージはCRMフィールドへのマッピング前にパースが必要です。' },
+        ],
+      },
+    };
+
+    const ANNOTATIONS_JA = {
+      home: [
+        { num:1, title:'ナビゲーションバー',     desc:'スティッキーヘッダー。ロゴ（左）、ナビリンク（ホーム・会社概要・製品・お問い合わせ）、フォームへのCTAボタン。', tip:'スクロール時固定 · 高さ64px' },
+        { num:2, title:'ヒーローセクション',     desc:'分割レイアウト（左：画像、右：テキスト）。キャッチコピー、見出し、1〜2行の説明文。2つのCTA：「製品を見る」（プライマリ）＋「詳細を見る」（ゴースト）。', tip:'フルビューポート推奨' },
+        { num:3, title:'パートナーバッジ',       desc:'ヒーロー下の信頼性訴求ストリップ。MicrosoftクラウドパートナーとAWSパートナーのバッジを表示。デモモードでは公式カラーで表示。', tip:'公式バッジ素材を使用すること' },
+        { num:4, title:'サービス / 製品',        desc:'3カラムカードグリッド。各カード：アイコン、サービス名、2〜3行の説明、インライン「詳しく見る →」CTA。', tip:'/productsページへリンク' },
+        { num:5, title:'ニュース / 最新情報',    desc:'軽量フィード。各行：日付（YYYY.MM.DD）、カテゴリタグ、見出し。', tip:'最新3〜5件を表示' },
+        { num:6, title:'フッター',               desc:'暗い背景、3カラム：ブランド+説明、サイトリンク、法的情報。下部：著作権+ソーシャルアイコン。', tip:'© 2025 Saks Industries LLC' },
+      ],
+      about: [
+        { num:1, title:'ナビゲーションバー', desc:'全ページ共通ナビ。「会社概要」リンクがアクティブ表示。', tip:'現在ページのアクティブ表示' },
+        { num:2, title:'ミッション & 実績', desc:'会社のミッションステートメント、続いて3カラムの実績数値（年数・クライアント数・プロジェクト数）。', tip:'数値で信頼性を訴求' },
+        { num:3, title:'チームグリッド',   desc:'チームメンバーの4カラムグリッド。各カード：アバター、名前、役職。', tip:'各カードをプロフィールページにリンク' },
+        { num:4, title:'フッター',         desc:'全ページ共通フッター。', tip:'© 2025 Saks Industries LLC' },
+      ],
+      products: [
+        { num:1, title:'ナビゲーションバー', desc:'全ページ共通ナビ。「製品」リンクがアクティブ表示。', tip:'現在ページのアクティブ表示' },
+        { num:2, title:'製品グリッド',       desc:'2カラムカードグリッド。各カード：製品画像、カテゴリタグ、名前、説明、「詳しく見る」CTA。', tip:'グリッド上部にフィルター追加も検討' },
+        { num:3, title:'フッター',           desc:'全ページ共通フッター。', tip:'© 2025 Saks Industries LLC' },
+      ],
+      contact: [
+        { num:1, title:'ナビゲーションバー',        desc:'全ページ共通ナビ。「お問い合わせ」CTAがハイライト。', tip:'現在ページのアクティブ表示' },
+        { num:2, title:'お問い合わせレイアウト',    desc:'左：フォーム（氏名・メール・件名・メッセージ＋送信ボタン）。右：本社住所、メール、フォームリンク、パートナーバッジ。', tip:'go.saks.industriesへ送信' },
+        { num:3, title:'フッター',                  desc:'全ページ共通フッター。', tip:'© 2025 Saks Industries LLC' },
+      ],
+    };
+
+    // ── setLocale ─────────────────────────────────────────────────────────────
+    function setLocale(lang) {
+      currentLocale = lang;
+      // Update lang toggle buttons
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+      // Update all data-i18n elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const v = t(el.dataset.i18n);
+        if (v) el.textContent = v;
+      });
+      // Update heatmap button text
+      const hb = document.getElementById('heatmap-toggle');
+      if (hb) hb.textContent = heatmapOn ? t('heatmapHide') : t('heatmapShow');
+      // Re-render all dynamic panels
+      if (currentPage) {
+        renderAnnotations(currentPage);
+        updateAnalytics(currentPage);
       }
-      // Hero text
-      const setText = (sel, text, cls) => { const el = m.querySelector(sel); if (el) asText(el, text, cls); };
-      setText('.hero-tag',   d.heroTag,   'demo-text');
-      setText('.hero-h1',    d.heroH1,    'demo-text' + ' bar dark hero-h1');
-      setText('.hero-h1b',   d.heroH1b,   'demo-text' + ' bar dark hero-h1b');
-      setText('.hero-sub',   d.heroSub,   'demo-text');
-      setText('.hero-sub2',  d.heroSub2,  'demo-text');
-      // Hero h1 needs bigger font
-      ['hero-h1','hero-h1b'].forEach(c => {
-        const el = m.querySelector(`.${c}`);
-        if (el) { el.style.cssText = 'background:none;height:auto;font-size:26px;font-weight:800;color:#111;line-height:1.1;'; }
-      });
-      // Partners
-      const partnerLabel = m.querySelector('.partners-label');
-      if (partnerLabel) asText(partnerLabel, d.partnerLabel, 'demo-text');
-      const badges = m.querySelectorAll('.partner-badge');
-      if (badges[0]) { badges[0].textContent = 'Microsoft AI Cloud Partner'; badges[0].className = 'partner-badge demo-badge-ms'; }
-      if (badges[1]) { badges[1].textContent = 'AWS Partner Network'; badges[1].className = 'partner-badge demo-badge-aws'; }
-      // Section header
-      const sTitle = m.querySelector('.wf-services .section-title');
-      if (sTitle) asText(sTitle, d.sectionTitle, 'demo-text');
-      const sSub = m.querySelectorAll('.wf-services .section-subtitle, .wf-services .section-subtitle2');
-      if (sSub[0]) asText(sSub[0], d.sectionSub,  'demo-text');
-      if (sSub[1]) asText(sSub[1], d.sectionSub2, 'demo-text');
-      // Cards
-      m.querySelectorAll('.card').forEach((card, i) => {
-        const c = d.cards[i]; if (!c) return;
-        const icon  = card.querySelector('.card-icon');
-        const title = card.querySelector('.card-title');
-        const lines = card.querySelectorAll('.card-line');
-        const cta   = card.querySelector('.card-cta');
-        if (icon)  { icon.textContent = c.icon; icon.className = 'card-icon demo-card-icon'; }
-        if (title) asText(title, c.title, 'demo-card-title');
-        // Distribute desc across line elements, or replace all with one
-        if (lines.length) {
-          lines[0].textContent = c.desc;
-          lines[0].className = 'demo-card-desc';
-          lines[0].style.gridColumn = '1/-1';
-          for (let j = 1; j < lines.length; j++) lines[j].remove();
-        }
-        if (cta) asText(cta, c.cta, 'demo-card-cta');
-      });
-      // News
-      m.querySelectorAll('.news-item').forEach((row, i) => {
-        const n = d.news[i]; if (!n) return;
-        const date  = row.querySelector('.news-date');
-        const tag   = row.querySelector('.news-tag');
-        const title = row.querySelector('.news-title');
-        if (date)  asText(date,  n.date, 'news-date demo-news-date');
-        if (tag)   asText(tag,   n.tag,  'news-tag demo-news-tag');
-        if (title) asText(title, n.title,'news-title demo-news-title');
+      renderFlowDiagram();
+      // Update nav link text in wireframe
+      document.querySelectorAll('.nav-link-btn[data-page]').forEach(el => {
+        const key = 'nav' + el.dataset.page.charAt(0).toUpperCase() + el.dataset.page.slice(1);
+        const v = t(key);
+        if (v) el.textContent = v;
       });
     }
 
-    function applyDemoAbout(m) {
-      const d = DEMO.about;
-      // Section title
-      const sTitle = m.querySelector('.section-title');
-      if (sTitle) asText(sTitle, d.sectionTitle, 'demo-text');
-      // Mission paragraph lines
-      const paraLines = m.querySelectorAll('.wf-about-mission > div > .bar');
-      paraLines.forEach((el, i) => {
-        el.textContent = d.missionLines[i] || '';
-        el.style.cssText = 'background:none;height:auto;font-size:13px;color:#444;line-height:1.8;';
-      });
-      // Stats
-      m.querySelectorAll('.stat-cell').forEach((cell, i) => {
-        const s = d.stats[i]; if (!s) return;
-        const num   = cell.querySelector('.stat-num');
-        const label = cell.querySelector('.stat-label');
-        if (num)   asText(num,   s.num,   'stat-num demo-stat-num');
-        if (label) asText(label, s.label, 'stat-label demo-stat-label');
-      });
-      // Team header
-      const tTitle = m.querySelector('.wf-team .section-title');
-      const tSub   = m.querySelector('.wf-team .section-subtitle');
-      if (tTitle) asText(tTitle, d.teamTitle, 'demo-text');
-      if (tSub)   asText(tSub,   d.teamSub,   'demo-text');
-      // Team cards
-      m.querySelectorAll('.team-card').forEach((card, i) => {
-        const t = d.team[i]; if (!t) return;
-        const avatar = card.querySelector('.team-avatar');
-        const name   = card.querySelector('.team-name');
-        const role   = card.querySelector('.team-role');
-        if (avatar) {
-          avatar.className = 'team-avatar demo-team-avatar';
-          avatar.innerHTML = `<img src="https://picsum.photos/seed/${t.seed}/64/64" alt="${t.name}">`;
-        }
-        if (name) asText(name, t.name, 'team-name demo-team-name');
-        if (role) asText(role, t.role, 'team-role demo-team-role');
-      });
-    }
+    // ══════════════════════════════════════════════════════════════════════════
+    // DATA
+    // ══════════════════════════════════════════════════════════════════════════
 
-    function applyDemoProducts(m) {
-      const d = DEMO.products;
-      const sTitle = m.querySelector('.section-title');
-      const sSubs  = m.querySelectorAll('.section-subtitle, .section-subtitle2');
-      if (sTitle)  asText(sTitle,   d.sectionTitle, 'demo-text');
-      if (sSubs[0]) asText(sSubs[0], d.sectionSub,  'demo-text');
-      if (sSubs[1]) asText(sSubs[1], d.sectionSub2, 'demo-text');
-      m.querySelectorAll('.product-card').forEach((card, i) => {
-        const p = d.products[i]; if (!p) return;
-        const img  = card.querySelector('.product-img');
-        const tag  = card.querySelector('.product-tag');
-        const name = card.querySelector('.product-name');
-        const lines= card.querySelectorAll('.product-line');
-        const cta  = card.querySelector('.product-cta');
-        if (img)  { img.className = 'product-img demo-product-img'; img.innerHTML = `<img src="https://picsum.photos/seed/${p.seed}/480/160" alt="${p.name}">`; }
-        if (tag)  asText(tag,  p.tag,  'product-tag demo-product-tag');
-        if (name) asText(name, p.name, 'product-name demo-product-name');
-        if (lines.length) {
-          lines[0].textContent = p.desc;
-          lines[0].className = 'demo-product-desc';
-          for (let j = 1; j < lines.length; j++) lines[j].remove();
-        }
-        if (cta) { cta.textContent = 'Learn More'; cta.className = 'product-cta demo-product-cta'; }
-      });
-    }
+    // ── Heatmap point definitions (per page) ──────────────────────────────────
+    // sel: CSS selector within .wireframe, heat: 0–1, r: blob radius in px
+    const HEATMAP_DEFS = {
+      home: [
+        { sel: '.nav-logo',           heat: 0.70, r: 55  },
+        { sel: '.nav-links',          heat: 0.55, r: 75  },
+        { sel: '.hero-h1',            heat: 0.98, r: 100 },
+        { sel: '.hero-h1b',           heat: 0.85, r: 85  },
+        { sel: '.hero-sub',           heat: 0.68, r: 70  },
+        { sel: '.btn-primary',        heat: 0.92, r: 65  },
+        { sel: '.hero-image',         heat: 0.60, r: 120 },
+        { sel: '.partner-badge',      heat: 0.42, r: 55  },
+        { sel: '.wf-services .section-title', heat: 0.52, r: 60 },
+        { sel: '.cards-grid .card',   heat: 0.48, r: 75, nth: 0 },
+        { sel: '.news-item',          heat: 0.33, r: 50, nth: 0 },
+      ],
+      about: [
+        { sel: '.nav-logo',           heat: 0.72, r: 55 },
+        { sel: '.wf-about-mission .section-title', heat: 0.92, r: 90 },
+        { sel: '.stat-cell',          heat: 0.68, r: 65, nth: 0 },
+        { sel: '.stat-cell',          heat: 0.55, r: 55, nth: 1 },
+        { sel: '.stat-cell',          heat: 0.42, r: 45, nth: 2 },
+        { sel: '.team-card',          heat: 0.60, r: 65, nth: 0 },
+        { sel: '.team-card',          heat: 0.45, r: 55, nth: 1 },
+        { sel: '.team-card',          heat: 0.35, r: 45, nth: 2 },
+      ],
+      products: [
+        { sel: '.nav-logo',           heat: 0.72, r: 55 },
+        { sel: '.wf-products .section-title', heat: 0.88, r: 80 },
+        { sel: '.product-card',       heat: 0.82, r: 80, nth: 0 },
+        { sel: '.product-card',       heat: 0.65, r: 70, nth: 1 },
+        { sel: '.product-card',       heat: 0.45, r: 58, nth: 2 },
+        { sel: '.product-card',       heat: 0.30, r: 45, nth: 3 },
+      ],
+      contact: [
+        { sel: '.nav-logo',           heat: 0.72, r: 55 },
+        { sel: '.contact-form-col .section-title', heat: 0.88, r: 80 },
+        { sel: '.form-field',         heat: 0.75, r: 65, nth: 0 },
+        { sel: '.form-field',         heat: 0.65, r: 55, nth: 1 },
+        { sel: '.form-field',         heat: 0.55, r: 50, nth: 2 },
+        { sel: '.form-submit',        heat: 0.82, r: 62 },
+        { sel: '.contact-info-col',   heat: 0.48, r: 90 },
+      ],
+    };
 
-    function applyDemoContact(m) {
-      const d = DEMO.contact;
-      const sTitle = m.querySelector('.section-title');
-      const sSub   = m.querySelector('.section-subtitle');
-      if (sTitle) asText(sTitle, d.sectionTitle, 'demo-text');
-      if (sSub)   asText(sSub,   d.sectionSub,   'demo-text');
-      // Form labels + inputs
-      m.querySelectorAll('.form-field').forEach((field, i) => {
-        const label = field.querySelector('.form-label');
-        const input = field.querySelector('.form-input, .form-textarea');
-        if (label) asText(label, d.formLabels[i] || '', 'form-label demo-form-label');
-        if (input) {
-          input.classList.add('demo-form-input');
-          input.setAttribute('placeholder', d.formPlaceholders[i] || '');
-        }
-      });
-      // Info blocks
-      m.querySelectorAll('.info-block').forEach((block, i) => {
-        const info = d.infoBlocks[i]; if (!info) return;
-        const icon  = block.querySelector('.info-icon');
-        const title = block.querySelector('.info-title');
-        const lines = block.querySelectorAll('.info-line');
-        if (icon)  { icon.className = 'info-icon'; icon.style.cssText = 'background:none;font-size:18px;width:20px;height:20px;'; icon.textContent = info.icon; }
-        if (title) asText(title, info.title, 'info-title demo-info-title');
-        info.lines.forEach((text, j) => {
-          if (lines[j]) asText(lines[j], text, 'info-line demo-info-line');
-        });
-      });
-    }
+    // ── Eye tracking pattern info per page ────────────────────────────────────
+    const EYETRACK_INFO = {
+      home: {
+        pattern: 'F-Pattern · Home',
+        desc: 'Home uses an <strong>F-Pattern</strong>: users scan the full nav bar, sweep across the hero headline and CTA, then attention drops off vertically — services get a horizontal scan, news gets a brief glance.',
+      },
+      about: {
+        pattern: 'Z-Pattern · About',
+        desc: 'About pages follow a <strong>Z-Pattern</strong>: users scan the headline and stats first (left→right), then the eyes drop diagonally to team cards in the lower-left.',
+      },
+      products: {
+        pattern: 'F-Pattern · Products',
+        desc: 'Product grids show a strong <strong>primacy bias</strong>: top-left card receives the most attention. Attention falls off sharply with each subsequent card.',
+      },
+      contact: {
+        pattern: 'Gutenberg · Contact',
+        desc: 'Contact pages follow the <strong>Gutenberg Diagram</strong>: users start at the headline (top-left), move to the first form field, and end at the submit button (strong terminal anchor).',
+      },
+    };
 
-    function applyDemoToFooter(mount) {
-      const d = DEMO.footer;
-      const logo = mount.querySelector('.footer-logo');
-      if (logo) asText(logo, d.logo, 'footer-logo demo-footer-logo');
-      const descLines = mount.querySelectorAll('.footer-desc .footer-line');
-      descLines.forEach((el, i) => { if (d.descLines[i]) asText(el, d.descLines[i], 'footer-line demo-footer-line'); });
-      const c2Title = mount.querySelector('.footer-grid > div:nth-child(2) .footer-col-title');
-      if (c2Title) asText(c2Title, d.col2Title, 'footer-col-title demo-footer-col-title');
-      mount.querySelectorAll('.footer-grid > div:nth-child(2) .footer-link').forEach((el, i) => {
-        if (d.col2Links[i]) asText(el, d.col2Links[i], 'footer-link demo-footer-link');
-      });
-      const c3Title = mount.querySelector('.footer-grid > div:nth-child(3) .footer-col-title');
-      if (c3Title) asText(c3Title, d.col3Title, 'footer-col-title demo-footer-col-title');
-      mount.querySelectorAll('.footer-grid > div:nth-child(3) .footer-link').forEach((el, i) => {
-        if (d.col3Links[i]) asText(el, d.col3Links[i], 'footer-link demo-footer-link');
-      });
-      const copy = mount.querySelector('.footer-copy');
-      if (copy) asText(copy, d.footer?.copy || d.copy || DEMO.footer.copy, 'footer-copy demo-footer-copy');
-    }
+    // ── Semantic component selectors (for counting per section) ───────────────
+    const COMP_SELECTORS = [
+      '.nav-logo', '.nav-link-btn', '.nav-cta',
+      '.hero-image', '.hero-tag', '.hero-h1', '.hero-h1b', '.hero-sub', '.hero-sub2',
+      '.btn-primary', '.btn-secondary',
+      '.partners-label', '.partner-badge',
+      '.section-title', '.section-subtitle', '.section-subtitle2',
+      '.card', '.team-card', '.product-card', '.news-item', '.stat-cell',
+      '.form-field', '.form-submit',
+      '.info-block',
+      '.footer-logo', '.footer-col-title', '.footer-copy', '.social-icon', '.footer-link',
+    ];
 
-    // ── State ─────────────────────────────────────────────────────────────────
-    let currentPage = null;
-    let isDemoMode  = false;
+    // ── Recommended metrics per page ──────────────────────────────────────────
+    // designer: pros, strengths, what's working
+    // discussion: cons, open decisions, things to resolve before build
+    const DESIGN_NOTES = {
+      home: {
+        designer: [
+          'Hero split layout (image left, copy right) is the right call for a B2B corporate site — the visual establishes presence while the copy closes the pitch.',
+          'Placing partnership badges between Hero and Services is the correct sequence: earn trust first, then present the offering.',
+          '3 service cards is the sweet spot — fewer feels thin for an enterprise firm, more than 4 causes cognitive overload.',
+          'News section adds time-sensitive content that gives returning visitors a reason to re-engage.',
+        ],
+        discussion: [
+          'The hero has two CTAs of near-equal visual weight — decide which is primary (filled) and which is secondary (ghost) before build to avoid decision paralysis.',
+          'News sits below the service funnel and risks low visibility — decide whether to elevate it (ticker strip, sidebar) or keep it as a low-priority bonus section.',
+          'No "Back to top" mechanism on a long page — decide if a sticky CTA bar or anchor link is needed.',
+          'Partnership badge assets need official approval — confirm exact dimensions and usage guidelines with Microsoft and AWS before implementation.',
+        ],
+      },
+      about: {
+        designer: [
+          'Mission paragraph followed immediately by the stats row is a proven B2B pattern — narrative above, proof below, in one scroll.',
+          '4-person team grid with avatar, name, and role is clean and appropriately personal for a boutique firm.',
+          'Stats row creates strong visual anchors — the numbers will stand out clearly once real data replaces the placeholders.',
+        ],
+        discussion: [
+          'No founding story or company timeline — decide if the company history is a selling point worth adding between Mission and Team.',
+          'Stats row is mid-page where F-pattern attention is already declining — discuss moving it directly below the section headline for more impact.',
+          'Team section assumes a fixed small size — what is the plan when headcount grows? Decide now between a carousel, paginated grid, or "See all team" overflow link.',
+        ],
+      },
+      products: {
+        designer: [
+          '2-column grid gives each product card breathing room — avoids the cramped descriptions that result from a 3-column layout.',
+          'Category tags on each card enable fast scanning for returning visitors who already know what they want.',
+          'Consistent card structure (image → tag → name → desc → CTA) creates a predictable, learnable pattern across all products.',
+        ],
+        discussion: [
+          'Top-left card gets ~3× more attention due to primacy bias — decide on a deliberate product ordering strategy before build.',
+          'No pricing signal on any card — decide between showing a price tier, a "contact for pricing" note, or a "starting from" indicator.',
+          '"Learn More" CTA copy is weak for enterprise B2B — discuss replacing with "Request a Demo" or "Get a Quote" to reflect actual purchase intent.',
+          'No filter or category navigation is present — agree at what catalog size (6 products? 8?) it becomes necessary to add one.',
+        ],
+      },
+      contact: {
+        designer: [
+          'Split layout (form left, info right) is ideal for B2B — it answers "how do I reach you?" alongside the form, reducing the "black hole" anxiety of submitting to an unknown.',
+          'Partnership badges echoed in the info column are a subtle but effective trust signal placed exactly at the conversion point.',
+          'Four form fields is appropriate — under the cognitive load threshold for a B2B inquiry form.',
+        ],
+        discussion: [
+          'Subject field is a documented drop-off point — discuss replacing it with a dropdown of inquiry types (Sales, Support, Partnership, Other) to reduce friction.',
+          '"Send Message" is passive button copy — decide on more intentional language like "Send Inquiry" or "Start a Conversation".',
+          'The right info column risks being ignored by form-focused users — discuss adding a subtle background tint or divider to make it clearly a separate content zone.',
+          'No response time expectation is set near the submit button — discuss adding a line such as "We typically respond within 24 hours" to reduce post-submit anxiety.',
+        ],
+      },
+    };
 
-    // ── Fragment loader ───────────────────────────────────────────────────────
+    // ── Form Field Analysis data ──────────────────────────────────────────────
+    const FORM_FIELD_ANALYSIS = {
+      contact: {
+        summary: '~38% overall form conversion · B2B benchmark',
+        fields: [
+          { name:'Full Name',      pct:96, risk:'low',    note:'First field acts as a commitment trigger — users who start here rarely abandon.' },
+          { name:'Business Email', pct:88, risk:'low',    note:'Minor privacy hesitation; add a visible privacy policy link to reduce friction.' },
+          { name:'Subject',        pct:64, risk:'high',   note:'Most common drop-off field. Open-ended text is hard — replace with a dropdown of inquiry types.' },
+          { name:'Message',        pct:52, risk:'high',   note:'Long-form text is cognitively demanding. Set expectations with a character-count hint.' },
+          { name:'Submit',         pct:38, risk:'medium', note:'Overall form conversion. Industry average for B2B contact forms is 35–45%.', isSummaryRow:true },
+        ],
+      },
+    };
+
+    const FIELD_CLARITY = {
+      contact: {
+        summary: 'Overall form efficiency: Medium — 2 of 4 fields have design friction that reduces completion rate.',
+        fields: [
+          { name:'Full Name',      clarity:'Clear',    position:'Optimal',    complexity:'Low',  clarityNote:'Unambiguous — users know exactly what to type.', posNote:'First field is correct — establishes identity commitment.', compNote:'Single plain-text input; minimal cognitive effort.' },
+          { name:'Business Email', clarity:'Clear',    position:'Optimal',    complexity:'Low',  clarityNote:'Well-understood format with built-in validation expectation.', posNote:'Second after name — correct; contact info follows identity.', compNote:'Auto-fill compatible; users rarely hesitate.' },
+          { name:'Subject',        clarity:'Ambiguous',position:'Acceptable', complexity:'High', clarityNote:'"Subject" is too open-ended — users don\'t know what scope to write.', posNote:'Third is acceptable, but a dropdown would perform better here.', compNote:'Requires the user to invent a summary — highest cognitive effort in the form.' },
+          { name:'Message',        clarity:'Clear',    position:'Optimal',    complexity:'High', clarityNote:'Purpose is clear but generic — add a prompt like "Describe your project".', posNote:'Last field is correct — detail comes after all identifiers.', compNote:'Long-form text field; most time-consuming to complete.' },
+        ],
+      },
+    };
+
+    const ADMIN_EFFICIENCY = {
+      contact: {
+        kpis: [
+          { label:'Lead Qualification Rate', value:'62%',     rating:'medium', note:'Missing company, role, and budget fields needed for B2B lead scoring.' },
+          { label:'Est. Admin Time / Lead',   value:'~8 min',  rating:'low',    note:'Unstructured Subject + Message require manual reading before routing.' },
+          { label:'Missing Routing Fields',   value:'2',       rating:'low',    note:'No company name or inquiry type — needed for automatic CRM tagging.' },
+          { label:'Auto-routing Potential',   value:'Low',     rating:'low',    note:'No structured inquiry type makes automated Sales/Support routing impossible.' },
+          { label:'CRM Readiness',            value:'Partial', rating:'medium', note:'Name + Email are CRM-ready; Message needs parsing before mapping to CRM fields.' },
+        ],
+      },
+    };
+
+    // ── Demo content (same as before) ─────────────────────────────────────────
+    const DEMO = {
+      nav: { logo: 'SAKS INDUSTRIES' },
+      home: {
+        heroImg: 'https://picsum.photos/seed/saks-hero/600/420',
+        heroTag: 'Microsoft AI Cloud Partner · AWS Partner',
+        heroH1: 'Enterprise Cloud', heroH1b: 'Solutions',
+        heroSub: 'Empowering businesses with cutting-edge cloud',
+        heroSub2: 'infrastructure and AI-driven capabilities.',
+        partnerLabel: 'Trusted Certifications',
+        sectionTitle: 'Our Services',
+        sectionSub: 'End-to-end cloud solutions tailored for enterprise growth.',
+        sectionSub2: 'From migration to AI integration and beyond.',
+        cards: [
+          { icon:'☁️', title:'Cloud Migration',     desc:'Seamless lift-and-shift and re-architecture of workloads to Azure & AWS.', cta:'Learn more →' },
+          { icon:'🤖', title:'AI Integration',       desc:'Embed Microsoft AI and AWS SageMaker into your existing business workflows.', cta:'Learn more →' },
+          { icon:'⚙️', title:'DevOps & Automation', desc:'CI/CD pipelines, IaC with Terraform, and container-native delivery.', cta:'Learn more →' },
+        ],
+        news: [
+          { date:'2025.06.15', tag:'News',    title:'Saks Industries achieves Microsoft AI Cloud Partner status' },
+          { date:'2025.03.01', tag:'Product', title:'Launching new managed DevOps service tier for SMEs' },
+          { date:'2024.05.01', tag:'News',    title:'Website launched — welcome to Saks Industries' },
+        ],
+      },
+      about: {
+        sectionTitle:'About Us',
+        missionLines:['Saks Industries LLC is a cloud-native technology partner headquartered in Tokyo,','Japan. We specialize in architecting scalable, secure, and cost-efficient cloud','infrastructure on Microsoft Azure and Amazon Web Services.','Our mission is to accelerate digital transformation for businesses of all sizes —','from fast-growing startups to established enterprises.'],
+        stats:[{num:'5+',label:'Years in Business'},{num:'50+',label:'Enterprise Clients'},{num:'120+',label:'Projects Delivered'}],
+        teamTitle:'Our Team', teamSub:'The people behind Saks Industries.',
+        team:[{name:'Alex Saks',role:'CEO & Founder',seed:'alex'},{name:'Yuki Tanaka',role:'CTO',seed:'yuki'},{name:'Maria Chen',role:'Cloud Architect',seed:'maria'},{name:'James Park',role:'DevOps Lead',seed:'james'}],
+      },
+      products: {
+        sectionTitle:'Products & Solutions',
+        sectionSub:'Purpose-built cloud products for modern enterprises.',
+        sectionSub2:'Backed by Microsoft Azure and AWS infrastructure.',
+        products:[
+          {seed:'cloud-infra', tag:'Infrastructure',name:'SaksCloud Managed Infrastructure',desc:'Fully managed multi-cloud infrastructure with 99.99% SLA, auto-scaling, and 24/7 monitoring.'},
+          {seed:'ai-platform', tag:'AI / ML',       name:'SaksAI Platform',                 desc:'Plug-and-play AI pipeline integrating Azure OpenAI and AWS SageMaker for enterprise workloads.'},
+          {seed:'devops-suite',tag:'DevOps',         name:'SaksOps Automation Suite',        desc:'End-to-end CI/CD and GitOps automation with Terraform, Kubernetes, and observability built-in.'},
+          {seed:'security',    tag:'Security',       name:'SaksShield Security',              desc:'Zero-trust network architecture and compliance tooling for GDPR, SOC 2, and ISO 27001.'},
+        ],
+      },
+      contact: {
+        sectionTitle:'Get in Touch', sectionSub:"We'd love to discuss how we can help your business.",
+        formLabels:['Full Name','Business Email','Subject','Message'],
+        formPlaceholders:['John Smith','you@company.com','Project inquiry…','Tell us about your project…'],
+        infoBlocks:[
+          {icon:'📍',title:'Headquarters',lines:['Shibuya-ku, Tokyo 150-0001','Japan']},
+          {icon:'✉️',title:'Email',        lines:['contact@saks.industries']},
+          {icon:'🔗',title:'Contact Form', lines:['go.saks.industries/a54vAx']},
+        ],
+      },
+      footer: {
+        logo:'SAKS INDUSTRIES',
+        descLines:['Enterprise cloud solutions','powered by Azure & AWS.','© 2025 Saks Industries LLC'],
+        col2Title:'Company', col2Links:['Home','About','Products','Contact'],
+        col3Title:'Legal',   col3Links:['Privacy Policy','Terms of Service','Cookie Policy'],
+        copy:'© 2025 Saks Industries LLC. All rights reserved.',
+      },
+    };
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // STATE
+    // ══════════════════════════════════════════════════════════════════════════
+    let currentPage  = null;
+    let isDemoMode   = false;
+    let heatmapOn    = false;
+    let activePanel  = 'annotations';
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // FRAGMENT LOADER
+    // ══════════════════════════════════════════════════════════════════════════
     async function loadFragment(mountId, src) {
       const el = document.getElementById(mountId);
       try {
         const res = await fetch(src);
-        if (!res.ok) throw new Error(`${res.status} ${src}`);
+        if (!res.ok) throw new Error(`${res.status}`);
         el.innerHTML = await res.text();
       } catch (err) {
         el.innerHTML = `<div class="wf-loading" style="color:#c00">Failed: ${src}</div>`;
       }
     }
 
-    // ── Apply demo to all currently loaded mounts ─────────────────────────────
-    function applyDemo() {
-      document.body.classList.add('demo-mode');
-      applyDemoToNav(document.getElementById('wf-nav-mount'));
-      applyDemoToPage(currentPage, document.getElementById('wf-page'));
-      applyDemoToFooter(document.getElementById('wf-footer-mount'));
-    }
-
-    async function removeDemo() {
-      document.body.classList.remove('demo-mode');
-      // Re-load nav + footer + page to restore original placeholder HTML
-      await Promise.all([
-        loadFragment('wf-nav-mount',    'fragments/nav.html'),
-        loadFragment('wf-footer-mount', 'fragments/footer.html'),
-        loadFragment('wf-page',         `fragments/pages/${currentPage}.html`),
-      ]);
-      // Re-apply active nav state
-      document.querySelectorAll('.nav-link-btn').forEach(el => {
-        el.classList.toggle('active', el.dataset.page === currentPage);
-      });
-    }
-
-    // ── Page router ───────────────────────────────────────────────────────────
+    // ══════════════════════════════════════════════════════════════════════════
+    // PAGE ROUTER
+    // ══════════════════════════════════════════════════════════════════════════
     async function loadPage(name) {
       if (name === currentPage) return;
       currentPage = name;
 
+      // Hide heatmap during transition
+      if (heatmapOn) toggleHeatmap(false);
+
       const pageEl = document.getElementById('wf-page');
       pageEl.classList.add('switching');
       await new Promise(r => setTimeout(r, 100));
-
       await loadFragment('wf-page', `fragments/pages/${name}.html`);
-
       pageEl.classList.remove('switching');
-      pageEl.style.animation = 'none';
-      pageEl.offsetHeight;
-      pageEl.style.animation = '';
+      pageEl.style.animation = 'none'; pageEl.offsetHeight; pageEl.style.animation = '';
 
-      document.querySelectorAll('.nav-link-btn').forEach(el => {
-        el.classList.toggle('active', el.dataset.page === name);
-      });
+      // Update active nav link
+      document.querySelectorAll('.nav-link-btn').forEach(el =>
+        el.classList.toggle('active', el.dataset.page === name));
 
+      // Update doc meta
       const label = name.charAt(0).toUpperCase() + name.slice(1);
-      document.getElementById('doc-meta').textContent =
-        `${label}  ·  Desktop (1280px)  ·  v0.1`;
+      document.getElementById('doc-meta').textContent = `${label}  ·  Desktop (1280px)  ·  v0.1`;
 
-      renderAnnotations(name);
-
-      // Re-apply demo transforms if mode is active
+      // Re-apply demo if on
       if (isDemoMode) {
         applyDemoToPage(name, document.getElementById('wf-page'));
       }
+
+      // Cancel any in-progress element pick
+      if (typeof stopPicker === 'function' && pickerActive) stopPicker();
+
+      // Update panels
+      renderAnnotations(name);
+      updateAnalytics(name);
+
+      // Re-draw pins + heatmap after DOM settles
+      setTimeout(() => renderAnnotationPins(name), 120);
+      if (heatmapOn) {
+        await new Promise(r => setTimeout(r, 80)); // wait for DOM settle
+        drawHeatmap(name);
+      }
     }
 
-    // ── Toggle handler ────────────────────────────────────────────────────────
-    document.querySelector('.asset-toggle').addEventListener('click', async (e) => {
-      const btn = e.target.closest('.toggle-btn');
-      if (!btn) return;
-      const mode = btn.dataset.mode;
-      if ((mode === 'demo') === isDemoMode) return;
+    // ══════════════════════════════════════════════════════════════════════════
+    // PANEL TABS
+    // ══════════════════════════════════════════════════════════════════════════
+    document.querySelector('.panel-tab-bar').addEventListener('click', (e) => {
+      const tab = e.target.closest('.panel-tab');
+      if (!tab) return;
+      const panel = tab.dataset.panel;
+      if (panel === activePanel) return;
+      activePanel = panel;
+      document.querySelectorAll('.panel-tab').forEach(t => t.classList.toggle('active', t === tab));
+      const panelMap = { annotations:'annotations', analytics:'analytics-panel', form:'form-panel', flow:'flow-panel' };
+      document.querySelectorAll('.panel-content').forEach(c => {
+        c.classList.toggle('active', c.id === panelMap[panel]);
+      });
+    });
 
-      document.querySelectorAll('.asset-toggle .toggle-btn').forEach(b => {
-        b.classList.toggle('active', b === btn);
+    // ══════════════════════════════════════════════════════════════════════════
+    // HEATMAP
+    // ══════════════════════════════════════════════════════════════════════════
+    function toggleHeatmap(forceState) {
+      heatmapOn = forceState !== undefined ? forceState : !heatmapOn;
+      const canvas = document.getElementById('heatmap-canvas');
+      const btn    = document.getElementById('heatmap-toggle');
+      if (heatmapOn) {
+        drawHeatmap(currentPage);
+        canvas.style.display = 'block';
+        btn.textContent = t('heatmapHide');
+        btn.classList.add('on');
+      } else {
+        canvas.style.display = 'none';
+        btn.textContent = t('heatmapShow');
+        btn.classList.remove('on');
+      }
+    }
+
+    document.getElementById('heatmap-toggle').addEventListener('click', () => toggleHeatmap());
+
+    function drawHeatmap(page) {
+      const wireframe = document.querySelector('.wireframe');
+      const canvas    = document.getElementById('heatmap-canvas');
+      const defs      = HEATMAP_DEFS[page] || [];
+
+      // Size canvas to cover full wireframe height
+      const w = wireframe.offsetWidth;
+      const h = wireframe.scrollHeight;
+      canvas.width  = w;
+      canvas.height = h;
+      canvas.style.width  = w + 'px';
+      canvas.style.height = h + 'px';
+
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, w, h);
+
+      const wireRect = wireframe.getBoundingClientRect();
+
+      defs.forEach(({ sel, heat, r, nth }) => {
+        const els = wireframe.querySelectorAll(sel);
+        const el  = nth !== undefined ? els[nth] : els[0];
+        if (!el) return;
+
+        const elRect = el.getBoundingClientRect();
+        const cx = elRect.left - wireRect.left + elRect.width  / 2;
+        const cy = elRect.top  - wireRect.top  + elRect.height / 2 + wireframe.scrollTop;
+
+        drawBlob(ctx, cx, cy, r, heat);
       });
 
-      isDemoMode = mode === 'demo';
-      if (isDemoMode) applyDemo();
-      else            await removeDemo();
-    });
+      // Ambient top-strip for F-pattern (low-intensity bar across full top)
+      const ambientGrd = ctx.createLinearGradient(0, 0, w, 0);
+      ambientGrd.addColorStop(0,   'rgba(255,200,0,0.08)');
+      ambientGrd.addColorStop(0.5, 'rgba(255,200,0,0.05)');
+      ambientGrd.addColorStop(1,   'rgba(0,0,0,0)');
+      ctx.fillStyle = ambientGrd;
+      ctx.fillRect(0, 0, w, 80);
+    }
 
-    // ── Nav click delegation ──────────────────────────────────────────────────
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-page]');
-      if (btn) loadPage(btn.dataset.page);
-    });
+    function drawBlob(ctx, cx, cy, r, heat) {
+      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+      if (heat >= 0.75) {
+        grd.addColorStop(0,   `rgba(255,30,30,${heat * 0.55})`);
+        grd.addColorStop(0.35,`rgba(255,100,0,${heat * 0.35})`);
+        grd.addColorStop(0.65,`rgba(255,200,0,${heat * 0.18})`);
+        grd.addColorStop(1,   'rgba(0,0,0,0)');
+      } else if (heat >= 0.45) {
+        grd.addColorStop(0,   `rgba(255,190,0,${heat * 0.55})`);
+        grd.addColorStop(0.5, `rgba(255,220,50,${heat * 0.25})`);
+        grd.addColorStop(1,   'rgba(0,0,0,0)');
+      } else {
+        grd.addColorStop(0,   `rgba(0,80,255,${heat * 0.55})`);
+        grd.addColorStop(0.5, `rgba(0,140,255,${heat * 0.25})`);
+        grd.addColorStop(1,   'rgba(0,0,0,0)');
+      }
+      ctx.fillStyle = grd;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
-    // ── Annotations ──────────────────────────────────────────────────────────
+    // ══════════════════════════════════════════════════════════════════════════
+    // COMPONENT COUNT CHART
+    // ══════════════════════════════════════════════════════════════════════════
+    function countComponents(el) {
+      return COMP_SELECTORS.reduce((n, sel) => n + el.querySelectorAll(sel).length, 0);
+    }
+
+    function getSectionName(el) {
+      const map = {
+        'wf-nav':'Navigation','wf-hero':'Hero','wf-partners':'Partners',
+        'wf-services':'Services','wf-news':'News',
+        'wf-about-mission':'Mission','wf-team':'Team',
+        'wf-products':'Products','wf-contact':'Contact','wf-footer':'Footer',
+      };
+      for (const [cls, name] of Object.entries(map)) {
+        if (el.classList.contains(cls)) return name;
+      }
+      return 'Section';
+    }
+
+    function renderComponentChart() {
+      const sections = document.querySelectorAll('.wf-section');
+      if (!sections.length) return;
+
+      const rows = Array.from(sections).map(sec => ({
+        name:  getSectionName(sec),
+        count: countComponents(sec),
+      }));
+
+      const maxCount = Math.max(...rows.map(r => r.count), 1);
+      const chart = document.getElementById('comp-chart');
+
+      chart.innerHTML = rows.map(({ name, count }) => {
+        const pct = Math.round((count / maxCount) * 100);
+        return `
+          <div class="comp-row">
+            <div class="comp-label">${name}</div>
+            <div class="comp-bar-track">
+              <div class="comp-bar-fill" style="width:${pct}%"></div>
+            </div>
+            <div class="comp-count">${count}</div>
+          </div>`;
+      }).join('');
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // DESIGN NOTES — two-part render
+    // ══════════════════════════════════════════════════════════════════════════
+    function renderDesignNotes(page) {
+      const container = document.getElementById('note-list');
+      const data      = L(DESIGN_NOTES, DESIGN_NOTES_JA)[page] || { designer: [], discussion: [] };
+
+      const part = (cls, icon, title, items) => `
+        <div class="notes-part ${cls}">
+          <div class="notes-part-title ${cls}">${icon} ${title}</div>
+          <div class="note-list">
+            ${items.map(tx => `<div class="note-item">${tx}</div>`).join('')}
+          </div>
+        </div>`;
+
+      container.innerHTML =
+        part('designer',   '✦', t('designerVoice'),    data.designer)  +
+        part('discussion', '◆', t('discussionPoints'), data.discussion);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // EYE TRACKING INFO UPDATE
+    // ══════════════════════════════════════════════════════════════════════════
+    function updateEyetrackInfo(page) {
+      const info = L(EYETRACK_INFO, EYETRACK_INFO_JA)[page] || {};
+      document.getElementById('eyetrack-pattern-label').textContent = info.pattern || '';
+      document.getElementById('eyetrack-info').innerHTML = info.desc || '';
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // FORM FIELD ANALYSIS
+    // ══════════════════════════════════════════════════════════════════════════
+    function renderFormAnalysis(page) {
+      const content = document.getElementById('form-analysis-content');
+      const empty   = document.getElementById('form-empty-state');
+      const hasForm = document.querySelectorAll('.form-field').length > 0;
+      const data    = L(FORM_FIELD_ANALYSIS, FORM_FIELD_ANALYSIS_JA)[page];
+      const et = document.getElementById('form-empty-text');
+      if (et) et.innerHTML = `${t('formEmptyMsg')} <strong style="color:#666;">${t('formEmptyPage')}</strong> ${t('formEmptyEnd')}`;
+      if (!hasForm || !data) {
+        content.style.display = 'none';
+        empty.style.display   = '';
+        return;
+      }
+      content.style.display = '';
+      empty.style.display   = 'none';
+
+      // Part A — UX Funnel
+      document.getElementById('form-analysis-summary').textContent = data.summary;
+      const chart = document.getElementById('form-funnel-chart');
+      chart.innerHTML = data.fields.map(f => {
+        const rc = `risk-${f.risk}`;
+        const rl = f.risk.charAt(0).toUpperCase() + f.risk.slice(1);
+        return `
+          <div class="form-funnel-row${f.isSummaryRow ? ' is-summary-row' : ''}">
+            <div class="form-funnel-row-header">
+              <span class="form-funnel-field-name">${f.name}</span>
+              <span class="form-funnel-pct">${f.pct}%</span>
+              <span class="form-funnel-badge ${rc}">${rl}</span>
+            </div>
+            <div class="form-funnel-bar-track">
+              <div class="form-funnel-bar-fill ${rc}" style="width:0%" data-target="${f.pct}"></div>
+            </div>
+            <div class="form-funnel-note">${f.note}</div>
+          </div>`;
+      }).join('');
+      requestAnimationFrame(() => {
+        chart.querySelectorAll('.form-funnel-bar-fill').forEach(b => b.style.width = b.dataset.target + '%');
+      });
+
+      // Part B — Clarity & Efficiency matrix
+      const cd = L(FIELD_CLARITY, FIELD_CLARITY_JA)[page];
+      const mx = document.getElementById('clarity-matrix');
+      if (cd) {
+        const cc = v => v==='Clear'    ? 'ce-good' : v==='Ambiguous' ? 'ce-warn' : 'ce-bad';
+        const pc = v => v==='Optimal'  ? 'ce-good' : v==='Acceptable'? 'ce-warn' : 'ce-bad';
+        const xc = v => v==='Low'      ? 'ce-good' : v==='Medium'    ? 'ce-warn' : 'ce-bad';
+        mx.innerHTML = `
+          <div class="ce-table">
+            <div class="ce-header"><span>${t('ceField')}</span><span>${t('ceClarity')}</span><span>${t('cePosition')}</span><span>${t('ceComplexity')}</span></div>
+            ${cd.fields.map(f => `
+              <div class="ce-row">
+                <span class="ce-field-name">${f.name}</span>
+                <span class="ce-badge ${cc(f.clarity)}"   title="${f.clarityNote}">${f.clarity}</span>
+                <span class="ce-badge ${pc(f.position)}"  title="${f.posNote}">${f.position}</span>
+                <span class="ce-badge ${xc(f.complexity)}" title="${f.compNote}">${f.complexity}</span>
+              </div>`).join('')}
+          </div>
+          <div class="ce-summary">${cd.summary}</div>`;
+      }
+
+      // Part C — Admin Efficiency KPIs
+      const ad = L(ADMIN_EFFICIENCY, ADMIN_EFFICIENCY_JA)[page];
+      const kg = document.getElementById('admin-kpi-grid');
+      if (ad) {
+        kg.innerHTML = ad.kpis.map(k => `
+          <div class="admin-kpi-card admin-kpi-${k.rating}">
+            <div class="admin-kpi-header">
+              <span class="admin-kpi-label">${k.label}</span>
+              <span class="admin-kpi-value">${k.value}</span>
+            </div>
+            <div class="admin-kpi-note">${k.note}</div>
+          </div>`).join('');
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // UPDATE ANALYTICS PANEL (called on page change)
+    // ══════════════════════════════════════════════════════════════════════════
+    function updateAnalytics(page) {
+      updateEyetrackInfo(page);
+      setTimeout(() => {
+        renderComponentChart();
+        renderFormAnalysis(page);
+      }, 80);
+      renderDesignNotes(page);
+      highlightFlowNode(page);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // PAGE FLOW DIAGRAM
+    // ══════════════════════════════════════════════════════════════════════════
+    const FLOW_NODES = [
+      { id:'entry',    cx:180, cy:20,  r:9,   type:'entry',    label:'START',    sub:'' },
+      { id:'home',     cx:180, cy:74,  w:128, h:44, rx:6, type:'home',     label:'Home',     sub:'Landing · Hero · Services' },
+      { id:'about',    cx:56,  cy:200, w:104, h:42, rx:6, type:'about',    label:'About',    sub:'Mission · Team' },
+      { id:'products', cx:180, cy:200, w:124, h:42, rx:6, type:'products', label:'Products', sub:'Product Grid' },
+      { id:'contact',  cx:304, cy:200, w:104, h:42, rx:6, type:'contact',  label:'Contact',  sub:'Form · Info' },
+      { id:'success',  cx:304, cy:330, w:100, h:36, rx:18,type:'end',      label:'✓ Sent',   sub:'Form Submitted' },
+    ];
+
+    const FLOW_EDGES = [
+      { d:'M180,29 L180,52',                                    label:'',                   lx:0,   ly:0,   stroke:'#bbb',    sw:1.5, dash:'',    marker:'ah-gray'   },
+      { d:'M152,96 C105,144 56,154 56,179',                     label:'Nav: About',          lx:76,  ly:130, stroke:'#aaa',    sw:1.5, dash:'4,3', marker:'ah-gray'   },
+      { d:'M180,96 L180,179',                                   label:'CTA: View Products',  lx:186, ly:140, stroke:'#2d6cdf', sw:2,   dash:'',    marker:'ah-blue'   },
+      { d:'M208,96 C255,144 304,154 304,179',                   label:'CTA: Contact',        lx:278, ly:130, stroke:'#e8820c', sw:2,   dash:'',    marker:'ah-orange' },
+      { d:'M108,204 C145,248 258,248 252,207',                  label:'Nav: Contact',        lx:180, ly:256, stroke:'#aaa',    sw:1.5, dash:'4,3', marker:'ah-gray'   },
+      { d:'M242,200 L252,200',                                  label:'Get a Quote',         lx:247, ly:190, stroke:'#e8820c', sw:2,   dash:'',    marker:'ah-orange' },
+      { d:'M304,221 L304,312',                                  label:'Submit form',         lx:320, ly:266, stroke:'#27ae60', sw:2,   dash:'',    marker:'ah-green'  },
+      { d:'M42,179 C18,128 138,60 152,65',                      label:'Logo / Back',         lx:60,  ly:110, stroke:'#ddd',    sw:1,   dash:'3,4', marker:'ah-lgray'  },
+      { d:'M322,179 C360,114 218,60 208,65',                    label:'Logo / Back',         lx:300, ly:110, stroke:'#ddd',    sw:1,   dash:'3,4', marker:'ah-lgray'  },
+    ];
+
+    const FLOW_STYLE = {
+      entry:    { fill:'#f2f2f2', stroke:'#999',    lc:'#555',    sc:'#aaa'   },
+      home:     { fill:'#e8f0ff', stroke:'#2d6cdf', lc:'#1a3a7a', sc:'#6688cc' },
+      about:    { fill:'#f5f5f5', stroke:'#888',    lc:'#333',    sc:'#999'   },
+      products: { fill:'#f2eeff', stroke:'#7b2ff7', lc:'#3d1a80', sc:'#9966cc' },
+      contact:  { fill:'#fff3e8', stroke:'#e8820c', lc:'#7d4000', sc:'#c07030' },
+      end:      { fill:'#e8f8ef', stroke:'#27ae60', lc:'#155a30', sc:'#27ae60' },
+    };
+
+    function renderFlowDiagram() {
+      const wrap = document.getElementById('flow-diagram');
+      if (!wrap) return;
+
+      const markers = `<defs>
+        <marker id="ah-gray"  markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L7,2.5 L0,5 Z" fill="#aaa"/></marker>
+        <marker id="ah-lgray" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L7,2.5 L0,5 Z" fill="#ccc"/></marker>
+        <marker id="ah-blue"  markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L7,2.5 L0,5 Z" fill="#2d6cdf"/></marker>
+        <marker id="ah-orange"markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L7,2.5 L0,5 Z" fill="#e8820c"/></marker>
+        <marker id="ah-green" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L7,2.5 L0,5 Z" fill="#27ae60"/></marker>
+      </defs>`;
+
+      // Locale-aware edge labels
+      const EDGE_LABELS = [
+        t('edgeVisit'), t('edgeNavAbout'), t('edgeCTAProducts'), t('edgeCTAContact'),
+        t('edgeNavContact'), t('edgeGetQuote'), t('edgeSubmit'), t('edgeBack'), t('edgeBack'),
+      ];
+
+      // Locale-aware node data
+      const NODE_LABELS = {
+        entry: t('flowStart'), home: t('navHome'), about: t('navAbout'),
+        products: t('navProducts'), contact: t('navContact'),
+        success: t('flowSent'),
+      };
+      const NODE_SUBS = {
+        home: t('flowLanding'), about: t('flowMissionTeam'),
+        products: t('flowProductGrid'), contact: t('flowFormInfo'),
+        success: t('flowFormSubmitted'),
+      };
+
+      // Edges
+      let edgesSVG = '';
+      FLOW_EDGES.forEach((e, i) => {
+        const label = EDGE_LABELS[i] || '';
+        edgesSVG += `<path d="${e.d}" fill="none" stroke="${e.stroke}" stroke-width="${e.sw}" stroke-dasharray="${e.dash}" marker-end="url(#${e.marker})"/>`;
+        if (label) {
+          const lw = label.length * 5.2 + 8;
+          edgesSVG += `<rect x="${e.lx - lw/2}" y="${e.ly - 8}" width="${lw}" height="13" rx="2" fill="rgba(255,255,255,0.92)"/>`;
+          edgesSVG += `<text x="${e.lx}" y="${e.ly + 2}" text-anchor="middle" font-size="7.5" fill="#666">${label}</text>`;
+        }
+      });
+
+      // Nodes
+      let nodesSVG = '';
+      FLOW_NODES.forEach(n => {
+        const s = n.type === 'end' ? FLOW_STYLE.end : FLOW_STYLE[n.type] || FLOW_STYLE.about;
+        const clickable = ['home','about','products','contact'].includes(n.id);
+        const label = NODE_LABELS[n.id] || n.label;
+        const sub   = NODE_SUBS[n.id]   || n.sub;
+        if (n.r) {
+          nodesSVG += `<g id="fn-${n.id}">
+            <circle cx="${n.cx}" cy="${n.cy}" r="${n.r}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="1.5"/>
+            <text x="${n.cx}" y="${n.cy + 3}" text-anchor="middle" font-size="7" font-weight="bold" fill="${s.lc}">${label}</text>
+          </g>`;
+        } else {
+          const x = n.cx - n.w/2, y = n.cy - n.h/2;
+          nodesSVG += `<g id="fn-${n.id}" style="${clickable ? 'cursor:pointer;' : ''}">
+            <rect x="${x}" y="${y}" width="${n.w}" height="${n.h}" rx="${n.rx}"
+              fill="${s.fill}" stroke="${s.stroke}" stroke-width="1.5" class="flow-node-rect"/>
+            <text x="${n.cx}" y="${n.cy - 3}" text-anchor="middle" font-size="11" font-weight="bold" fill="${s.lc}">${label}</text>
+            ${sub ? `<text x="${n.cx}" y="${n.cy + 11}" text-anchor="middle" font-size="8" fill="${s.sc}">${sub}</text>` : ''}
+          </g>`;
+        }
+      });
+
+      // Nav bar note
+      const noteY = 372;
+      const noteSVG = `
+        <rect x="4" y="${noteY}" width="352" height="32" rx="4" fill="#f8f8f8" stroke="#e4e4e4" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="180" y="${noteY+13}" text-anchor="middle" font-size="8.5" fill="#888">${t('flowNavGlobal')}</text>
+        <text x="180" y="${noteY+25}" text-anchor="middle" font-size="7.5" fill="#bbb">${t('flowClickHint')}</text>`;
+
+      wrap.innerHTML = `<svg viewBox="0 0 360 412" xmlns="http://www.w3.org/2000/svg"
+        style="width:100%;height:auto;display:block;" font-family="'Courier New',monospace">
+        ${markers}${edgesSVG}${nodesSVG}${noteSVG}
+      </svg>`;
+
+      // Click-to-navigate
+      ['home','about','products','contact'].forEach(id => {
+        const g = wrap.querySelector(`#fn-${id}`);
+        if (g) g.addEventListener('click', () => loadPage(id));
+      });
+
+      highlightFlowNode(currentPage);
+    }
+
+    function highlightFlowNode(page) {
+      const wrap = document.getElementById('flow-diagram');
+      if (!wrap) return;
+      wrap.querySelectorAll('.flow-node-rect').forEach(r => {
+        r.style.filter = '';
+        r.style.strokeWidth = '1.5';
+      });
+      const active = wrap.querySelector(`#fn-${page} .flow-node-rect`);
+      if (active) {
+        active.style.filter = 'drop-shadow(0 0 5px rgba(0,0,0,0.25))';
+        active.style.strokeWidth = '2.5';
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // ANNOTATIONS
+    // ══════════════════════════════════════════════════════════════════════════
+    // Embedded EN fallback (used if markdown files fail to load)
     const ANNOTATIONS = {
       home: [
-        { num:1, title:'Navigation Bar',     desc:'Sticky top bar. Logo left, links (Home · About · Products · Contact), primary CTA linking to the contact form.',  tip:'Sticky on scroll · 64px height' },
+        { num:1, title:'Navigation Bar',     desc:'Sticky top bar. Logo left, links (Home · About · Products · Contact), primary CTA linking to the contact form.', tip:'Sticky on scroll · 64px height' },
         { num:2, title:'Hero Section',        desc:'Split layout — image left, copy right. Tagline, headline, description. Two CTAs: "View Products" (primary) + "Learn More" (ghost).',  tip:'Full-viewport height recommended' },
-        { num:3, title:'Partnership Badges',  desc:'Trust strip below hero. Shows Microsoft AI Cloud Partner and AWS Partner badges with official colors in demo mode.', tip:'Use official partner badge assets' },
-        { num:4, title:'Services / Products', desc:'3-column card grid. Each card: icon, service name, short description, inline "Learn more →" CTA.',  tip:'Links to /products page' },
-        { num:5, title:'News / Updates',      desc:'Lightweight feed: date (YYYY.MM.DD), category tag, headline text.',  tip:'Show latest 3–5 entries' },
+        { num:3, title:'Partnership Badges',  desc:'Trust strip below hero. Microsoft AI Cloud Partner and AWS Partner badges with official colors in demo mode.', tip:'Use official partner badge assets' },
+        { num:4, title:'Services / Products', desc:'3-column card grid. Each card: icon, service name, short description, inline "Learn more →" CTA.', tip:'Links to /products page' },
+        { num:5, title:'News / Updates',      desc:'Lightweight feed: date (YYYY.MM.DD), category tag, headline text.', tip:'Show latest 3–5 entries' },
         { num:6, title:'Footer',              desc:'Dark background, 3-column: brand + desc, site links, legal links. Bottom bar: copyright + social icons.', tip:'© 2025 Saks Industries LLC' },
       ],
       about: [
@@ -419,9 +1107,9 @@
         { num:4, title:'Footer',          desc:'Same persistent footer across all pages.', tip:'© 2025 Saks Industries LLC' },
       ],
       products: [
-        { num:1, title:'Navigation Bar',  desc:'Same persistent nav. "Products" link is active/highlighted.', tip:'Active state on current page' },
-        { num:2, title:'Products Grid',   desc:'2-column card grid. Each card: product image, category tag, name, description, "Learn More" CTA.', tip:'Add filter/sort controls above grid as needed' },
-        { num:3, title:'Footer',          desc:'Same persistent footer across all pages.', tip:'© 2025 Saks Industries LLC' },
+        { num:1, title:'Navigation Bar', desc:'Same persistent nav. "Products" link is active/highlighted.', tip:'Active state on current page' },
+        { num:2, title:'Products Grid',  desc:'2-column card grid. Each card: product image, category tag, name, description, "Learn More" CTA.', tip:'Add filter/sort controls above grid as needed' },
+        { num:3, title:'Footer',         desc:'Same persistent footer across all pages.', tip:'© 2025 Saks Industries LLC' },
       ],
       contact: [
         { num:1, title:'Navigation Bar', desc:'Same persistent nav. "Contact" CTA is highlighted.', tip:'Active state on current page' },
@@ -430,26 +1118,516 @@
       ],
     };
 
+    // ══════════════════════════════════════════════════════════════════════════
+    // ANNOTATION SYSTEM — markdown-backed, stateful
+    // ══════════════════════════════════════════════════════════════════════════
+    const ANNOTATION_STATE = {};   // { page: [{num, title, status, tip, desc, discussion:[]}] }
+    const STATUS_CYCLE = { open:'discussed', discussed:'resolved', resolved:'open' };
+    const STATUS_LABEL = {
+      en: { open:'Open', discussed:'In Discussion', resolved:'Resolved' },
+      ja: { open:'未対応', discussed:'検討中',       resolved:'解決済' },
+    };
+
+    // ── Parse markdown → annotation array ────────────────────────────────────
+    function parseAnnotationMd(text) {
+      return ('\n' + text)
+        .split(/\n---\n/)
+        .filter(b => b.trim() && !/^\s*#\s/.test(b.trim()))
+        .map(block => {
+          const lines  = block.trim().split('\n');
+          const head   = lines.find(l => /^##\s+\[/.test(l)) || '';
+          const nm     = head.match(/^##\s+\[(\d+)\]\s+(.+)/);
+          if (!nm) return null;
+          const num    = parseInt(nm[1]);
+          const title  = nm[2].trim();
+          const sLine  = lines.find(l => /^\*\*Status:\*\*/i.test(l)) || '';
+          const tLine  = lines.find(l => /^\*\*Tip:\*\*/i.test(l)) || '';
+          const status = (sLine.match(/\*\*Status:\*\*\s*(\S+)/i) || [])[1]?.toLowerCase() || 'open';
+          const tip    = (tLine.match(/\*\*Tip:\*\*\s*(.+)/)       || [])[1]?.trim()        || '';
+          const discIdx  = lines.findIndex(l => /^\*\*Discussion:\*\*/i.test(l));
+          const metaEnd  = Math.max(
+            lines.indexOf(head), lines.indexOf(sLine), lines.indexOf(tLine)
+          ) + 1;
+          const descLines = lines.slice(metaEnd, discIdx > -1 ? discIdx : lines.length)
+            .filter(l => l.trim() && !/^_No discussion/.test(l.trim()));
+          const desc = descLines.join('\n').trim();
+          const discussion = discIdx > -1
+            ? lines.slice(discIdx + 1)
+                .filter(l => l.trim().startsWith('-'))
+                .map(l => l.replace(/^-\s*/, '').trim())
+            : [];
+          const pinLine  = lines.find(l => /^\*\*Pin:\*\*/.test(l)) || '';
+          const pinMatch = pinLine.match(/\*\*Pin:\*\*\s*(.+?)\s*@\s*([\d.]+),([\d.]+)/);
+          const pin = pinMatch ? { selector: pinMatch[1].trim(), x: parseFloat(pinMatch[2]), y: parseFloat(pinMatch[3]) } : null;
+          return { num, title, status, tip, desc, discussion, pin };
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.num - b.num);
+    }
+
+    // ── Serialize annotation array → markdown ─────────────────────────────────
+    function serializeAnnotationMd(page) {
+      const label = page.charAt(0).toUpperCase() + page.slice(1);
+      const date  = new Date().toISOString().split('T')[0];
+      const items = ANNOTATION_STATE[page] || [];
+      let md = `# ${label} — Annotations\n_Exported: ${date}_\n`;
+      items.forEach(a => {
+        md += `\n---\n\n## [${a.num}] ${a.title}\n**Status:** ${a.status}\n`;
+        if (a.tip) md += `**Tip:** ${a.tip}\n`;
+        md += `\n${a.desc}\n\n**Discussion:**\n`;
+        md += a.discussion.length
+          ? a.discussion.map(d => `- ${d}`).join('\n') + '\n'
+          : '_No discussion yet._\n';
+        if (a.pin) md += `**Pin:** ${a.pin.selector} @ ${Math.round(a.pin.x)},${Math.round(a.pin.y)}\n`;
+      });
+      return md + '\n---\n';
+    }
+
+    // ── Load annotations for a page (fetch md, fall back to embedded) ─────────
+    async function loadAnnotationsForPage(page) {
+      try {
+        const res = await fetch(`annotations/${page}.md`);
+        if (!res.ok) throw new Error();
+        ANNOTATION_STATE[page] = parseAnnotationMd(await res.text());
+      } catch {
+        ANNOTATION_STATE[page] = (ANNOTATIONS[page] || []).map(a => ({
+          num: a.num, title: a.title, status: 'open', tip: a.tip || '', desc: a.desc, discussion: [],
+        }));
+      }
+    }
+
+    // ── Export: trigger .md download ──────────────────────────────────────────
+    function exportAnnotations(page) {
+      const md   = serializeAnnotationMd(page);
+      const blob = new Blob([md], { type: 'text/markdown' });
+      const a    = Object.assign(document.createElement('a'), {
+        href: URL.createObjectURL(blob), download: `annotations-${page}.md`,
+      });
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    // ── Save: POST to local dev server (server.ts) → annotations/{page}.md
+    async function saveAnnotations(page) {
+      const btn = document.getElementById('btn-save-ann');
+      try {
+        const res = await fetch('/save-annotation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ page, content: serializeAnnotationMd(page) }),
+        });
+        if (!res.ok) throw new Error(`Server error ${res.status}`);
+        btn.textContent = 'Saved ✓';
+        setTimeout(() => { btn.textContent = 'Save'; }, 1800);
+      } catch (err) {
+        console.error('Save failed:', err);
+        btn.textContent = 'Error';
+        setTimeout(() => { btn.textContent = 'Save'; }, 2000);
+      }
+    }
+
+    // ── Cycle status ──────────────────────────────────────────────────────────
+    function cycleStatus(page, num) {
+      const ann = ANNOTATION_STATE[page]?.find(a => a.num === num);
+      if (ann) {
+        ann.status = STATUS_CYCLE[ann.status] || 'open';
+        renderAnnotations(page);
+        renderAnnotationPins(page);
+      }
+    }
+
+    // ── Add discussion comment ────────────────────────────────────────────────
+    function addDiscussionComment(page, num, text) {
+      text = text.trim();
+      if (!text) return;
+      const ann = ANNOTATION_STATE[page]?.find(a => a.num === num);
+      if (ann) {
+        ann.discussion.push(text);
+        if (ann.status === 'open') ann.status = 'discussed';
+        renderAnnotations(page);
+      }
+    }
+
+    // ── Add annotation (inline form) ──────────────────────────────────────────
+    function toggleAddForm(show) {
+      document.getElementById('ann-add-form').style.display = show ? '' : 'none';
+    }
+    function confirmAddAnnotation(page) {
+      const title = document.getElementById('ann-add-title').value.trim();
+      const desc  = document.getElementById('ann-add-desc').value.trim();
+      const tip   = document.getElementById('ann-add-tip').value.trim();
+      if (!title || !desc) return;
+      const state = ANNOTATION_STATE[page] || (ANNOTATION_STATE[page] = []);
+      const num   = (Math.max(0, ...state.map(a => a.num))) + 1;
+      state.push({ num, title, status:'open', tip, desc, discussion:[] });
+      toggleAddForm(false);
+      ['ann-add-title','ann-add-desc','ann-add-tip'].forEach(id => document.getElementById(id).value = '');
+      renderAnnotations(page);
+    }
+
+    // ── Render ────────────────────────────────────────────────────────────────
     function renderAnnotations(page) {
-      const panel = document.getElementById('annotations');
-      panel.innerHTML = (ANNOTATIONS[page] || []).map(a => `
-        <div class="ann-block">
+      const container = document.getElementById('annotations-content');
+      const labels    = STATUS_LABEL[currentLocale] || STATUS_LABEL.en;
+
+      // EN: use ANNOTATION_STATE (loaded from md). JA: use ANNOTATIONS_JA text, merge state for status/discussion.
+      let items;
+      if (currentLocale === 'ja') {
+        items = (ANNOTATIONS_JA[page] || []).map(a => {
+          const st = ANNOTATION_STATE[page]?.find(s => s.num === a.num) || {};
+          return { ...a, status: st.status || 'open', discussion: st.discussion || [] };
+        });
+      } else {
+        items = ANNOTATION_STATE[page] || [];
+      }
+
+      container.innerHTML = items.map(a => {
+        const st     = ANNOTATION_STATE[page]?.find(s => s.num === a.num);
+        const pinned = !!(st?.pin ?? a.pin);
+        return `
+        <div class="ann-block ann-s-${a.status}" data-num="${a.num}">
           <div class="ann-num">${a.num}</div>
           <div class="ann-content">
-            <div class="ann-title">${a.title}</div>
+            <div class="ann-header">
+              <div class="ann-title">${a.title}</div>
+              <div style="display:flex;gap:4px;align-items:center;flex-shrink:0;">
+                <button class="ann-pick-btn${pinned?' is-pinned':''}"
+                  data-num="${a.num}"
+                  onclick="startPicker('${page}',${a.num})"
+                  title="${pinned?'Re-pin · right-click to remove':'Pin to wireframe element'}"
+                  oncontextmenu="event.preventDefault();clearPin('${page}',${a.num});">⊕</button>
+                <button class="ann-status-badge s-${a.status}"
+                  onclick="cycleStatus('${page}',${a.num})"
+                  title="Click to change status">${labels[a.status] || a.status}</button>
+              </div>
+            </div>
             <div class="ann-desc">
               ${a.desc}
               ${a.tip ? `<br><span class="ann-tip">${a.tip}</span>` : ''}
             </div>
+            <div class="ann-disc">
+              ${a.discussion.length
+                ? a.discussion.map(d => `<div class="ann-disc-item"><span class="ann-disc-dot">◆</span><span class="ann-disc-text">${d}</span></div>`).join('')
+                : `<div class="ann-disc-empty">${currentLocale === 'ja' ? 'まだ議論がありません' : 'No discussion yet'}</div>`}
+            </div>
+            <div class="ann-disc-row">
+              <input class="ann-disc-input"
+                placeholder="${currentLocale === 'ja' ? 'コメントを追加…' : 'Add comment…'}"
+                onkeydown="if(event.key==='Enter'&&this.value.trim()){addDiscussionComment('${page}',${a.num},this.value);this.value='';}" />
+              <button class="ann-disc-submit"
+                onclick="const i=this.previousElementSibling;addDiscussionComment('${page}',${a.num},i.value);i.value='';">↵</button>
+            </div>
           </div>
-        </div>`).join('');
+        </div>`;
+      }).join('');
     }
 
-    // ── Bootstrap ─────────────────────────────────────────────────────────────
+    // ══════════════════════════════════════════════════════════════════════════
+    // ELEMENT PICKER — devtool-style pin placement
+    // ══════════════════════════════════════════════════════════════════════════
+    let pickerActive = null;   // { page, num } while picking
+
+    function cssPathFor(el, root) {
+      // Build a short, stable selector: prefer specific semantic classes over generic ones
+      const parts = [];
+      let node = el;
+      while (node && node !== root && parts.length < 4) {
+        // Skip wf-section (generic) — prefer wf-hero, wf-nav, wf-services etc.
+        const cls = [...node.classList].find(c =>
+          c !== 'wf-section' &&
+          /^(wf-|hero-|nav-|card|form-|news-|team-|stat-|product-|info-|footer-|partner|btn-|section-)/.test(c));
+        if (cls) { parts.unshift('.' + cls); break; }
+        const parent = node.parentElement;
+        if (!parent) break;
+        const idx = [...parent.children].filter(c => c.tagName === node.tagName).indexOf(node) + 1;
+        parts.unshift(`${node.tagName.toLowerCase()}:nth-of-type(${idx})`);
+        node = parent;
+      }
+      return parts.join(' > ') || '.wireframe';
+    }
+
+    function startPicker(page, num) {
+      if (page !== currentPage) return;
+      stopPicker();
+      pickerActive = { page, num };
+      const wf = document.querySelector('.wireframe');
+      wf.classList.add('picking');
+
+      wf.addEventListener('mouseover', pickerHover);
+      wf.addEventListener('mouseout',  pickerUnhover);
+      wf.addEventListener('click',     pickerClick, true);
+      document.addEventListener('keydown', pickerEscape);
+    }
+
+    function stopPicker() {
+      const wf = document.querySelector('.wireframe');
+      wf.classList.remove('picking');
+      wf.querySelectorAll('.pick-hover').forEach(el => el.classList.remove('pick-hover'));
+      wf.removeEventListener('mouseover', pickerHover);
+      wf.removeEventListener('mouseout',  pickerUnhover);
+      wf.removeEventListener('click',     pickerClick, true);
+      document.removeEventListener('keydown', pickerEscape);
+      pickerActive = null;
+    }
+
+    function pickerHover(e)   { if (!e.target.closest('#wf-pins')) e.target.classList.add('pick-hover'); }
+    function pickerUnhover(e) { e.target.classList.remove('pick-hover'); }
+    function pickerEscape(e)  { if (e.key === 'Escape') stopPicker(); }
+
+    function pickerClick(e) {
+      if (!pickerActive) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const wf     = document.querySelector('.wireframe');
+      const target = e.target.closest('#wf-pins') ? null : e.target;
+      if (!target) { stopPicker(); return; }
+
+      const wfRect = wf.getBoundingClientRect();
+      const { page, num } = pickerActive;
+      const ann = ANNOTATION_STATE[page]?.find(a => a.num === num);
+      if (ann) {
+        ann.pin = {
+          selector: cssPathFor(target, wf),
+          x: e.clientX - wfRect.left,
+          y: e.clientY - wfRect.top,
+        };
+      }
+      stopPicker();
+      renderAnnotations(page);
+      renderAnnotationPins(page);
+    }
+
+    function clearPin(page, num) {
+      const ann = ANNOTATION_STATE[page]?.find(a => a.num === num);
+      if (ann?.pin) {
+        delete ann.pin;
+        renderAnnotations(page);
+        renderAnnotationPins(page);
+      }
+    }
+
+    // ── Render pin badges on wireframe ────────────────────────────────────────
+    function renderAnnotationPins(page) {
+      const layer = document.getElementById('wf-pins');
+      if (!layer) return;
+      const wf    = document.querySelector('.wireframe');
+      const wr    = wf.getBoundingClientRect();
+      const items = (ANNOTATION_STATE[page] || []).filter(a => a.pin);
+
+      layer.innerHTML = items.map(a => {
+        // Start with raw stored coordinates (always correct)
+        let x = a.pin.x, y = a.pin.y;
+        try {
+          const el = wf.querySelector(a.pin.selector);
+          if (el) {
+            const er  = el.getBoundingClientRect();
+            const relX = a.pin.x - (er.left - wr.left);
+            const relY = a.pin.y - (er.top  - wr.top);
+            // Only re-anchor to element if stored coords actually fall inside it
+            // (guards against generic selectors like .wf-section matching the wrong section)
+            if (relX >= 0 && relX <= er.width && relY >= 0 && relY <= er.height) {
+              x = er.left - wr.left + relX;
+              y = er.top  - wr.top  + relY;
+            }
+          }
+        } catch {}
+        return `<button class="wf-pin s-${a.status}" style="left:${x}px;top:${y}px;"
+          onclick="jumpToAnnotation(${a.num})" title="${a.title} — ${a.pin.selector}">${a.num}</button>`;
+      }).join('');
+    }
+
+    // ── Jump from pin → annotation panel ──────────────────────────────────────
+    function jumpToAnnotation(num) {
+      // Switch to annotations tab
+      document.querySelector('.panel-tab[data-panel="annotations"]')?.click();
+      const block = document.querySelector(`.ann-block[data-num="${num}"]`);
+      if (block) {
+        block.scrollIntoView({ behavior:'smooth', block:'center' });
+        block.classList.add('ann-flash');
+        setTimeout(() => block.classList.remove('ann-flash'), 1200);
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // DEMO MODE TRANSFORMS (unchanged from previous)
+    // ══════════════════════════════════════════════════════════════════════════
+    function asText(el, text, cls) { el.textContent = text; el.className = cls; }
+
+    function applyDemoToNav(mount) {
+      const logo = mount.querySelector('.nav-logo');
+      if (logo) { logo.textContent = DEMO.nav.logo; logo.className = 'demo-logo'; }
+    }
+    function applyDemoToPage(page, mount) {
+      if (page==='home')     applyDemoHome(mount);
+      if (page==='about')    applyDemoAbout(mount);
+      if (page==='products') applyDemoProducts(mount);
+      if (page==='contact')  applyDemoContact(mount);
+    }
+    function applyDemoHome(m) {
+      const d = DEMO.home;
+      const heroImg = m.querySelector('.hero-image');
+      if (heroImg) { heroImg.classList.add('demo-img'); heroImg.innerHTML=`<img src="${d.heroImg}" alt="hero">`; }
+      const st=(sel,text,cls)=>{const el=m.querySelector(sel);if(el)asText(el,text,cls);};
+      st('.hero-tag',d.heroTag,'demo-text'); st('.hero-sub',d.heroSub,'demo-text'); st('.hero-sub2',d.heroSub2,'demo-text');
+      ['hero-h1','hero-h1b'].forEach((c,i)=>{const el=m.querySelector(`.${c}`);if(el){el.textContent=i===0?d.heroH1:d.heroH1b;el.style.cssText='background:none;height:auto;font-size:26px;font-weight:800;color:#111;line-height:1.1;';}});
+      const pl=m.querySelector('.partners-label'); if(pl)asText(pl,d.partnerLabel,'demo-text');
+      const badges=m.querySelectorAll('.partner-badge');
+      if(badges[0]){badges[0].textContent='Microsoft AI Cloud Partner';badges[0].className='partner-badge demo-badge-ms';}
+      if(badges[1]){badges[1].textContent='AWS Partner Network';badges[1].className='partner-badge demo-badge-aws';}
+      const sTitle=m.querySelector('.wf-services .section-title'); if(sTitle)asText(sTitle,d.sectionTitle,'demo-text');
+      const sSub=m.querySelectorAll('.wf-services .section-subtitle,.wf-services .section-subtitle2');
+      if(sSub[0])asText(sSub[0],d.sectionSub,'demo-text'); if(sSub[1])asText(sSub[1],d.sectionSub2,'demo-text');
+      m.querySelectorAll('.card').forEach((card,i)=>{
+        const c=d.cards[i];if(!c)return;
+        const icon=card.querySelector('.card-icon'),title=card.querySelector('.card-title'),lines=card.querySelectorAll('.card-line'),cta=card.querySelector('.card-cta');
+        if(icon){icon.textContent=c.icon;icon.className='card-icon demo-card-icon';}
+        if(title)asText(title,c.title,'demo-card-title');
+        if(lines.length){lines[0].textContent=c.desc;lines[0].className='demo-card-desc';for(let j=1;j<lines.length;j++)lines[j].remove();}
+        if(cta)asText(cta,c.cta,'demo-card-cta');
+      });
+      m.querySelectorAll('.news-item').forEach((row,i)=>{
+        const n=d.news[i];if(!n)return;
+        const date=row.querySelector('.news-date'),tag=row.querySelector('.news-tag'),title=row.querySelector('.news-title');
+        if(date)asText(date,n.date,'news-date demo-news-date');
+        if(tag)asText(tag,n.tag,'news-tag demo-news-tag');
+        if(title)asText(title,n.title,'news-title demo-news-title');
+      });
+    }
+    function applyDemoAbout(m) {
+      const d=DEMO.about;
+      const sTitle=m.querySelector('.section-title'); if(sTitle)asText(sTitle,d.sectionTitle,'demo-text');
+      m.querySelectorAll('.wf-about-mission > div > .bar').forEach((el,i)=>{
+        el.textContent=d.missionLines[i]||'';
+        el.style.cssText='background:none;height:auto;font-size:13px;color:#444;line-height:1.8;';
+      });
+      m.querySelectorAll('.stat-cell').forEach((cell,i)=>{
+        const s=d.stats[i];if(!s)return;
+        const num=cell.querySelector('.stat-num'),label=cell.querySelector('.stat-label');
+        if(num)asText(num,s.num,'stat-num demo-stat-num');
+        if(label)asText(label,s.label,'stat-label demo-stat-label');
+      });
+      const tTitle=m.querySelector('.wf-team .section-title'),tSub=m.querySelector('.wf-team .section-subtitle');
+      if(tTitle)asText(tTitle,d.teamTitle,'demo-text'); if(tSub)asText(tSub,d.teamSub,'demo-text');
+      m.querySelectorAll('.team-card').forEach((card,i)=>{
+        const t=d.team[i];if(!t)return;
+        const avatar=card.querySelector('.team-avatar'),name=card.querySelector('.team-name'),role=card.querySelector('.team-role');
+        if(avatar){avatar.className='team-avatar demo-team-avatar';avatar.innerHTML=`<img src="https://picsum.photos/seed/${t.seed}/64/64" alt="${t.name}">`;}
+        if(name)asText(name,t.name,'team-name demo-team-name');
+        if(role)asText(role,t.role,'team-role demo-team-role');
+      });
+    }
+    function applyDemoProducts(m) {
+      const d=DEMO.products;
+      const sTitle=m.querySelector('.section-title'),sSubs=m.querySelectorAll('.section-subtitle,.section-subtitle2');
+      if(sTitle)asText(sTitle,d.sectionTitle,'demo-text');
+      if(sSubs[0])asText(sSubs[0],d.sectionSub,'demo-text'); if(sSubs[1])asText(sSubs[1],d.sectionSub2,'demo-text');
+      m.querySelectorAll('.product-card').forEach((card,i)=>{
+        const p=d.products[i];if(!p)return;
+        const img=card.querySelector('.product-img'),tag=card.querySelector('.product-tag'),name=card.querySelector('.product-name'),lines=card.querySelectorAll('.product-line'),cta=card.querySelector('.product-cta');
+        if(img){img.className='product-img demo-product-img';img.innerHTML=`<img src="https://picsum.photos/seed/${p.seed}/480/160" alt="${p.name}">`;}
+        if(tag)asText(tag,p.tag,'product-tag demo-product-tag');
+        if(name)asText(name,p.name,'product-name demo-product-name');
+        if(lines.length){lines[0].textContent=p.desc;lines[0].className='demo-product-desc';for(let j=1;j<lines.length;j++)lines[j].remove();}
+        if(cta){cta.textContent='Learn More';cta.className='product-cta demo-product-cta';}
+      });
+    }
+    function applyDemoContact(m) {
+      const d=DEMO.contact;
+      const sTitle=m.querySelector('.section-title'),sSub=m.querySelector('.section-subtitle');
+      if(sTitle)asText(sTitle,d.sectionTitle,'demo-text'); if(sSub)asText(sSub,d.sectionSub,'demo-text');
+      m.querySelectorAll('.form-field').forEach((field,i)=>{
+        const label=field.querySelector('.form-label'),input=field.querySelector('.form-input,.form-textarea');
+        if(label)asText(label,d.formLabels[i]||'','form-label demo-form-label');
+        if(input){input.classList.add('demo-form-input');input.setAttribute('placeholder',d.formPlaceholders[i]||'');}
+      });
+      m.querySelectorAll('.info-block').forEach((block,i)=>{
+        const info=d.infoBlocks[i];if(!info)return;
+        const icon=block.querySelector('.info-icon'),title=block.querySelector('.info-title'),lines=block.querySelectorAll('.info-line');
+        if(icon){icon.className='info-icon';icon.style.cssText='background:none;font-size:18px;width:20px;height:20px;';icon.textContent=info.icon;}
+        if(title)asText(title,info.title,'info-title demo-info-title');
+        info.lines.forEach((text,j)=>{if(lines[j])asText(lines[j],text,'info-line demo-info-line');});
+      });
+    }
+    function applyDemoToFooter(mount) {
+      const d=DEMO.footer;
+      const logo=mount.querySelector('.footer-logo'); if(logo)asText(logo,d.logo,'footer-logo demo-footer-logo');
+      mount.querySelectorAll('.footer-desc .footer-line').forEach((el,i)=>{if(d.descLines[i])asText(el,d.descLines[i],'footer-line demo-footer-line');});
+      const c2t=mount.querySelector('.footer-grid > div:nth-child(2) .footer-col-title'); if(c2t)asText(c2t,d.col2Title,'footer-col-title demo-footer-col-title');
+      mount.querySelectorAll('.footer-grid > div:nth-child(2) .footer-link').forEach((el,i)=>{if(d.col2Links[i])asText(el,d.col2Links[i],'footer-link demo-footer-link');});
+      const c3t=mount.querySelector('.footer-grid > div:nth-child(3) .footer-col-title'); if(c3t)asText(c3t,d.col3Title,'footer-col-title demo-footer-col-title');
+      mount.querySelectorAll('.footer-grid > div:nth-child(3) .footer-link').forEach((el,i)=>{if(d.col3Links[i])asText(el,d.col3Links[i],'footer-link demo-footer-link');});
+      const copy=mount.querySelector('.footer-copy'); if(copy)asText(copy,d.footer?.copy||d.copy||DEMO.footer.copy,'footer-copy demo-footer-copy');
+    }
+
+    function applyDemo() {
+      document.body.classList.add('demo-mode');
+      applyDemoToNav(document.getElementById('wf-nav-mount'));
+      applyDemoToPage(currentPage, document.getElementById('wf-page'));
+      applyDemoToFooter(document.getElementById('wf-footer-mount'));
+    }
+    async function removeDemo() {
+      document.body.classList.remove('demo-mode');
+      await Promise.all([
+        loadFragment('wf-nav-mount',    'fragments/nav.html'),
+        loadFragment('wf-footer-mount', 'fragments/footer.html'),
+        loadFragment('wf-page',         `fragments/pages/${currentPage}.html`),
+      ]);
+      document.querySelectorAll('.nav-link-btn').forEach(el =>
+        el.classList.toggle('active', el.dataset.page === currentPage));
+      setTimeout(renderComponentChart, 80);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // GLOBAL CLICK DELEGATION
+    // ══════════════════════════════════════════════════════════════════════════
+    document.addEventListener('click', (e) => {
+      // Nav page links
+      const navBtn = e.target.closest('[data-page]');
+      if (navBtn && !navBtn.closest('.asset-toggle') && !navBtn.closest('.panel-tab-bar')) {
+        loadPage(navBtn.dataset.page);
+      }
+    });
+
+    // Asset mode toggle
+    document.querySelector('.asset-toggle').addEventListener('click', async (e) => {
+      const btn = e.target.closest('.toggle-btn');
+      if (!btn) return;
+      const mode = btn.dataset.mode;
+      if ((mode === 'demo') === isDemoMode) return;
+      document.querySelectorAll('.asset-toggle .toggle-btn').forEach(b => b.classList.toggle('active', b === btn));
+      isDemoMode = mode === 'demo';
+      if (isDemoMode) applyDemo();
+      else            await removeDemo();
+      // Redraw heatmap if on
+      if (heatmapOn) { await new Promise(r => setTimeout(r, 80)); drawHeatmap(currentPage); }
+    });
+
+    // Annotation toolbar
+    document.getElementById('btn-save-ann').addEventListener('click',   () => saveAnnotations(currentPage));
+    document.getElementById('btn-export-ann').addEventListener('click', () => exportAnnotations(currentPage));
+    document.getElementById('btn-add-ann').addEventListener('click', () => toggleAddForm(true));
+    document.getElementById('btn-ann-confirm').addEventListener('click', () => confirmAddAnnotation(currentPage));
+    document.getElementById('btn-ann-cancel').addEventListener('click',  () => toggleAddForm(false));
+
+    // Language toggle
+    document.querySelector('.lang-toggle').addEventListener('click', (e) => {
+      const btn = e.target.closest('.lang-btn');
+      if (btn && btn.dataset.lang !== currentLocale) setLocale(btn.dataset.lang);
+    });
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // BOOTSTRAP
+    // ══════════════════════════════════════════════════════════════════════════
     Promise.all([
       loadFragment('wf-nav-mount',    'fragments/nav.html'),
       loadFragment('wf-footer-mount', 'fragments/footer.html'),
-    ]).then(() => loadPage('home'));
+    ]).then(async () => {
+      // Load all annotation markdown files in parallel
+      await Promise.all(['home','about','products','contact'].map(loadAnnotationsForPage));
+      if (currentLocale !== 'en') setLocale(currentLocale);
+      loadPage('home');
+      renderFlowDiagram();
+    });
   </script>
 
 </body>
