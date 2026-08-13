@@ -14,13 +14,13 @@ Same persistent nav. "Contact" CTA is highlighted.
 ---
 
 ## [2] Contact Layout
-**Status:** open
+**Status:** resolved
 **Tip:** Form submits to go.saks.industries
 
 Left: form with Name, Email, Subject, Message, Submit. Right: HQ address, email, contact form link, and partner badges.
 
 **Discussion:**
-_No discussion yet._
+- SAK-9 board decision: keep the minimal field set (Name / Email / Subject / Message). Company + Inquiry type deferred.
 
 ---
 

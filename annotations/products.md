@@ -14,13 +14,13 @@ Same persistent nav. "Products" link is active/highlighted.
 ---
 
 ## [2] Products Grid
-**Status:** open
-**Tip:** Add filter/sort controls above grid as needed
+**Status:** resolved
+**Tip:** Pricing stays off the grid (quote / sales owns it)
 
-2-column card grid. Each card: product image, category tag, name, description, "Learn More" CTA.
+2-column card grid. Each card: product image, category tag, name, description, "Get a quote" CTA. No pricing or segment filters on the grid.
 
 **Discussion:**
-_No discussion yet._
+- SAK-9 board decision: CTA = Get a quote; no pricing on the grid.
 
 ---
 

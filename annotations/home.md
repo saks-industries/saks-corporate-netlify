@@ -19,10 +19,11 @@ Sticky top bar. Logo left, links (Home · About · Products · Contact), primary
 **Status:** resolved
 **Tip:** Full-viewport height recommended
 
-Split layout — image left, copy right. Tagline, headline, description. Two CTAs: "View Products" (primary) + "Learn More" (ghost).
+Split layout — image left, copy right. Tagline, headline, description. Two CTAs: "Get in touch" (primary → contact) + "View Products" (secondary).
 
 **Discussion:**
-- SAK-11: "View Products" is now a real `<a href="#products">` (navigates + deep-links); "Learn More" is a real `<button type="button">`. Both are keyboard-focusable with a visible focus outline; destination for "Learn More" is intentionally left undecided pending board input (SAK-9), only the semantics/focusability were fixed.
+- SAK-11: hero CTAs are real focusable controls with visible focus outlines.
+- SAK-9 board decision: lead-gen first — primary = Get in touch (`#contact`); secondary = View Products (`#products`).
 
 ---
 

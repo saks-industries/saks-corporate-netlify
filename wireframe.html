@@ -1110,7 +1110,7 @@
     const ANNOTATIONS = {
       home: [
         { num:1, title:'Navigation Bar',     desc:'Sticky top bar. Logo left, links (Home · About · Products · Contact), primary CTA linking to the contact form.', tip:'Sticky on scroll · 64px height' },
-        { num:2, title:'Hero Section',        desc:'Split layout — image left, copy right. Tagline, headline, description. Two CTAs: "View Products" (primary) + "Learn More" (ghost).',  tip:'Full-viewport height recommended' },
+        { num:2, title:'Hero Section',        desc:'Split layout — image left, copy right. Tagline, headline, description. Two CTAs: "Get in touch" (primary → contact) + "View Products" (secondary).',  tip:'Full-viewport height recommended' },
         { num:3, title:'Partnership Badges',  desc:'Trust strip below hero. Microsoft AI Cloud Partner and AWS Partner badges with official colors in demo mode.', tip:'Use official partner badge assets' },
         { num:4, title:'Services / Products', desc:'3-column card grid. Each card: icon, service name, short description, inline "Learn more →" CTA.', tip:'Links to /products page' },
         { num:5, title:'News / Updates',      desc:'Lightweight feed: date (YYYY.MM.DD), category tag, headline text.', tip:'Show latest 3–5 entries' },
@@ -1124,7 +1124,7 @@
       ],
       products: [
         { num:1, title:'Navigation Bar', desc:'Same persistent nav. "Products" link is active/highlighted.', tip:'Active state on current page' },
-        { num:2, title:'Products Grid',  desc:'2-column card grid. Each card: product image, category tag, name, description, "Learn More" CTA.', tip:'Add filter/sort controls above grid as needed' },
+        { num:2, title:'Products Grid',  desc:'2-column card grid. Each card: product image, category tag, name, description, "Get a quote" CTA. No pricing on grid.', tip:'Pricing stays off the grid (quote / sales owns it)' },
         { num:3, title:'Footer',         desc:'Same persistent footer across all pages.', tip:'© 2025 Saks Industries LLC' },
       ],
       contact: [
@@ -1544,7 +1544,7 @@
         if(tag)asText(tag,p.tag,'product-tag demo-product-tag');
         if(name)asText(name,p.name,'product-name demo-product-name');
         if(lines.length){lines[0].textContent=p.desc;lines[0].className='demo-product-desc';for(let j=1;j<lines.length;j++)lines[j].remove();}
-        if(cta){cta.textContent='Learn More';cta.className='product-cta demo-product-cta';}
+        if(cta){cta.textContent='Get a Quote';cta.className='product-cta demo-product-cta';}
       });
     }
     function applyDemoContact(m) {
