@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="contact.title">Contact — Saks Industries</title>
+  <meta name="description" content="Get in touch with Saks Industries about a project, a quote, or a partnership." />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231d4ed8'/%3E%3Cpath d='M9 21c0-3 5-3 5-6s-4-2-4-4' stroke='white' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M22 11c0 3-5 3-5 6s4 2 4 4' stroke='%2306b6d4' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="Saks Industries home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#1d4ed8"/><path d="M9 21c0-3 5-3 5-6s-4-2-4-4" stroke="white" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M22 11c0 3-5 3-5 6s4 2 4 4" stroke="#06b6d4" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+        <span class="brand-name">Saks<span>Industries</span></span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" href="index.html" data-i18n="nav.home">Home</a>
+        <a class="nav-link" href="about.html" data-i18n="nav.about">About</a>
+        <a class="nav-link" href="products.html" data-i18n="nav.products">Products</a>
+        <a class="nav-link btn btn--primary nav-cta" href="contact.html" aria-current="page" data-i18n="nav.contact">Contact</a>
+      </nav>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button class="lang-btn" type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button class="lang-btn" type="button" data-lang="ja" aria-pressed="false">JA</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <span class="eyebrow" data-i18n="contact.hero.eyebrow">Get in touch</span>
+        <h1 data-i18n="contact.hero.h1">Tell us what you're building.</h1>
+        <p data-i18n="contact.hero.p">A project inquiry, a quote, or a partnership — reach out and we'll take it from there.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container contact-grid">
+        <!-- Form column -->
+        <div>
+          <h2 data-i18n="contact.form.h2">Send us a message</h2>
+          <p data-form-ok role="status" tabindex="-1" hidden
+             style="background:#e7f8ee;border:1px solid #b7e4c7;color:#1b6b3a;padding:12px 14px;border-radius:8px;margin-bottom:18px;"
+             data-i18n="contact.form.ok">
+            Thank you. This is a review preview, so your message is not stored (backend wiring lands in Phase 3).
+          </p>
+          <!-- Fields locked to Name / Email / Subject / Message (SAK-9 board decision). -->
+          <!-- Intended production endpoint: go.saks.industries — wired in Phase 3. -->
+          <form data-preview-form novalidate>
+            <div class="field">
+              <label for="f-name" data-i18n="contact.form.name">Name</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required
+                     placeholder="Jane Doe" data-i18n-ph="contact.form.name.ph" />
+            </div>
+            <div class="field">
+              <label for="f-email" data-i18n="contact.form.email">Email</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" required
+                     placeholder="you@example.com" data-i18n-ph="contact.form.email.ph" />
+            </div>
+            <div class="field">
+              <label for="f-subject" data-i18n="contact.form.subject">Subject</label>
+              <input id="f-subject" name="subject" type="text"
+                     placeholder="How can we help?" data-i18n-ph="contact.form.subject.ph" />
+            </div>
+            <div class="field">
+              <label for="f-message" data-i18n="contact.form.message">Message</label>
+              <textarea id="f-message" name="message" required
+                        placeholder="Tell us about your project" data-i18n-ph="contact.form.message.ph"></textarea>
+            </div>
+            <button class="btn btn--primary btn--lg" type="submit" data-i18n="contact.form.submit">Send message</button>
+            <p class="form-note" data-i18n="contact.form.note">We'll get back to you within two business days.</p>
+          </form>
+        </div>
+
+        <!-- Info column -->
+        <aside aria-label="Contact details">
+          <div class="info-block">
+            <div class="info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+            <div>
+              <div class="info-title" data-i18n="contact.info.office.title">Head Office</div>
+              <p data-i18n="contact.info.office.line">1-1 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan</p>
+            </div>
+          </div>
+          <div class="info-block">
+            <div class="info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+            <div>
+              <div class="info-title" data-i18n="contact.info.email.title">Email</div>
+              <p><a href="mailto:hello@saks.industries">hello@saks.industries</a></p>
+            </div>
+          </div>
+          <div class="info-block">
+            <div class="info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+            <div>
+              <div class="info-title" data-i18n="contact.info.hours.title">Office hours</div>
+              <p data-i18n="contact.info.hours.line">Weekdays 9:00–18:00 (JST)</p>
+            </div>
+          </div>
+          <div style="padding-top:18px;">
+            <div class="partners-label" style="margin-bottom:10px;" data-i18n="contact.info.partners">Technology partners</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <span class="badge"><span class="dot"></span><span data-i18n="home.partners.msft">Microsoft AI Cloud Partner</span></span>
+              <span class="badge"><span class="dot"></span><span data-i18n="home.partners.aws">AWS Partner</span></span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a class="brand" href="index.html" aria-label="Saks Industries home">
+            <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#1d4ed8"/><path d="M9 21c0-3 5-3 5-6s-4-2-4-4" stroke="white" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M22 11c0 3-5 3-5 6s4 2 4 4" stroke="#06b6d4" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+            <span class="brand-name">Saks<span style="color:#06b6d4">Industries</span></span>
+          </a>
+          <p class="footer-desc" data-i18n="footer.tagline">Designing and engineering systems across domains — from prototype to production.</p>
+        </div>
+        <div>
+          <h4 data-i18n="footer.company">Company</h4>
+          <ul class="footer-links">
+            <li><a href="about.html" data-i18n="nav.about">About</a></li>
+            <li><a href="products.html" data-i18n="nav.products">Products</a></li>
+            <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+            <li><a href="index.html#news" data-i18n="footer.news">News</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 data-i18n="footer.legal">Legal</h4>
+          <ul class="footer-links">
+            <li><a href="#" data-i18n="footer.privacy">Privacy Policy</a></li>
+            <li><a href="#" data-i18n="footer.terms">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span data-i18n="footer.copyright">© 2026 Saks Industries LLC. All rights reserved.</span>
+        <div class="social">
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.5 8.65 21 11 21 14.1V21h-4v-6.1c0-1.45-.03-3.3-2-3.3-2 0-2.3 1.57-2.3 3.2V21H9z"/></svg></a>
+          <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.1-1.47-1.1-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.5 8.6L23 22h-6.9l-5.4-7-6.2 7H1.4l8-9.2L1 2h7l4.9 6.5L18.9 2zm-1.2 18h1.9L7.4 4H5.4z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/i18n.js"></script>
+</body>
+</html>
