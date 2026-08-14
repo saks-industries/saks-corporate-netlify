@@ -35,13 +35,20 @@ site/
 3. Products grid CTA: **Get a quote**, no pricing on the grid.
 4. **EN + JA** throughout, via the nav language toggle.
 
-## Known Phase-3 follow-ups (not in scope here)
+## Phase 3 status (SAK-33)
 
-- Contact form has **no backend** yet. Submit shows a preview confirmation; the
-  intended endpoint (`go.saks.industries`) is wired in Phase 3.
+- **Hosting:** GitHub Pages is the production host (no `NETLIFY_AUTH_TOKEN`
+  available). Custom domain is a pending board DNS action — add `site/CNAME`
+  when the domain is provided. Note: `saks.industries` currently serves a
+  separate, externally-built (popodesign) site on Netlify that this repo does
+  not control — cutover requires a board decision.
+- **Contact form:** submits via `mailto:hello@saks.industries` (no backend
+  secret in this repo, nothing is silently dropped). To use a hosted form
+  backend later, set `CONTACT_ENDPOINT` in `assets/i18n.js`. Note:
+  `go.saks.industries` is a Short.io link-shortener, **not** a form endpoint.
+- **Legal / social:** Privacy/Terms and LinkedIn/X links are still `#`
+  placeholders pending board-supplied copy/handles; GitHub links to the org.
 - Team members and news items are **placeholder demo content** pending real bios/copy.
-- Legal (Privacy/Terms) links are placeholders.
-- Production hosting/domain (Netlify cutover) is Phase 3.
 
 ## Run locally
 

@@ -113,7 +113,7 @@
     "contact.form.message.ph": "ご相談内容をご記入ください",
     "contact.form.submit": "メッセージを送信",
     "contact.form.note": "通常2営業日以内にご返信します。",
-    "contact.form.ok": "ありがとうございます。これはレビュー用プレビューのため、送信内容は保存されません（本番接続はフェーズ3で対応）。",
+    "contact.form.ok": "メールアプリを起動しました。内容をご確認のうえ送信してください。起動しない場合は、こちらまで直接ご連絡ください：",
     "contact.info.office.title": "本社",
     "contact.info.office.line": "〒100-0005 東京都千代田区丸の内1-1",
     "contact.info.email.title": "メール",
@@ -180,14 +180,49 @@
     var subjectField = document.getElementById("f-subject");
     if (subjectParam && subjectField) subjectField.value = subjectParam;
 
-    // Preview-only contact form handler: no backend is wired in Phase 2.
-    var form = document.querySelector("form[data-preview-form]");
+    // Contact form (SAK-33). No form-backend secret is available in this repo,
+    // so submit opens a mailto: to hello@saks.industries — zero backend, works
+    // everywhere, nothing is silently dropped. Native HTML5 validation (required
+    // + type=email) gates the submit, so this handler only runs on valid input.
+    // When the board picks a hosted form backend, set CONTACT_ENDPOINT to its URL
+    // and this will POST JSON there instead, falling back to mailto on failure.
+    var CONTACT_EMAIL = "hello@saks.industries";
+    var CONTACT_ENDPOINT = ""; // board-owned: hosted form backend URL (empty => mailto)
+
+    var form = document.querySelector("form[data-contact-form]");
     if (form) {
       form.addEventListener("submit", function (e) {
         e.preventDefault();
+        var val = function (id) {
+          var el = document.getElementById(id);
+          return el ? String(el.value || "").trim() : "";
+        };
+        var name = val("f-name"), email = val("f-email");
+        var subject = val("f-subject") || "Website enquiry";
+        var message = val("f-message");
         var ok = form.querySelector("[data-form-ok]");
-        if (ok) { ok.hidden = false; ok.focus(); }
-        form.reset();
+        var showOk = function () { if (ok) { ok.hidden = false; ok.focus(); } };
+
+        if (CONTACT_ENDPOINT) {
+          fetch(CONTACT_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: name, email: email, subject: subject, message: message })
+          }).then(function (r) {
+            if (!r.ok) throw new Error("bad status " + r.status);
+            showOk(); form.reset();
+          }).catch(function () { openMailto(); });
+        } else {
+          openMailto();
+        }
+
+        function openMailto() {
+          var body = "Name: " + name + "\nEmail: " + email + "\n\n" + message;
+          showOk();
+          window.location.href = "mailto:" + CONTACT_EMAIL +
+            "?subject=" + encodeURIComponent(subject) +
+            "&body=" + encodeURIComponent(body);
+        }
       });
     }
   }

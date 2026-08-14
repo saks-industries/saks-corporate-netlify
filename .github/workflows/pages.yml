@@ -1,8 +1,11 @@
-name: Deploy Phase 2 site preview to GitHub Pages
+name: Deploy site to GitHub Pages
 
-# Non-production board-review preview for SAK-27. Publishes the static site in
-# ./site to GitHub Pages whenever the phase2-site branch changes. Production
-# cutover (custom domain / Netlify) is Phase 3 and is intentionally not here.
+# Durable production hosting for the corporate site (SAK-33 / Phase 3).
+# No NETLIFY_AUTH_TOKEN is available to this repo, so GitHub Pages is the
+# production host (per Phase 3 deliverable #1 fallback). Publishes the static
+# site in ./site whenever the phase2-site branch changes.
+# Custom-domain cutover (a CNAME file + board DNS) is a pending board action;
+# add site/CNAME once the board provides the domain.
 on:
   push:
     branches: [phase2-site]
