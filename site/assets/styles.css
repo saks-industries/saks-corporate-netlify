@@ -204,6 +204,9 @@ p  { margin: 0 0 1em; }
   background: linear-gradient(140deg, var(--ink-soft), var(--ink));
   font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
 }
+img.product-img {
+  display: block; width: 100%; height: auto; object-fit: cover;
+}
 .product-body { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 8px; }
 .tag {
   align-self: flex-start; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;

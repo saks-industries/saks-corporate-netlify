@@ -4,6 +4,9 @@
    English is authored inline in the HTML (SEO / no-JS safe); this file holds
    the Japanese overrides only. Toggling captures the EN originals on load and
    restores them when switching back, so there is a single source per language.
+   Product names, tags, and blurbs are not in this dictionary — they render
+   from assets/products-catalog.json. apply() emits "saks:langchange" so that
+   grid can follow the same EN/JA toggle.
    No framework, no build step.
    ========================================================================== */
 (function () {
@@ -83,18 +86,6 @@
     "products.hero.p": "監視から意思決定まで。運用の現実に耐える製品群です。ご要望に合わせて構成しますので、まずはお見積もりをご依頼ください。",
     "products.grid.eyebrow": "製品ラインナップ",
     "products.grid.h2": "分散する運用を、ひとつに。",
-    "products.p1.tag": "オペレーション基盤",
-    "products.p1.name": "Atlas",
-    "products.p1.desc": "分散した拠点・ライン・設備を横断して監視・制御。すべてを一つの画面に集約します。",
-    "products.p2.tag": "産業用IoT",
-    "products.p2.name": "Sentinel",
-    "products.p2.desc": "異常検知を組み込んだエッジ〜クラウドのテレメトリ。故障の兆候を、壊れる前に捉えます。",
-    "products.p3.tag": "エンジニアリング支援",
-    "products.p3.name": "Forge",
-    "products.p3.desc": "お客様のチームに入り込む専任システムチーム。ハードウェアとソフトの製品を予定通りに届けます。",
-    "products.p4.tag": "応用AI",
-    "products.p4.name": "Insight",
-    "products.p4.desc": "運用データで学習した意思決定モデルを、現場で本当に使えるダッシュボードとともに提供します。",
     "products.img": "製品イメージ",
 
     // contact
@@ -217,7 +208,18 @@
     });
 
     try { localStorage.setItem(STORE_KEY, lang); } catch (e) { /* ignore */ }
+
+    // Product cards listen for this. Page chrome uses data-i18n; catalog copy does not.
+    document.dispatchEvent(new CustomEvent("saks:langchange", { detail: { lang: lang } }));
   }
+
+  window.SaksI18n = {
+    getLang: function () {
+      var current = document.documentElement.lang;
+      return LANGS.indexOf(current) !== -1 ? current : "en";
+    },
+    apply: apply
+  };
 
   function init() {
     apply(getInitialLang());

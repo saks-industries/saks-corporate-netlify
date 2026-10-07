@@ -1,0 +1,81 @@
+{
+  "source": "catalog/products",
+  "products": [
+    {
+      "name": "atlas",
+      "title": "Atlas",
+      "description": "Unified monitoring and control for distributed operations. One pane of glass across sites, lines, and assets.",
+      "tags": [
+        "product",
+        "platform"
+      ],
+      "tagEn": "Operations Platform",
+      "tagJa": "オペレーション基盤",
+      "blurbEn": "Unified monitoring and control for distributed operations. One pane of glass across sites, lines, and assets.",
+      "blurbJa": "分散した拠点・ライン・設備を横断して監視・制御。すべてを一つの画面に集約します。",
+      "image": "assets/products/atlas.svg",
+      "docs": "",
+      "quoteUrl": "contact.html?subject=Atlas",
+      "sortOrder": 10,
+      "lifecycle": "production",
+      "owner": "group:default/saks"
+    },
+    {
+      "name": "sentinel",
+      "title": "Sentinel",
+      "description": "Edge-to-cloud telemetry with anomaly detection built in. Know before something breaks.",
+      "tags": [
+        "product",
+        "iot"
+      ],
+      "tagEn": "Industrial IoT",
+      "tagJa": "産業用IoT",
+      "blurbEn": "Edge-to-cloud telemetry with anomaly detection built in. Know before something breaks.",
+      "blurbJa": "異常検知を組み込んだエッジ〜クラウドのテレメトリ。故障の兆候を、壊れる前に捉えます。",
+      "image": "assets/products/sentinel.svg",
+      "docs": "",
+      "quoteUrl": "contact.html?subject=Sentinel",
+      "sortOrder": 20,
+      "lifecycle": "production",
+      "owner": "group:default/saks"
+    },
+    {
+      "name": "forge",
+      "title": "Forge",
+      "description": "Dedicated systems teams that embed with yours to ship hardware-software products on schedule.",
+      "tags": [
+        "product",
+        "services"
+      ],
+      "tagEn": "Engineering Services",
+      "tagJa": "エンジニアリング支援",
+      "blurbEn": "Dedicated systems teams that embed with yours to ship hardware-software products on schedule.",
+      "blurbJa": "お客様のチームに入り込む専任システムチーム。ハードウェアとソフトの製品を予定通りに届けます。",
+      "image": "assets/products/forge.svg",
+      "docs": "",
+      "quoteUrl": "contact.html?subject=Forge",
+      "sortOrder": 30,
+      "lifecycle": "production",
+      "owner": "group:default/saks"
+    },
+    {
+      "name": "insight",
+      "title": "Insight",
+      "description": "Decision models trained on your operational data, delivered with dashboards your team will actually use.",
+      "tags": [
+        "product",
+        "ai"
+      ],
+      "tagEn": "Applied AI",
+      "tagJa": "応用AI",
+      "blurbEn": "Decision models trained on your operational data, delivered with dashboards your team will actually use.",
+      "blurbJa": "運用データで学習した意思決定モデルを、現場で本当に使えるダッシュボードとともに提供します。",
+      "image": "assets/products/insight.svg",
+      "docs": "",
+      "quoteUrl": "contact.html?subject=Insight",
+      "sortOrder": 40,
+      "lifecycle": "production",
+      "owner": "group:default/saks"
+    }
+  ]
+}

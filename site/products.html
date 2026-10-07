@@ -45,49 +45,10 @@
           <span class="eyebrow" data-i18n="products.grid.eyebrow">Product lineup</span>
           <h2 id="products-h" data-i18n="products.grid.h2">Bring distributed operations into one place.</h2>
         </div>
-        <div class="grid grid-2">
-
-          <article class="card product-card">
-            <div class="product-img" data-i18n="products.img">Product image</div>
-            <div class="product-body">
-              <span class="tag" data-i18n="products.p1.tag">Operations Platform</span>
-              <h3 data-i18n="products.p1.name">Atlas</h3>
-              <p data-i18n="products.p1.desc">Unified monitoring and control for distributed operations. One pane of glass across sites, lines, and assets.</p>
-              <a class="btn btn--primary" href="contact.html?subject=Atlas" data-i18n="cta.getquote">Get a quote</a>
-            </div>
-          </article>
-
-          <article class="card product-card">
-            <div class="product-img" data-i18n="products.img">Product image</div>
-            <div class="product-body">
-              <span class="tag" data-i18n="products.p2.tag">Industrial IoT</span>
-              <h3 data-i18n="products.p2.name">Sentinel</h3>
-              <p data-i18n="products.p2.desc">Edge-to-cloud telemetry with anomaly detection built in. Know before something breaks.</p>
-              <a class="btn btn--primary" href="contact.html?subject=Sentinel" data-i18n="cta.getquote">Get a quote</a>
-            </div>
-          </article>
-
-          <article class="card product-card">
-            <div class="product-img" data-i18n="products.img">Product image</div>
-            <div class="product-body">
-              <span class="tag" data-i18n="products.p3.tag">Engineering Services</span>
-              <h3 data-i18n="products.p3.name">Forge</h3>
-              <p data-i18n="products.p3.desc">Dedicated systems teams that embed with yours to ship hardware-software products on schedule.</p>
-              <a class="btn btn--primary" href="contact.html?subject=Forge" data-i18n="cta.getquote">Get a quote</a>
-            </div>
-          </article>
-
-          <article class="card product-card">
-            <div class="product-img" data-i18n="products.img">Product image</div>
-            <div class="product-body">
-              <span class="tag" data-i18n="products.p4.tag">Applied AI</span>
-              <h3 data-i18n="products.p4.name">Insight</h3>
-              <p data-i18n="products.p4.desc">Decision models trained on your operational data, delivered with dashboards your team will actually use.</p>
-              <a class="btn btn--primary" href="contact.html?subject=Insight" data-i18n="cta.getquote">Get a quote</a>
-            </div>
-          </article>
-
-        </div>
+        <div class="grid grid-2" data-products-root></div>
+        <noscript>
+          <p>Enable JavaScript to view the product lineup. / 製品一覧の表示にはJavaScriptが必要です。</p>
+        </noscript>
       </div>
     </section>
   </main>
@@ -129,5 +90,6 @@
   </footer>
 
   <script src="assets/i18n.js"></script>
+  <script src="assets/products-catalog.js"></script>
 </body>
 </html>

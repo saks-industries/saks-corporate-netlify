@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: sentinel
+  title: Sentinel
+  description: Edge-to-cloud telemetry with anomaly detection built in. Know before something breaks.
+  tags: [product, iot]
+  links:
+    - url: contact.html?subject=Sentinel
+      title: Get a quote
+      icon: email
+  annotations:
+    saks.industries/published: "true"
+    saks.industries/blurb-en: "Edge-to-cloud telemetry with anomaly detection built in. Know before something breaks."
+    saks.industries/blurb-ja: "異常検知を組み込んだエッジ〜クラウドのテレメトリ。故障の兆候を、壊れる前に捉えます。"
+    saks.industries/tag-en: "Industrial IoT"
+    saks.industries/tag-ja: "産業用IoT"
+    saks.industries/image: assets/products/sentinel.svg
+    saks.industries/sort-order: "20"
+    saks.industries/docs: ""
+spec:
+  type: product
+  lifecycle: production
+  owner: group:default/saks
