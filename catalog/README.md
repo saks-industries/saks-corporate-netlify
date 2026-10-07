@@ -35,7 +35,7 @@ Do not invent a custom Kind. Annotations are strings, which is what Backstage ex
 | `saks.industries/published` | `"true"` to show the card. Anything else is omitted from the JSON. |
 | `saks.industries/blurb-en` / `blurb-ja` | Card body. The EN/JA toggle swaps these. `metadata.description` is the EN fallback. |
 | `saks.industries/tag-en` / `tag-ja` | Category chip. Kept off `metadata.tags` so the chip can be bilingual. |
-| `saks.industries/image` | Site-relative from the HTML root, no leading slash. Example: `assets/products/atlas.svg`. |
+| `saks.industries/image` | Site-relative from the HTML root, no leading slash. Example: `assets/products/zaysay.svg`. |
 | `saks.industries/sort-order` | Integer string. Lower comes first. |
 | `saks.industries/docs` | Optional GitHub blob URL or path. Not fetched or copied at build time. |
 
@@ -60,10 +60,11 @@ metadata:
 spec:
   type: url
   targets:
-    - https://github.com/saks-industries/saks-corporate-netlify/blob/phase2-site/catalog/products/atlas.yaml
-    - https://github.com/saks-industries/saks-corporate-netlify/blob/phase2-site/catalog/products/sentinel.yaml
-    - https://github.com/saks-industries/saks-corporate-netlify/blob/phase2-site/catalog/products/forge.yaml
-    - https://github.com/saks-industries/saks-corporate-netlify/blob/phase2-site/catalog/products/insight.yaml
+    - https://github.com/saks-industries/saks-corporate-netlify/blob/phase2-site/catalog/products/zaysay-cloud.yaml
+    - https://github.com/saks-industries/saks-corporate-netlify/blob/phase2-site/catalog/products/shiftify.yaml
+    - https://github.com/saks-industries/saks-corporate-netlify/blob/phase2-site/catalog/products/cordon.yaml
+    - https://github.com/saks-industries/saks-corporate-netlify/blob/phase2-site/catalog/products/askif.yaml
+    - https://github.com/saks-industries/saks-corporate-netlify/blob/phase2-site/catalog/products/zodem.yaml
 ```
 
 Relative `./catalog/products/<name>.yaml` targets work the same way once this repo is the Location's base.

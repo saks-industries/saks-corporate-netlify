@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: askif
+  title: askif
+  description: Typed decisions for your code—ask.if, ask.switch, and ask.score turn probabilistic model answers into clear control flow.
+  tags: [product, ai]
+  links:
+    - url: contact.html?subject=askif
+      title: Get a quote
+      icon: email
+  annotations:
+    saks.industries/published: "true"
+    saks.industries/blurb-en: "Typed decisions for your code—ask.if, ask.switch, and ask.score turn probabilistic model answers into clear control flow."
+    saks.industries/blurb-ja: "ask.if、ask.switch、ask.scoreで、モデルの確率的な答えを型付きの制御フローに変える意思決定キット。"
+    saks.industries/tag-en: "Applied AI"
+    saks.industries/tag-ja: "応用AI"
+    saks.industries/image: assets/products/askif.svg
+    saks.industries/sort-order: "40"
+    saks.industries/docs: "https://github.com/asakaxgit/askif"
+spec:
+  type: product
+  lifecycle: production
+  owner: group:default/saks

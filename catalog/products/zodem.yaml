@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: zodem
+  title: zodem
+  description: Write Zod once; use it everywhere—generate protobuf, stable field numbers, and codecs so one schema powers frontend, backend, and AI tools.
+  tags: [product, library]
+  links:
+    - url: contact.html?subject=zodem
+      title: Get a quote
+      icon: email
+  annotations:
+    saks.industries/published: "true"
+    saks.industries/blurb-en: "Write Zod once; use it everywhere—generate protobuf, stable field numbers, and codecs so one schema powers frontend, backend, and AI tools."
+    saks.industries/blurb-ja: "Zodを一度書けばどこでも使える。.proto、安定したフィールド番号、コーデックを生成し、同じスキーマでフロント・バック・AIツールを支えます。"
+    saks.industries/tag-en: "Developer Libraries"
+    saks.industries/tag-ja: "開発者ライブラリ"
+    saks.industries/image: assets/products/zodem.svg
+    saks.industries/sort-order: "50"
+    saks.industries/docs: "https://github.com/asakaxgit/zodem"
+spec:
+  type: product
+  lifecycle: production
+  owner: group:default/saks
