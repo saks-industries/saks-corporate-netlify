@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="fade" cx="78%" cy="18%" r="70%">
+      <stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.28"/>
+      <stop offset="55%" stop-color="#0d1b2a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0d1b2a"/>
+  <g stroke="#ffffff" stroke-opacity="0.06" stroke-width="1">
+    <path d="M0 40H1200M0 80H1200M0 120H1200M0 160H1200M0 200H1200M0 240H1200M0 280H1200M0 320H1200M0 360H1200M0 400H1200M0 440H1200M0 480H1200M0 520H1200M0 560H1200M0 600H1200"/>
+    <path d="M40 0V630M80 0V630M120 0V630M160 0V630M200 0V630M240 0V630M280 0V630M320 0V630M360 0V630M400 0V630M440 0V630M480 0V630M520 0V630M560 0V630M600 0V630M640 0V630M680 0V630M720 0V630M760 0V630M800 0V630M840 0V630M880 0V630M920 0V630M960 0V630M1000 0V630M1040 0V630M1080 0V630M1120 0V630M1160 0V630"/>
+  </g>
+  <rect width="1200" height="630" fill="url(#fade)"/>
+  <svg x="88" y="186" width="96" height="96" viewBox="0 0 32 32" aria-hidden="true">
+    <rect width="32" height="32" rx="7" fill="#1d4ed8"/>
+    <path d="M9 21c0-3 5-3 5-6s-4-2-4-4" stroke="#ffffff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <path d="M22 11c0 3-5 3-5 6s4 2 4 4" stroke="#06b6d4" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  </svg>
+  <text x="212" y="242" font-family="Inter, sans-serif" font-size="64" font-weight="800">
+    <tspan fill="#ffffff">Saks</tspan><tspan fill="#1d4ed8">Industries</tspan>
+  </text>
+  <text x="212" y="312" fill="#9fb0c3" font-family="Inter, sans-serif" font-size="28">Designing and engineering systems across domains</text>
+  <text x="212" y="354" fill="#9fb0c3" font-family="Inter, sans-serif" font-size="28">&#8212; from prototype to production.</text>
+  <rect x="212" y="398" width="72" height="6" rx="3" fill="#06b6d4"/>
+</svg>
