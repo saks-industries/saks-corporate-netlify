@@ -1,0 +1,14 @@
+/* Empty catalog message only. The loader in products-catalog.js already
+   inserts one paragraph when the list is missing or empty. This file only
+   paints that paragraph; it does not change the catalog or the fetch. */
+
+[data-products-root] > p.catalog-empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 32px 24px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  color: var(--muted);
+  text-align: center;
+}
