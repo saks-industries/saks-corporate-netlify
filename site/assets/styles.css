@@ -313,10 +313,11 @@ p  { margin: 0 0 1em; }
 
 /* ---- Products ------------------------------------------------------------ */
 .products-grid { gap: var(--product-gap); }
-.product-card { padding: 0; overflow: hidden; gap: 0; height: 100%; }
+.product-card { padding: 0; gap: 0; height: 100%; }
 .product-media {
   aspect-ratio: 16 / 9;
   overflow: hidden;
+  border-radius: var(--radius) var(--radius) 0 0;
   background: linear-gradient(140deg, var(--ink-soft), var(--ink));
 }
 .product-media > .product-img,
@@ -385,8 +386,8 @@ p  { margin: 0 0 1em; }
 }
 /* Secondary buttons are ink-on-light. On the dark page hero they need the light treatment. */
 .page-hero .btn--secondary {
-  color: var(--on-ink);
-  border-color: rgba(255,255,255,.35);
+  color: #fff;
+  border-color: rgba(255,255,255,.75);
   background: transparent;
 }
 .page-hero .btn--secondary:hover,
