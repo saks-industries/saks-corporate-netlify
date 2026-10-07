@@ -19,6 +19,7 @@
     "nav.about": "会社概要",
     "nav.products": "製品",
     "nav.contact": "お問い合わせ",
+    "nav.menu": "メニュー",
     "footer.tagline": "プロトタイプから量産まで、多分野にわたるシステムを設計・構築します。",
     "footer.company": "会社",
     "footer.legal": "規約",
@@ -53,9 +54,9 @@
     "home.news.tag.company": "会社",
     "home.news.tag.partner": "パートナー",
     "home.news.tag.product": "製品",
-    "home.news1.title": "Saks Industries、システム事業をエネルギー分野へ拡大",
-    "home.news2.title": "AWS パートナーとして3年連続の認定を更新",
-    "home.news3.title": "統合オペレーション基盤「Atlas」を提供開始",
+    "home.news1.title": "ZaySay Cloudの提供を開始。トレンドになる前に、製品についての声を把握できます。",
+    "home.news2.title": "Saks Industries、システム事業をエネルギー分野へ拡大",
+    "home.news3.title": "AWS パートナーとして3年連続の認定を更新",
     "home.cta.h2": "つくりたいシステムがありますか？",
     "home.cta.p": "課題をお聞かせください。多分野の実装経験を持つチームが、実現までご一緒します。",
 
@@ -226,6 +227,24 @@
     document.querySelectorAll(".lang-btn").forEach(function (btn) {
       btn.addEventListener("click", function () { apply(btn.dataset.lang); });
     });
+
+    var navToggle = document.querySelector(".nav-toggle");
+    var navBar = document.querySelector(".nav");
+    if (navToggle && navBar) {
+      var setNavOpen = function (open) {
+        navBar.classList.toggle("is-open", open);
+        navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      };
+      navToggle.addEventListener("click", function () {
+        setNavOpen(navToggle.getAttribute("aria-expanded") !== "true");
+      });
+      navBar.querySelectorAll(".nav-link").forEach(function (link) {
+        link.addEventListener("click", function () { setNavOpen(false); });
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") setNavOpen(false);
+      });
+    }
 
     // Prefill the contact subject from ?subject= (products "Get a quote" links).
     var subjectParam = new URLSearchParams(location.search).get("subject");

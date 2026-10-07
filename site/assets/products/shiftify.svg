@@ -1,14 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Shiftify placeholder">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Shiftify">
   <defs>
-    <linearGradient id="shiftify" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="shiftify-bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#1b2a3d"/>
       <stop offset="1" stop-color="#0d1b2a"/>
     </linearGradient>
+    <pattern id="shiftify-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity=".07" stroke-width="1"/>
+    </pattern>
   </defs>
-  <rect width="640" height="360" fill="url(#shiftify)"/>
-  <rect x="214" y="128" width="72" height="72" rx="8" fill="none" stroke="#1d4ed8" stroke-width="6"/>
-  <rect x="354" y="128" width="72" height="72" rx="8" fill="none" stroke="#1d4ed8" stroke-width="6"/>
-  <path d="M294 164h44" fill="none" stroke="#06b6d4" stroke-width="6" stroke-linecap="round"/>
-  <path d="M326 150l16 14-16 14" fill="none" stroke="#06b6d4" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="320" y="268" text-anchor="middle" fill="#9fb0c3" font-family="system-ui,sans-serif" font-size="18" letter-spacing="3">SHIFTIFY</text>
+  <rect width="640" height="360" fill="url(#shiftify-bg)"/>
+  <rect width="640" height="360" fill="url(#shiftify-grid)"/>
+  <rect x="168" y="108" width="112" height="144" rx="16" fill="none" stroke="#1d4ed8" stroke-width="8"/>
+  <rect x="188" y="132" width="72" height="14" rx="4" fill="#1d4ed8" fill-opacity=".85"/>
+  <rect x="188" y="158" width="56" height="10" rx="3" fill="#ffffff" fill-opacity=".28"/>
+  <rect x="188" y="178" width="64" height="10" rx="3" fill="#ffffff" fill-opacity=".18"/>
+  <rect x="360" y="108" width="112" height="144" rx="16" fill="#1d4ed8" fill-opacity=".18" stroke="#06b6d4" stroke-width="8"/>
+  <rect x="380" y="132" width="72" height="14" rx="4" fill="#06b6d4"/>
+  <rect x="380" y="158" width="56" height="10" rx="3" fill="#ffffff" fill-opacity=".45"/>
+  <rect x="380" y="178" width="64" height="10" rx="3" fill="#ffffff" fill-opacity=".28"/>
+  <path d="M292 180h52" fill="none" stroke="#06b6d4" stroke-width="8" stroke-linecap="round"/>
+  <path d="M328 162l22 18-22 18" fill="none" stroke="#06b6d4" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

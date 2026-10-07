@@ -34,6 +34,11 @@
 * { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn { transition: none; }
+  .btn:active { transform: none; }
+}
 
 body {
   margin: 0;
@@ -55,6 +60,7 @@ a:hover { text-decoration: underline; }
 img { max-width: 100%; display: block; }
 
 h1, h2, h3 { color: var(--ink); line-height: 1.2; margin: 0 0 .5em; letter-spacing: -.01em; }
+h1, h2 { text-wrap: balance; }
 h1 { font-size: clamp(2rem, 4.5vw, 3.25rem); font-weight: 800; }
 h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 700; }
 h3 { font-size: 1.15rem; font-weight: 700; }
@@ -117,8 +123,40 @@ p  { margin: 0 0 1em; }
   border-radius: var(--radius-s);
 }
 .nav-link:hover { background: var(--bg-soft); text-decoration: none; }
-.nav-link[aria-current="page"] { color: var(--brand); }
+.nav-link[aria-current="page"] { color: var(--brand); box-shadow: inset 0 -2px 0 var(--brand); }
 .nav-cta { margin-left: 6px; }
+/* Contact is a primary button. Keep the label white in hover, focus, and the
+   current-page state — the generic current-link color would paint it brand-on-brand. */
+.nav-link.nav-cta,
+.nav-link.nav-cta:hover,
+.nav-link.nav-cta:focus-visible,
+.nav-link.nav-cta[aria-current="page"] {
+  color: #fff;
+  background: var(--brand);
+  box-shadow: none;
+}
+.nav-link.nav-cta:hover,
+.nav-link.nav-cta[aria-current="page"]:hover { background: var(--brand-dark); }
+.nav-link.nav-cta[aria-current="page"] { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--brand); }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.nav-toggle {
+  display: none; width: 40px; height: 40px; padding: 0; border: 1px solid var(--line);
+  border-radius: var(--radius-s); background: #fff; cursor: pointer;
+  align-items: center; justify-content: center;
+}
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  display: block; width: 18px; height: 2px; background: var(--ink); border-radius: 1px; position: relative;
+}
+.nav-toggle-bars::before,
+.nav-toggle-bars::after { content: ""; position: absolute; left: 0; }
+.nav-toggle-bars::before { top: -6px; }
+.nav-toggle-bars::after { top: 6px; }
 
 .lang-toggle { display: inline-flex; border: 1px solid var(--line); border-radius: var(--radius-s); overflow: hidden; }
 .lang-btn {
@@ -131,7 +169,7 @@ p  { margin: 0 0 1em; }
 
 /* ---- Hero ---------------------------------------------------------------- */
 .hero { background: linear-gradient(180deg, var(--bg-soft), #fff); border-bottom: 1px solid var(--line); }
-.hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; padding: 80px 0; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; padding-block: 80px; }
 .hero-copy .eyebrow { margin-bottom: 16px; }
 .hero-copy p { font-size: 1.15rem; color: var(--muted); max-width: 46ch; }
 .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
@@ -233,6 +271,17 @@ img.product-img {
 .info-title { font-weight: 700; color: var(--ink); }
 .info-block p { margin: 2px 0 0; color: var(--muted); }
 
+/* ---- Legal ---------------------------------------------------------------- */
+.legal-intro { padding: 64px 0 0; }
+.legal-body { padding-top: 32px; }
+.prose { max-width: 40rem; }
+.legal-updated { color: var(--muted); font-size: .875rem; margin: 0; }
+.interim-notice {
+  background: #fef9c3; border: 1px solid #fde047; border-radius: var(--radius-s);
+  padding: 12px 16px; margin: 16px 0 0; font-size: .875rem;
+}
+.legal-body h2 { font-size: 1.25rem; margin-top: 1.6rem; }
+
 /* ---- Page hero (inner pages) --------------------------------------------- */
 .page-hero { background: var(--bg-ink); color: var(--on-ink); padding: 68px 0; }
 .page-hero h1 { color: #fff; }
@@ -243,11 +292,14 @@ img.product-img {
 .cta-band { background: linear-gradient(140deg, var(--brand-dark), var(--ink)); color: #fff; border-radius: var(--radius); padding: 44px; text-align: center; }
 .cta-band h2 { color: #fff; }
 .cta-band p { color: var(--on-ink-mut); max-width: 52ch; margin: 0 auto 24px; }
+.cta-band .btn--primary { background: #fff; color: var(--brand-dark); }
+.cta-band .btn--primary:hover { background: var(--on-ink); color: var(--ink); }
 
 /* ---- Footer -------------------------------------------------------------- */
 .site-footer { background: var(--bg-ink); color: var(--on-ink-mut); padding: 56px 0 28px; }
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; }
 .site-footer .brand-name { color: #fff; }
+.site-footer .brand-name span { color: var(--brand); }
 .site-footer h4 { color: #fff; font-size: .95rem; margin: 0 0 14px; }
 .footer-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .footer-links a { color: var(--on-ink-mut); }
@@ -265,15 +317,25 @@ img.product-img {
 
 /* ---- Responsive ---------------------------------------------------------- */
 @media (max-width: 900px) {
-  .hero-grid { grid-template-columns: 1fr; padding: 56px 0; }
+  .hero-grid { grid-template-columns: 1fr; padding-block: 56px; }
   .hero-art { order: -1; }
   .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .contact-grid, .footer-grid { grid-template-columns: 1fr; gap: 32px; }
   .section { padding: 64px 0; }
+  .section.legal-intro { padding: 40px 0 0; }
+  .section.legal-body { padding-top: 28px; }
+  .nav-toggle { display: inline-flex; }
+  .nav-links {
+    display: none; position: absolute; top: 64px; left: 0; right: 0; z-index: 40;
+    flex-direction: column; align-items: stretch; gap: 4px;
+    background: #fff; border-bottom: 1px solid var(--line); padding: 8px 24px 16px;
+    box-shadow: var(--shadow);
+  }
+  .nav.is-open .nav-links { display: flex; }
+  .nav-link { padding: 12px; }
+  .nav-cta { margin-left: 0; }
 }
 @media (max-width: 620px) {
-  .nav-links { gap: 0; }
-  .nav-link { padding: 8px 8px; font-size: .9rem; }
   .grid-3, .grid-4, .grid-2, .stats { grid-template-columns: 1fr; }
   .hero-btns .btn { flex: 1; }
   .cta-band { padding: 32px 22px; }

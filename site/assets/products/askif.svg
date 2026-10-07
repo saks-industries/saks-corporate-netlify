@@ -1,14 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="askif placeholder">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="askif">
   <defs>
-    <linearGradient id="askif" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="askif-bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#1b2a3d"/>
       <stop offset="1" stop-color="#0d1b2a"/>
     </linearGradient>
+    <pattern id="askif-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity=".07" stroke-width="1"/>
+    </pattern>
   </defs>
-  <rect width="640" height="360" fill="url(#askif)"/>
-  <path d="M320 112l42 36-42 36-42-36z" fill="none" stroke="#1d4ed8" stroke-width="6" stroke-linejoin="round"/>
-  <path d="M320 184v18M292 214h-28M348 214h28" fill="none" stroke="#06b6d4" stroke-width="5" stroke-linecap="round"/>
-  <circle cx="252" cy="214" r="7" fill="#06b6d4"/>
-  <circle cx="388" cy="214" r="7" fill="none" stroke="#1d4ed8" stroke-width="4"/>
-  <text x="320" y="268" text-anchor="middle" fill="#9fb0c3" font-family="system-ui,sans-serif" font-size="18" letter-spacing="3">ASKIF</text>
+  <rect width="640" height="360" fill="url(#askif-bg)"/>
+  <rect width="640" height="360" fill="url(#askif-grid)"/>
+  <path d="M320 92l64 52-64 52-64-52z" fill="#1d4ed8" fill-opacity=".2" stroke="#1d4ed8" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M320 196v28" fill="none" stroke="#06b6d4" stroke-width="6" stroke-linecap="round"/>
+  <path d="M248 248h144" fill="none" stroke="#1d4ed8" stroke-width="6" stroke-linecap="round"/>
+  <path d="M320 224v24" fill="none" stroke="#1d4ed8" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="248" cy="248" r="16" fill="#06b6d4"/>
+  <circle cx="392" cy="248" r="16" fill="none" stroke="#06b6d4" stroke-width="6"/>
+  <circle cx="464" cy="248" r="10" fill="none" stroke="#ffffff" stroke-opacity=".45" stroke-width="4"/>
+  <path d="M408 248h46" fill="none" stroke="#ffffff" stroke-opacity=".45" stroke-width="4" stroke-linecap="round"/>
 </svg>
