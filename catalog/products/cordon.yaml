@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: cordon
+  title: Cordon
+  description: A desktop companion that watches AWS and GCP auth sessions and renews them before they die mid-task.
+  tags: [product, devtools]
+  links:
+    - url: contact.html?subject=Cordon
+      title: Get a quote
+      icon: email
+  annotations:
+    saks.industries/published: "true"
+    saks.industries/blurb-en: "A desktop companion that watches AWS and GCP auth sessions and renews them before they die mid-task."
+    saks.industries/blurb-ja: "AWSとGCPの認証セッション期限を監視し、作業の途中で切れる前に更新できるデスクトップアプリ。"
+    saks.industries/tag-en: "Developer Tools"
+    saks.industries/tag-ja: "開発者ツール"
+    saks.industries/image: assets/products/cordon.svg
+    saks.industries/sort-order: "30"
+    saks.industries/docs: "https://github.com/saks-industries/cordon-desktop"
+spec:
+  type: product
+  lifecycle: experimental
+  owner: group:default/saks

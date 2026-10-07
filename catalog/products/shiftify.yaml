@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: shiftify
+  title: Shiftify
+  description: Move Shopify store data safely and keep shops inspectable—CLI migrations, Lens for operators, and Form workflows that meet the storefront.
+  tags: [product, shopify]
+  links:
+    - url: contact.html?subject=Shiftify
+      title: Get a quote
+      icon: email
+  annotations:
+    saks.industries/published: "true"
+    saks.industries/blurb-en: "Move Shopify store data safely and keep shops inspectable—CLI migrations, Lens for operators, and Form workflows that meet the storefront."
+    saks.industries/blurb-ja: "Shopifyストア間のデータ移行を安全に繰り返し、店舗の点検まで一つのツールキットで。CLI、Lens、フォーム連携でオペレーションを支えます。"
+    saks.industries/tag-en: "Shopify Ops"
+    saks.industries/tag-ja: "Shopify運用"
+    saks.industries/image: assets/products/shiftify.svg
+    saks.industries/sort-order: "20"
+    saks.industries/docs: "https://github.com/saks-industries/Shiftify"
+spec:
+  type: product
+  lifecycle: production
+  owner: group:default/saks

@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: zaysay-cloud
+  title: ZaySay Cloud
+  description: See what X is saying about your product before it trends. Track keywords, score every post, and surface one insight your team can act on.
+  tags: [product, social]
+  links:
+    - url: contact.html?subject=ZaySay%20Cloud
+      title: Get a quote
+      icon: email
+  annotations:
+    saks.industries/published: "true"
+    saks.industries/blurb-en: "See what X is saying about your product before it trends. Track keywords, score every post, and surface one insight your team can act on."
+    saks.industries/blurb-ja: "トレンドになる前に、Xで製品について何と言われているかを把握。キーワードを追跡し、投稿をスコアリングし、チームが動ける一つのインサイトを届けます。"
+    saks.industries/tag-en: "Social Intelligence"
+    saks.industries/tag-ja: "ソーシャルインテリジェンス"
+    saks.industries/image: assets/products/zaysay.svg
+    saks.industries/sort-order: "10"
+    saks.industries/docs: "https://github.com/asakaxgit/ZaySay-Cloud"
+spec:
+  type: product
+  lifecycle: production
+  owner: group:default/saks

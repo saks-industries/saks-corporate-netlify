@@ -1,0 +1,12 @@
+{
+  "name": "saks-corporate",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:catalog": "node scripts/build-catalog.mjs",
+    "check:catalog": "node scripts/build-catalog.mjs --check"
+  },
+  "devDependencies": {
+    "yaml": "^2.9.1"
+  }
+}

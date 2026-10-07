@@ -5,13 +5,14 @@ This is the Phase 2 board-review preview. Production cutover is Phase 3.
 
 ## Stack choice — and why
 
-**Plain static HTML + CSS + a little vanilla JS. No framework, no build step.**
+**Plain static HTML + CSS + a little vanilla JS. No framework.** Product cards are the one compile step: YAML in `catalog/products/` becomes `assets/products-catalog.json`.
 
 | Decision | Reasoning (founding-engineer lens) |
 | --- | --- |
-| No framework / no build | *Boring technology* + *legibility*. Four content pages don't need React/Next. Any engineer can open a file and edit it in their first hour. The wireframe was already build-free (`server.ts` + plain HTML); we keep that precedent. |
+| No framework | *Boring technology* + *legibility*. Four content pages don't need React/Next. Any engineer can open a file and edit it in their first hour. The wireframe was already build-free (`server.ts` + plain HTML); pages stay hand-written HTML. |
+| Catalog compile for products | Product cards are not hardcoded. `catalog/products/*.yaml` (Backstage `Component` / `spec.type: product`) is projected to `assets/products-catalog.json` by `node scripts/build-catalog.mjs`. Pages serves the JSON; it does not parse YAML. |
 | Static multi-page (`index/about/products/contact.html`) | *Reversibility*. Real URLs, SEO-friendly, no client router to unwind. Trivially portable to any host (GitHub Pages now, Netlify in Phase 3). |
-| Client-side i18n (`assets/i18n.js`) | *YAGNI* + mirrors the wireframe's `data-i18n` / `?lang=` mechanism. English is authored inline in the HTML (works with no JS, good for SEO); Japanese lives as overrides in one dictionary. Toggle with the EN/JA switch in the nav, or `?lang=ja`. |
+| Client-side i18n (`assets/i18n.js`) | *YAGNI* + mirrors the wireframe's `data-i18n` / `?lang=` mechanism. English chrome is authored inline in the HTML; Japanese lives as overrides in one dictionary. Toggle with the EN/JA switch in the nav, or `?lang=ja`. Product blurbs and tags are the exception: both languages live on the catalog entity and `assets/products-catalog.js` swaps them when `i18n.js` emits `saks:langchange`. |
 | Shared nav/footer copied per page | Deliberate small debt: with only 4 pages, hand-maintained chrome beats introducing a templating/build system. If the page count grows, revisit with an includes step or SSG. |
 
 ## Layout
@@ -20,13 +21,26 @@ This is the Phase 2 board-review preview. Production cutover is Phase 3.
 site/
   index.html        Home  — hero, partners, services, news, CTA
   about.html        About — mission, stats, team
-  products.html     Products — 2-col grid, "Get a quote" CTAs
+  products.html     Products — grid rendered from the catalog JSON
   contact.html      Contact — Name/Email/Subject/Message + info
   assets/
     styles.css      Design tokens in :root, all component styles
     i18n.js         EN/JA toggle + JA dictionary + preview form handler
+    products-catalog.js   Renders product cards; follows the lang toggle
+    products-catalog.json Generated. Do not edit by hand.
+    products/       Placeholder art (Designer replaces these files)
   .nojekyll         Serve files as-is on GitHub Pages
 ```
+
+## Products catalog
+
+Card copy lives in [`catalog/products/`](../catalog/README.md), not in `products.html`. After editing a product YAML, regenerate and commit the JSON:
+
+```bash
+node scripts/build-catalog.mjs
+```
+
+GitHub Pages runs the same script before upload. Placeholder images are `assets/products/<name>.svg`. Drop final art in that folder and point `saks.industries/image` at it (site-relative, no leading slash).
 
 ## Locked product decisions honored (SAK-9 board)
 
