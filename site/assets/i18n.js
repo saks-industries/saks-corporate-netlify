@@ -244,6 +244,9 @@
       document.addEventListener("keydown", function (event) {
         if (event.key === "Escape") setNavOpen(false);
       });
+      window.addEventListener("resize", function () {
+        if (window.innerWidth > 900) setNavOpen(false);
+      });
     }
 
     // Prefill the contact subject from ?subject= (products "Get a quote" links).
