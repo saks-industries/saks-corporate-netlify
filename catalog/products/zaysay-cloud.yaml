@@ -15,7 +15,7 @@ metadata:
     saks.industries/blurb-ja: "トレンドになる前に、Xで製品について何と言われているかを把握。キーワードを追跡し、投稿をスコアリングし、チームが動ける一つのインサイトを届けます。"
     saks.industries/tag-en: "Social Intelligence"
     saks.industries/tag-ja: "ソーシャルインテリジェンス"
-    saks.industries/image: assets/products/zaysay.svg
+    saks.industries/image: assets/products/zaysay.png
     saks.industries/sort-order: "10"
     saks.industries/docs: "https://github.com/asakaxgit/ZaySay-Cloud"
 spec:

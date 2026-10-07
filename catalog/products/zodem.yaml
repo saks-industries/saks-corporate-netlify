@@ -15,7 +15,7 @@ metadata:
     saks.industries/blurb-ja: "Zodを一度書けばどこでも使える。.proto、安定したフィールド番号、コーデックを生成し、同じスキーマでフロント・バック・AIツールを支えます。"
     saks.industries/tag-en: "Developer Libraries"
     saks.industries/tag-ja: "開発者ライブラリ"
-    saks.industries/image: assets/products/zodem.svg
+    saks.industries/image: assets/products/zodem.png
     saks.industries/sort-order: "50"
     saks.industries/docs: "https://github.com/asakaxgit/zodem"
 spec:
