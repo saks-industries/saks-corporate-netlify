@@ -15,7 +15,7 @@ metadata:
     saks.industries/blurb-ja: "Shopifyストア間のデータ移行を安全に繰り返し、店舗の点検まで一つのツールキットで。CLI、Lens、フォーム連携でオペレーションを支えます。"
     saks.industries/tag-en: "Shopify Ops"
     saks.industries/tag-ja: "Shopify運用"
-    saks.industries/image: assets/products/shiftify.svg
+    saks.industries/image: assets/products/shiftify.png
     saks.industries/sort-order: "20"
     saks.industries/docs: "https://github.com/saks-industries/Shiftify"
 spec:
