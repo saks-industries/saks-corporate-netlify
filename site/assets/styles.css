@@ -405,6 +405,12 @@ p  { margin: 0 0 1em; }
 
 /* ---- Footer -------------------------------------------------------------- */
 .site-footer { background: var(--bg-ink); color: var(--on-ink-mut); padding: 56px 0 28px; }
+/* The official mark's inner panel is transparent. On the dark footer, a washi
+   tile sits behind the image so the サ stays visible. The PNG is unchanged. */
+.site-footer .brand-mark {
+  background-color: #f7f3ec;
+  box-shadow: 0 0 0 3px #f7f3ec, 0 0 0 4px var(--ink);
+}
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; }
 .site-footer .brand-name { color: #fff; }
 .site-footer .brand-name span { color: var(--brand); }
