@@ -255,6 +255,16 @@ p  { margin: 0 0 1em; }
 .hero-copy .eyebrow { margin-bottom: 16px; }
 .hero-copy p { font-size: 1.15rem; color: var(--muted); max-width: 46ch; }
 .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+/* Home hero sits in a half column. A slightly smaller display size, tighter
+   leading, and a fixed gap under the title keep it to about two lines. */
+.hero .hero-copy h1 {
+  font-size: clamp(2rem, 2.1vw + 1.05rem, 2.65rem);
+  line-height: 1.14;
+  letter-spacing: -0.028em;
+  margin-bottom: 14px;
+}
+html[lang="ja"] .hero .hero-copy h1 { letter-spacing: .04em; }
+.hero .hero-copy p { line-height: 1.65; margin-bottom: 0; }
 .hero-art {
   aspect-ratio: 4 / 3; border-radius: var(--radius);
   background-color: var(--paper); background-image: var(--grain);
@@ -279,7 +289,9 @@ p  { margin: 0 0 1em; }
 
 /* ---- Trust / partners ---------------------------------------------------- */
 .partners { border-bottom: 1px solid var(--line); background-color: var(--paper); background-image: var(--grain); }
-.partners-inner { display: flex; align-items: center; gap: 28px; padding: 26px 0; flex-wrap: wrap; }
+/* padding shorthand would wipe .container's 24px inset and shift this strip
+   left of the header, hero, and About/Products content. */
+.partners-inner { display: flex; align-items: center; gap: 28px; padding-block: 26px; flex-wrap: wrap; }
 .partners-label { font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .badge {
   display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: .82rem;
@@ -328,6 +340,27 @@ p  { margin: 0 0 1em; }
 .card-cta:hover, .card-cta:focus-visible { text-decoration: underline; }
 .news-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .news-card h3 { font-size: 1.05rem; margin: 0; }
+
+/* News is a feed (date, tag, headline), not a service card. One panel gives
+   the block weight; the headline is larger than the old 1.05rem inline size. */
+.news-list {
+  list-style: none; margin: 0; padding: 0;
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.news-item {
+  display: grid; grid-template-columns: 9.25rem minmax(0, 1fr);
+  column-gap: 28px; align-items: center; padding: 22px 26px;
+}
+.news-item + .news-item { border-top: 1px solid var(--line); }
+.news-kicker { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.news-date {
+  font-variant-numeric: tabular-nums; font-weight: 700; font-size: .92rem;
+  letter-spacing: .01em; color: var(--ink); line-height: 1.2;
+}
+.news-item h3 {
+  margin: 0; font-size: 1.2rem; font-weight: 700; line-height: 1.4; letter-spacing: -0.015em;
+}
 
 /* ---- Stats --------------------------------------------------------------- */
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); border: 4px double var(--ink); border-radius: var(--radius); overflow: hidden; background: var(--paper); }
@@ -399,14 +432,45 @@ p  { margin: 0 0 1em; }
 
 /* ---- Legal ---------------------------------------------------------------- */
 .legal-intro { padding: 64px 0 0; }
-.legal-body { padding-top: 32px; }
-.prose { max-width: 40rem; }
-.legal-updated { color: var(--muted); font-size: .875rem; margin: 0; }
+.legal-body { padding-top: 2rem; padding-bottom: 80px; }
+.prose {
+  max-width: 66ch;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+.prose h1 {
+  font-size: clamp(1.85rem, 1.2vw + 1.2rem, 2.25rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.4em;
+}
+html[lang="ja"] .prose h1,
+html[lang="ja"] .prose h2,
+html[lang="ja"] .news-item h3 { letter-spacing: .04em; }
+.prose .eyebrow { margin-bottom: 10px; }
+.prose h2 {
+  font-size: 1.3125rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  margin: 2.15rem 0 0.55rem;
+}
+.prose p { margin: 0 0 0.85em; }
+.prose p:last-child { margin-bottom: 0; }
+.prose ul,
+.prose ol { margin: 0 0 0.85em; padding-left: 1.3em; }
+.prose li { margin: 0.4em 0; }
+.prose li > ul,
+.prose li > ol { margin: 0.35em 0 0.15em; }
+.legal-body .prose > :first-child { margin-top: 0; }
+.prose .legal-updated { color: var(--muted); font-size: .875rem; margin: 0; line-height: 1.5; }
+.prose .interim-notice,
 .interim-notice {
   background: var(--bg-soft); border: 4px double var(--ink); border-radius: var(--radius-s);
-  padding: 12px 16px; margin: 16px 0 0; font-size: .875rem; color: var(--text);
+  padding: 12px 16px; margin: 1rem 0 0; font-size: .9375rem; line-height: 1.65; color: var(--text);
 }
-.legal-body h2 { font-size: 1.25rem; margin-top: 1.6rem; }
 
 /* ---- Page hero (inner pages) --------------------------------------------- */
 .page-hero { background: var(--bg-ink); color: var(--on-ink); padding-block: var(--section-pad); border-bottom: 4px double var(--on-ink); }
@@ -504,6 +568,7 @@ p  { margin: 0 0 1em; }
   .stat:first-child { border-top: 0; }
   .hero-btns .btn { flex: 1; }
   .cta-band { padding: 32px 22px; }
+  .news-item { grid-template-columns: 1fr; row-gap: 10px; align-items: start; padding: 18px 18px; }
 }
 
 /* ---- Contact polish + shared a11y (appended so earlier rhythm rules stay intact) ---- */
