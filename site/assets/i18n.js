@@ -26,7 +26,8 @@
     "footer.privacy": "プライバシーポリシー",
     "footer.terms": "利用規約",
     "footer.news": "ニュース",
-    "footer.copyright": "© 2026 Saks Industries LLC. All rights reserved.",
+    "brand.home": "サックス・インダストリーズ合同会社のホーム",
+    "footer.copyright": "© 2026 サックス・インダストリーズ合同会社",
     "cta.getintouch": "お問い合わせ",
     "cta.viewproducts": "製品を見る",
     "cta.getquote": "見積もりを依頼",
@@ -37,8 +38,8 @@
     "about.desc": "Saks Industries は、分野を越えて動くシステムをつくるエンジニア、デザイナー、オペレーターのチームです。",
     "products.desc": "運用の現実に合わせて構成するシステム製品です。まずはお見積もりをご依頼ください。",
     "contact.desc": "プロジェクト、見積もり、パートナーシップについて Saks Industries へお問い合わせください。",
-    "privacy.desc": "Saks Industries LLC のプライバシーポリシー。",
-    "terms.desc": "Saks Industries LLC の利用規約。",
+    "privacy.desc": "サックス・インダストリーズ合同会社のプライバシーポリシー。",
+    "terms.desc": "サックス・インダストリーズ合同会社の利用規約。",
 
     // home
     "home.title": "Saks Industries — 多分野のためのシステム",
@@ -128,7 +129,7 @@
     "privacy.updated": "最終更新：2026年8月",
     "privacy.notice": "本ポリシーは個人情報の保護に関する法律（個人情報保護法）に基づく暫定文書であり、正式公表前に法務レビューを受ける予定です。",
     "privacy.s1.h": "1. 個人情報取扱事業者",
-    "privacy.s1.p": "Saks Industries LLC（以下「当社」）が本ポリシーに責任を持つ個人情報取扱事業者です。お問い合わせ先：hello@saks.industries",
+    "privacy.s1.p": "サックス・インダストリーズ合同会社（以下「当社」）が本ポリシーに責任を持つ個人情報取扱事業者です。お問い合わせ先：hello@saks.industries",
     "privacy.s2.h": "2. 収集する個人情報",
     "privacy.s2.p": "当社は、お問い合わせフォームまたはその他の手段でご連絡いただく際に、お名前・メールアドレス・メッセージ内容などの個人情報をご提供いただく場合があります。",
     "privacy.s3.h": "3. 利用目的",
@@ -155,15 +156,15 @@
     "terms.s1.h": "1. 同意",
     "terms.s1.p": "本ウェブサイト（以下「本サイト」）にアクセスまたは利用することにより、本利用規約に同意したものとみなします。同意いただけない場合は、本サイトのご利用をお控えください。",
     "terms.s2.h": "2. 運営者",
-    "terms.s2.p": "本サイトはSaks Industries LLCが運営しています。お問い合わせ先：hello@saks.industries",
+    "terms.s2.p": "本サイトはサックス・インダストリーズ合同会社が運営しています。お問い合わせ先：hello@saks.industries",
     "terms.s3.h": "3. 利用条件",
     "terms.s3.p": "本サイトは合法的な目的にのみご利用ください。当社の書面による事前承諾なく、本サイトのコンテンツを複製・再配布・商業目的で利用することを禁じます。",
     "terms.s4.h": "4. 知的財産権",
-    "terms.s4.p": "本サイト上のすべてのコンテンツ（テキスト・画像・ロゴ・ソフトウェア等）は、Saks Industries LLCまたはそのライセンサーに帰属し、適用される知的財産法により保護されています。",
+    "terms.s4.p": "本サイト上のすべてのコンテンツ（テキスト・画像・ロゴ・ソフトウェア等）は、サックス・インダストリーズ合同会社またはそのライセンサーに帰属し、適用される知的財産法により保護されています。",
     "terms.s5.h": "5. 免責事項",
     "terms.s5.p": "本サイトは「現状有姿」で提供されます。当社は、本サイトの中断・誤り・有害なコンポーネントの不存在について、明示・黙示を問わず保証しません。",
     "terms.s6.h": "6. 責任の制限",
-    "terms.s6.p": "適用法令が許容する範囲において、Saks Industries LLCは本サイトのご利用に起因する間接的・付随的・結果的損害について責任を負いません。",
+    "terms.s6.p": "適用法令が許容する範囲において、サックス・インダストリーズ合同会社は本サイトのご利用に起因する間接的・付随的・結果的損害について責任を負いません。",
     "terms.s7.h": "7. 準拠法・管轄裁判所",
     "terms.s7.p": "本規約は日本法に準拠します。紛争が生じた場合、東京地方裁判所を第一審の専属的合意管轄裁判所とします。",
     "terms.s8.h": "8. 変更",
@@ -188,6 +189,7 @@
   // Capture the authored English so we can restore it when toggling back.
   var enText = new WeakMap();
   var enAttr = new WeakMap();
+  var enAria = new WeakMap();
 
   function apply(lang) {
     document.documentElement.lang = lang;
@@ -208,6 +210,12 @@
       var key = el.getAttribute("data-i18n-content");
       if (!enAttr.has(el)) enAttr.set(el, el.getAttribute("content") || "");
       el.setAttribute("content", (lang === "ja" && JA[key] != null) ? JA[key] : enAttr.get(el));
+    });
+
+    document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-aria");
+      if (!enAria.has(el)) enAria.set(el, el.getAttribute("aria-label") || "");
+      el.setAttribute("aria-label", (lang === "ja" && JA[key] != null) ? JA[key] : enAria.get(el));
     });
 
     var ogLocale = document.querySelector('meta[property="og:locale"]');

@@ -137,7 +137,7 @@ p  { margin: 0 0 1em; }
 .nav.is-open { grid-template-areas: "brand toggle lang" "links links links"; }
 .brand { grid-area: brand; display: flex; align-items: center; gap: 10px; min-width: 0; }
 .brand:hover { text-decoration: none; }
-.brand-mark { width: 30px; height: 30px; flex: none; }
+.brand-mark { width: 40px; height: 40px; flex: none; object-fit: contain; }
 .brand-name {
   font-weight: 800; color: var(--ink); letter-spacing: -.01em; font-size: 1.12rem;
   min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
