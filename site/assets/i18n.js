@@ -44,7 +44,7 @@
     // home
     "home.title": "Saks Industries — 多分野のためのシステム",
     "home.hero.eyebrow": "あらゆる分野のためのシステム",
-    "home.hero.h1": "産業を前進させるシステムを、私たちがつくる。",
+    "home.hero.h1": "システムを<wbr>作る、<wbr>守る、<wbr>育てる",
     "home.hero.p": "Saks Industries は、製造・物流・エネルギーなど幅広い分野で、ソフトウェアとハードウェアのシステムを設計・構築・運用します。最初の試作から量産規模まで一貫して支援します。",
     "home.partners.label": "信頼できる技術パートナー",
     "home.partners.msft": "Microsoft AI Cloud パートナー",
@@ -72,7 +72,7 @@
     // about
     "about.title": "会社概要 — Saks Industries",
     "about.hero.eyebrow": "会社概要",
-    "about.hero.h1": "信頼されるシステムを、エンジニアリングする。",
+    "about.hero.h1": "信頼される<wbr>システムを、<wbr>エンジニアリング<wbr>する。",
     "about.hero.p": "Saks Industries は、分野を越えて動くシステムをつくる技術者集団です。確かなエンジニアリングと誠実な運用で、長く使われる仕組みを届けます。",
     "about.mission.eyebrow": "私たちの使命",
     "about.mission.h2": "多分野のためのシステムを、設計・構築する。",
@@ -92,7 +92,7 @@
     // products
     "products.title": "製品 — Saks Industries",
     "products.hero.eyebrow": "製品",
-    "products.hero.h1": "現場のために設計された、システム製品。",
+    "products.hero.h1": "システム製品。",
     "products.hero.p": "監視から意思決定まで。運用の現実に耐える製品群です。ご要望に合わせて構成しますので、まずはお見積もりをご依頼ください。",
     "products.grid.eyebrow": "製品ラインナップ",
     "products.grid.h2": "分散する運用を、ひとつに。",
@@ -101,7 +101,7 @@
     // contact
     "contact.title": "お問い合わせ — Saks Industries",
     "contact.hero.eyebrow": "お問い合わせ",
-    "contact.hero.h1": "話を聞かせてください。",
+    "contact.hero.h1": "話を聞かせて<wbr>ください。",
     "contact.hero.p": "プロジェクトのご相談、見積もり、パートナーシップのご提案など、お気軽にご連絡ください。",
     "contact.form.h2": "メッセージを送る",
     "contact.form.name": "お名前",
@@ -197,7 +197,18 @@
     document.querySelectorAll("[data-i18n]").forEach(function (el) {
       var key = el.getAttribute("data-i18n");
       if (!enText.has(el)) enText.set(el, el.textContent);
-      el.textContent = (lang === "ja" && JA[key] != null) ? JA[key] : enText.get(el);
+      var text = (lang === "ja" && JA[key] != null) ? JA[key] : enText.get(el);
+      // <wbr> is a break hint only. Visible copy is unchanged.
+      if (text.indexOf("<wbr>") === -1) {
+        el.textContent = text;
+        return;
+      }
+      var parts = text.split("<wbr>");
+      el.replaceChildren();
+      parts.forEach(function (part, i) {
+        if (i > 0) el.appendChild(document.createElement("wbr"));
+        if (part) el.appendChild(document.createTextNode(part));
+      });
     });
 
     document.querySelectorAll("[data-i18n-ph]").forEach(function (el) {
