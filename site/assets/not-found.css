@@ -1,0 +1,37 @@
+/* 404 only. Kept out of styles.css so shared layout PRs do not have to merge it. */
+
+.nf {
+  min-height: calc(100vh - 8rem);
+  display: flex;
+  align-items: center;
+}
+
+.nf-code {
+  margin: 0 0 12px;
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--brand);
+}
+
+.nf h1 {
+  max-width: 16ch;
+}
+
+.nf .lede {
+  max-width: 42ch;
+  margin-bottom: 0;
+}
+
+.nf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+@media (max-width: 620px) {
+  .nf { min-height: 0; align-items: flex-start; padding-top: 12px; }
+  .nf-actions .btn { flex: 1 1 8rem; }
+}

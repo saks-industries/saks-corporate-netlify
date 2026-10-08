@@ -1,0 +1,29 @@
+/* Legal pages, print only. Hides site chrome. Does not restyle body type. */
+@media print {
+  .skip-link,
+  .site-header,
+  .site-footer,
+  .nav-toggle,
+  .lang-toggle {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .legal-intro,
+  .legal-body {
+    padding-top: 0 !important;
+  }
+
+  .interim-notice {
+    background: transparent;
+    border-color: #1c1916;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
