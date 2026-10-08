@@ -20,22 +20,35 @@
     "nav.products": "製品",
     "nav.contact": "お問い合わせ",
     "nav.menu": "メニュー",
+    "a11y.skip": "本文へスキップ",
+    "a11y.nav": "メインメニュー",
+    "a11y.lang": "言語",
+    "a11y.home": "Saks Industriesホーム",
     "footer.tagline": "プロトタイプから量産まで、多分野にわたるシステムを設計・構築します。",
     "footer.company": "会社",
     "footer.legal": "規約",
     "footer.privacy": "プライバシーポリシー",
     "footer.terms": "利用規約",
     "footer.news": "ニュース",
-    "footer.copyright": "© 2026 Saks Industries LLC. All rights reserved.",
+    "brand.home": "サックス・インダストリーズ合同会社のホーム",
+    "footer.copyright": "© 2026 サックス・インダストリーズ合同会社",
     "cta.getintouch": "お問い合わせ",
     "cta.viewproducts": "製品を見る",
     "cta.getquote": "見積もりを依頼",
     "cta.learnmore": "詳しく見る",
 
+    // meta descriptions — same claims as the English <meta name="description">
+    "home.desc": "Saks Industries は、製造・物流・エネルギーなど幅広い分野で、ソフトウェアとハードウェアのシステムを設計・構築・運用します。",
+    "about.desc": "Saks Industries は、分野を越えて動くシステムをつくるエンジニア、デザイナー、オペレーターのチームです。",
+    "products.desc": "運用の現実に合わせて構成するシステム製品です。まずはお見積もりをご依頼ください。",
+    "contact.desc": "プロジェクト、見積もり、パートナーシップについて Saks Industries へお問い合わせください。",
+    "privacy.desc": "サックス・インダストリーズ合同会社のプライバシーポリシー。",
+    "terms.desc": "サックス・インダストリーズ合同会社の利用規約。",
+
     // home
     "home.title": "Saks Industries — 多分野のためのシステム",
     "home.hero.eyebrow": "あらゆる分野のためのシステム",
-    "home.hero.h1": "産業を前進させるシステムを、私たちがつくる。",
+    "home.hero.h1": "システムを<wbr>作る、<wbr>守る、<wbr>育てる",
     "home.hero.p": "Saks Industries は、製造・物流・エネルギーなど幅広い分野で、ソフトウェアとハードウェアのシステムを設計・構築・運用します。最初の試作から量産規模まで一貫して支援します。",
     "home.partners.label": "信頼できる技術パートナー",
     "home.partners.msft": "Microsoft AI Cloud パートナー",
@@ -63,7 +76,7 @@
     // about
     "about.title": "会社概要 — Saks Industries",
     "about.hero.eyebrow": "会社概要",
-    "about.hero.h1": "信頼されるシステムを、エンジニアリングする。",
+    "about.hero.h1": "信頼される<wbr>システムを、<wbr>エンジニアリング<wbr>する。",
     "about.hero.p": "Saks Industries は、分野を越えて動くシステムをつくる技術者集団です。確かなエンジニアリングと誠実な運用で、長く使われる仕組みを届けます。",
     "about.mission.eyebrow": "私たちの使命",
     "about.mission.h2": "多分野のためのシステムを、設計・構築する。",
@@ -83,7 +96,7 @@
     // products
     "products.title": "製品 — Saks Industries",
     "products.hero.eyebrow": "製品",
-    "products.hero.h1": "現場のために設計された、システム製品。",
+    "products.hero.h1": "システム製品。",
     "products.hero.p": "監視から意思決定まで。運用の現実に耐える製品群です。ご要望に合わせて構成しますので、まずはお見積もりをご依頼ください。",
     "products.grid.eyebrow": "製品ラインナップ",
     "products.grid.h2": "分散する運用を、ひとつに。",
@@ -92,7 +105,7 @@
     // contact
     "contact.title": "お問い合わせ — Saks Industries",
     "contact.hero.eyebrow": "お問い合わせ",
-    "contact.hero.h1": "話を聞かせてください。",
+    "contact.hero.h1": "話を聞かせて<wbr>ください。",
     "contact.hero.p": "プロジェクトのご相談、見積もり、パートナーシップのご提案など、お気軽にご連絡ください。",
     "contact.form.h2": "メッセージを送る",
     "contact.form.name": "お名前",
@@ -112,6 +125,10 @@
     "contact.info.hours.title": "受付時間",
     "contact.info.hours.line": "平日 9:00–18:00（日本時間）",
     "contact.info.partners": "テクノロジーパートナー",
+    "contact.info.label": "連絡先",
+    "contact.form.required": "必須",
+    "contact.form.optional": "任意",
+    "contact.form.error": "必須項目を入力してから送信してください。",
 
     // privacy policy
     "privacy.title": "プライバシーポリシー — Saks Industries",
@@ -120,7 +137,7 @@
     "privacy.updated": "最終更新：2026年8月",
     "privacy.notice": "本ポリシーは個人情報の保護に関する法律（個人情報保護法）に基づく暫定文書であり、正式公表前に法務レビューを受ける予定です。",
     "privacy.s1.h": "1. 個人情報取扱事業者",
-    "privacy.s1.p": "Saks Industries LLC（以下「当社」）が本ポリシーに責任を持つ個人情報取扱事業者です。お問い合わせ先：hello@saks.industries",
+    "privacy.s1.p": "サックス・インダストリーズ合同会社（以下「当社」）が本ポリシーに責任を持つ個人情報取扱事業者です。お問い合わせ先：hello@saks.industries",
     "privacy.s2.h": "2. 収集する個人情報",
     "privacy.s2.p": "当社は、お問い合わせフォームまたはその他の手段でご連絡いただく際に、お名前・メールアドレス・メッセージ内容などの個人情報をご提供いただく場合があります。",
     "privacy.s3.h": "3. 利用目的",
@@ -147,15 +164,15 @@
     "terms.s1.h": "1. 同意",
     "terms.s1.p": "本ウェブサイト（以下「本サイト」）にアクセスまたは利用することにより、本利用規約に同意したものとみなします。同意いただけない場合は、本サイトのご利用をお控えください。",
     "terms.s2.h": "2. 運営者",
-    "terms.s2.p": "本サイトはSaks Industries LLCが運営しています。お問い合わせ先：hello@saks.industries",
+    "terms.s2.p": "本サイトはサックス・インダストリーズ合同会社が運営しています。お問い合わせ先：hello@saks.industries",
     "terms.s3.h": "3. 利用条件",
     "terms.s3.p": "本サイトは合法的な目的にのみご利用ください。当社の書面による事前承諾なく、本サイトのコンテンツを複製・再配布・商業目的で利用することを禁じます。",
     "terms.s4.h": "4. 知的財産権",
-    "terms.s4.p": "本サイト上のすべてのコンテンツ（テキスト・画像・ロゴ・ソフトウェア等）は、Saks Industries LLCまたはそのライセンサーに帰属し、適用される知的財産法により保護されています。",
+    "terms.s4.p": "本サイト上のすべてのコンテンツ（テキスト・画像・ロゴ・ソフトウェア等）は、サックス・インダストリーズ合同会社またはそのライセンサーに帰属し、適用される知的財産法により保護されています。",
     "terms.s5.h": "5. 免責事項",
     "terms.s5.p": "本サイトは「現状有姿」で提供されます。当社は、本サイトの中断・誤り・有害なコンポーネントの不存在について、明示・黙示を問わず保証しません。",
     "terms.s6.h": "6. 責任の制限",
-    "terms.s6.p": "適用法令が許容する範囲において、Saks Industries LLCは本サイトのご利用に起因する間接的・付随的・結果的損害について責任を負いません。",
+    "terms.s6.p": "適用法令が許容する範囲において、サックス・インダストリーズ合同会社は本サイトのご利用に起因する間接的・付随的・結果的損害について責任を負いません。",
     "terms.s7.h": "7. 準拠法・管轄裁判所",
     "terms.s7.p": "本規約は日本法に準拠します。紛争が生じた場合、東京地方裁判所を第一審の専属的合意管轄裁判所とします。",
     "terms.s8.h": "8. 変更",
@@ -180,6 +197,7 @@
   // Capture the authored English so we can restore it when toggling back.
   var enText = new WeakMap();
   var enAttr = new WeakMap();
+  var enAria = new WeakMap();
 
   function apply(lang) {
     document.documentElement.lang = lang;
@@ -187,7 +205,18 @@
     document.querySelectorAll("[data-i18n]").forEach(function (el) {
       var key = el.getAttribute("data-i18n");
       if (!enText.has(el)) enText.set(el, el.textContent);
-      el.textContent = (lang === "ja" && JA[key] != null) ? JA[key] : enText.get(el);
+      var text = (lang === "ja" && JA[key] != null) ? JA[key] : enText.get(el);
+      // <wbr> is a break hint only. Visible copy is unchanged.
+      if (text.indexOf("<wbr>") === -1) {
+        el.textContent = text;
+        return;
+      }
+      var parts = text.split("<wbr>");
+      el.replaceChildren();
+      parts.forEach(function (part, i) {
+        if (i > 0) el.appendChild(document.createElement("wbr"));
+        if (part) el.appendChild(document.createTextNode(part));
+      });
     });
 
     document.querySelectorAll("[data-i18n-ph]").forEach(function (el) {
@@ -195,6 +224,23 @@
       if (!enAttr.has(el)) enAttr.set(el, el.getAttribute("placeholder") || "");
       el.setAttribute("placeholder", (lang === "ja" && JA[key] != null) ? JA[key] : enAttr.get(el));
     });
+
+    document.querySelectorAll("[data-i18n-content]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-content");
+      if (!enAttr.has(el)) enAttr.set(el, el.getAttribute("content") || "");
+      el.setAttribute("content", (lang === "ja" && JA[key] != null) ? JA[key] : enAttr.get(el));
+    });
+
+    document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-aria");
+      if (!enAria.has(el)) enAria.set(el, el.getAttribute("aria-label") || "");
+      el.setAttribute("aria-label", (lang === "ja" && JA[key] != null) ? JA[key] : enAria.get(el));
+    });
+
+    var ogLocale = document.querySelector('meta[property="og:locale"]');
+    var ogLocaleAlt = document.querySelector('meta[property="og:locale:alternate"]');
+    if (ogLocale) ogLocale.setAttribute("content", lang === "ja" ? "ja_JP" : "en_US");
+    if (ogLocaleAlt) ogLocaleAlt.setAttribute("content", lang === "ja" ? "en_US" : "ja_JP");
 
     // <title> uses data-i18n on a <title data-i18n="..."> when present
     var titleEl = document.querySelector("title[data-i18n]");
@@ -242,7 +288,9 @@
         link.addEventListener("click", function () { setNavOpen(false); });
       });
       document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") setNavOpen(false);
+        if (event.key !== "Escape" || !navBar.classList.contains("is-open")) return;
+        setNavOpen(false);
+        navToggle.focus();
       });
       window.addEventListener("resize", function () {
         if (window.innerWidth > 900) setNavOpen(false);
@@ -257,23 +305,85 @@
     // Contact form (SAK-33). No form-backend secret is available in this repo,
     // so submit opens a mailto: to hello@saks.industries — zero backend, works
     // everywhere, nothing is silently dropped. Native HTML5 validation (required
-    // + type=email) gates the submit, so this handler only runs on valid input.
+    // + type=email) still blocks a truly empty or malformed submit. Whitespace-only
+    // values pass `required`, so the handler checks a trimmed value and shows
+    // the same empty-state banner the `invalid` event uses.
     // When the board picks a hosted form backend, set CONTACT_ENDPOINT to its URL
     // and this will POST JSON there instead, falling back to mailto on failure.
     var CONTACT_EMAIL = "hello@saks.industries";
     var CONTACT_ENDPOINT = ""; // board-owned: hosted form backend URL (empty => mailto)
+    var REQUIRED_IDS = ["f-name", "f-email", "f-message"];
 
     var form = document.querySelector("form[data-contact-form]");
     if (form) {
+      var fieldById = function (id) { return document.getElementById(id); };
+      var val = function (id) {
+        var el = fieldById(id);
+        return el ? String(el.value || "").trim() : "";
+      };
+      var isBad = function (el) {
+        return !el || !String(el.value || "").trim() || !el.checkValidity();
+      };
+      var markContactErrors = function () {
+        form.classList.add("is-submitted");
+        var err = document.getElementById("contact-form-error");
+        var ok = form.querySelector("[data-form-ok]");
+        if (ok) ok.hidden = true;
+        if (err) err.hidden = false;
+        REQUIRED_IDS.forEach(function (id) {
+          var el = fieldById(id);
+          if (!el) return;
+          if (isBad(el)) {
+            el.setAttribute("aria-invalid", "true");
+            el.setAttribute("aria-describedby", "contact-form-error");
+          } else {
+            el.removeAttribute("aria-invalid");
+            el.removeAttribute("aria-describedby");
+          }
+        });
+      };
+      var clearContactErrors = function () {
+        form.classList.remove("is-submitted");
+        var err = document.getElementById("contact-form-error");
+        if (err) err.hidden = true;
+        REQUIRED_IDS.forEach(function (id) {
+          var el = fieldById(id);
+          if (!el) return;
+          el.removeAttribute("aria-invalid");
+          el.removeAttribute("aria-describedby");
+        });
+      };
+      var focusFirstBad = function () {
+        for (var i = 0; i < REQUIRED_IDS.length; i++) {
+          var el = fieldById(REQUIRED_IDS[i]);
+          if (isBad(el)) { el.focus(); return; }
+        }
+      };
+
+      form.addEventListener("invalid", function () { markContactErrors(); }, true);
+      form.addEventListener("input", function () {
+        if (!form.classList.contains("is-submitted")) return;
+        var anyBad = false;
+        REQUIRED_IDS.forEach(function (id) {
+          var el = fieldById(id);
+          if (!el) return;
+          if (isBad(el)) anyBad = true;
+        });
+        if (!anyBad) clearContactErrors();
+        else markContactErrors();
+      });
+
       form.addEventListener("submit", function (e) {
         e.preventDefault();
-        var val = function (id) {
-          var el = document.getElementById(id);
-          return el ? String(el.value || "").trim() : "";
-        };
         var name = val("f-name"), email = val("f-email");
         var subject = val("f-subject") || "Website enquiry";
         var message = val("f-message");
+        if (!name || !email || !message || !form.checkValidity()) {
+          markContactErrors();
+          focusFirstBad();
+          return;
+        }
+        clearContactErrors();
         var ok = form.querySelector("[data-form-ok]");
         var showOk = function () { if (ok) { ok.hidden = false; ok.focus(); } };
 

@@ -15,7 +15,7 @@ metadata:
     saks.industries/blurb-ja: "AWSとGCPの認証セッション期限を監視し、作業の途中で切れる前に更新できるデスクトップアプリ。"
     saks.industries/tag-en: "Developer Tools"
     saks.industries/tag-ja: "開発者ツール"
-    saks.industries/image: assets/products/cordon.svg
+    saks.industries/image: assets/products/cordon.png
     saks.industries/sort-order: "30"
     saks.industries/docs: "https://github.com/saks-industries/cordon-desktop"
 spec:

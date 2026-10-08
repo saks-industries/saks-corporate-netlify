@@ -42,8 +42,15 @@
       return fallback;
     }
 
+    function frame(node) {
+      var media = document.createElement("div");
+      media.className = "product-media";
+      media.append(node);
+      return media;
+    }
+
     function mediaFor(product) {
-      if (!product.image) return placeholder();
+      if (!product.image) return frame(placeholder());
       var img = document.createElement("img");
       img.className = "product-img";
       img.src = product.image;
@@ -53,7 +60,7 @@
         img.replaceWith(fallback);
         if (window.SaksI18n) window.SaksI18n.apply(window.SaksI18n.getLang());
       });
-      return img;
+      return frame(img);
     }
 
     function render(products) {
