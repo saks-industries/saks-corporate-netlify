@@ -158,12 +158,35 @@ p  { margin: 0 0 1em; }
 .nav.is-open { grid-template-areas: "brand toggle lang" "links links links"; }
 .brand { grid-area: brand; display: flex; align-items: center; gap: 10px; min-width: 0; }
 .brand:hover { text-decoration: none; }
-.brand-mark { width: 40px; height: 40px; flex: none; object-fit: contain; }
-.brand-name {
-  font-weight: 800; color: var(--ink); letter-spacing: -.01em; font-size: 1.12rem;
-  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+.brand-mark { width: 44px; height: 44px; flex: none; object-fit: contain; }
+.brand-lockup {
+  display: flex; flex-direction: column; justify-content: center; gap: 2px;
+  min-width: 0;
+  /* Intrinsic ratio of saks-wordmark-ja.png (2578×190) at a 22px cap. */
+  width: calc(22px * 2578 / 190);
+  max-width: 100%;
+  container-type: inline-size;
 }
-.brand-name span { color: var(--brand); }
+.brand-wordmark {
+  display: block; width: 100%; height: 22px; max-height: 44px;
+  object-fit: contain; object-position: left center;
+}
+/* Tracking matches the katakana at full width. Narrower slots step it down
+   so the Latin line stays inside the image and does not clip a glyph. */
+.brand-wordmark-en {
+  display: block; font-size: 10.5px; font-weight: 800; line-height: 1;
+  letter-spacing: 1.31em; color: var(--ink); text-transform: uppercase;
+  white-space: nowrap;
+}
+@container (max-width: 270px) {
+  .brand-wordmark-en { letter-spacing: .95em; }
+}
+@container (max-width: 220px) {
+  .brand-wordmark-en { letter-spacing: .58em; }
+}
+@container (max-width: 170px) {
+  .brand-wordmark-en { letter-spacing: .32em; }
+}
 
 .nav-links {
   grid-area: links;
@@ -503,8 +526,10 @@ html[lang="ja"] .news-item h3 { letter-spacing: .04em; }
   box-shadow: 0 0 0 3px var(--paper), 0 0 0 4px var(--ink);
 }
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; }
-.site-footer .brand-name,
-.site-footer .brand-name span { color: var(--on-ink); }
+.site-footer .brand-wordmark-en { color: var(--on-ink); }
+/* The katakana file is black ink. Invert only on the dark footer so the
+   original glyphs read as washi without rewriting the PNG. */
+.site-footer .brand-wordmark { filter: invert(1); }
 .site-footer h4 { color: var(--on-ink); font-size: .95rem; margin: 0 0 14px; }
 .footer-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .footer-links a { color: var(--on-ink-mut); text-decoration: underline; text-underline-offset: .15em; }
@@ -539,6 +564,17 @@ html[lang="ja"] .news-item h3 { letter-spacing: .04em; }
     margin-top: 8px;
     padding-top: 8px;
   }
+}
+@media (max-width: 400px) {
+  .brand-lockup { width: calc(18px * 2578 / 190); }
+  .brand-wordmark { height: 18px; }
+  .brand-wordmark-en { font-size: 9px; letter-spacing: .5em; }
+}
+@container (max-width: 140px) {
+  .brand-wordmark-en { letter-spacing: .22em; }
+}
+@media (max-width: 360px) {
+  .brand-wordmark-en { display: none; }
 }
 @media (max-width: 620px) {
   .grid-3, .grid-2 { grid-template-columns: 1fr; }
