@@ -24,6 +24,20 @@
   <meta name="twitter:image:alt" content="Saks Industries" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="assets/styles.css" />
+  <script>
+    /* Hero growing animation: opt in before first paint (styles.css, assets/hero-grow.js).
+       Reduced motion, no JS, or no @property / image-set(type()) support => static image. */
+    (function (d, w) {
+      try {
+        var C = w.CSS;
+        if (C && C.registerProperty && w.matchMedia &&
+            C.supports("background-image", 'image-set(url("a.webp") type("image/webp"))') &&
+            !w.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          d.documentElement.classList.add("hero-grow");
+        }
+      } catch (e) { /* stay static */ }
+    })(document, window);
+  </script>
   <link rel="icon" href="assets/saks-mark-32.png" type="image/png" sizes="32x32" />
   <link rel="icon" href="assets/saks-mark-192.png" type="image/png" sizes="192x192" />
   <link rel="icon" href="assets/saks-mark-512.png" type="image/png" sizes="512x512" />
@@ -196,5 +210,6 @@
   </footer>
 
   <script src="assets/i18n.js"></script>
+  <script src="assets/hero-grow.js"></script>
 </body>
 </html>

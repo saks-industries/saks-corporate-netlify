@@ -298,6 +298,120 @@ html[lang="ja"] .hero .hero-copy h1 { letter-spacing: .04em; }
 }
 .hero-art picture, .hero-art img { display: block; width: 100%; height: auto; }
 
+/* ---- Hero "growing" animation (作る → 守る → 育てる) ---------------------
+   Plays once on load, in time with the headline. Opt-in only: the inline
+   gate in index.html <head> adds html.hero-grow when motion is allowed and
+   the browser supports @property + image-set(type()). No JS, reduced motion,
+   print, or an older browser => no class => the static image, untouched.
+
+   Layers (all the same file as <picture>, so no extra download):
+     img            the real image, held faint (washi ghost) underneath
+     .hero-art::before        1 作る  build    left planting, wipes left → right
+     .hero-art picture::after 2 守る  protect  scarecrow + sluice gate, opens from centre
+     .hero-art::after         3 育てる grow    rises bottom → top over the rice
+   Every layer runs the same 3.6s keyframes, so they all end on one frame:
+   the overlays drop back to visibility:hidden and the img to its natural
+   style. The resting state is the plain <img>: no opacity, filter, or mask.
+   Bands come from the art at 1280×720: planting 0–40%, scarecrow 50–62%,
+   sluice gate 62–70%, rice plant 71–96%. */
+@property --hg-make { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
+@property --hg-guard { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
+@property --hg-grow { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  html.hero-grow {
+    --hg-dur: 3.6s;
+    --hg-vermilion: rgba(185, 115, 90, .3); /* the sun, faded */
+  }
+  html.hero-grow .hero-art { position: relative; }
+  html.hero-grow .hero-art img { animation: hero-grow-base var(--hg-dur) linear backwards; }
+
+  html.hero-grow .hero-art::before,
+  html.hero-grow .hero-art picture::after,
+  html.hero-grow .hero-art::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    visibility: hidden;
+    background: url("hero-tanbo.jpg") 0 0 / 100% 100% no-repeat;
+    background-image: image-set(url("hero-tanbo.webp") type("image/webp"), url("hero-tanbo.jpg") type("image/jpeg"));
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+  }
+  /* 1 作る: a soft edge sweeps across the planting rows. */
+  html.hero-grow .hero-art::before {
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(var(--hg-make) - 14%), transparent var(--hg-make));
+            mask-image: linear-gradient(90deg, #000 calc(var(--hg-make) - 14%), transparent var(--hg-make));
+    animation: hero-grow-make var(--hg-dur) linear backwards;
+  }
+  /* 2 守る: the scarecrow and sluice gate open out from the band centre (59%). */
+  html.hero-grow .hero-art picture::after {
+    -webkit-mask-image: linear-gradient(90deg,
+      transparent calc(59% - var(--hg-guard) - 7%), #000 calc(59% - var(--hg-guard)),
+      #000 calc(59% + var(--hg-guard)), transparent calc(59% + var(--hg-guard) + 7%));
+            mask-image: linear-gradient(90deg,
+      transparent calc(59% - var(--hg-guard) - 7%), #000 calc(59% - var(--hg-guard)),
+      #000 calc(59% + var(--hg-guard)), transparent calc(59% + var(--hg-guard) + 7%));
+    animation: hero-grow-guard var(--hg-dur) linear backwards;
+  }
+  /* 3 育てる: a feathered line rises from the soil, so the stalks come up and
+     the heads arrive last. Left of the rice is already shown, so this layer
+     only reads on the right band (and settles the seams between stages). */
+  html.hero-grow .hero-art::after {
+    -webkit-mask-image: linear-gradient(0deg, #000 calc(var(--hg-grow) - 24%), transparent var(--hg-grow));
+            mask-image: linear-gradient(0deg, #000 calc(var(--hg-grow) - 24%), transparent var(--hg-grow));
+    animation: hero-grow-rise var(--hg-dur) linear backwards;
+  }
+
+  /* Headline: each verb gets a faint vermilion brush under it while its stage
+     plays, then the stroke lifts away. hero-grow.js wraps the verbs. */
+  html.hero-grow .hero-verb {
+    background: linear-gradient(var(--hg-vermilion), var(--hg-vermilion)) 0 92% / 0% .3em no-repeat;
+    animation: var(--hg-dur) linear backwards;
+  }
+  html.hero-grow .hero-verb[data-stage="1"] { animation-name: hero-grow-verb-1; }
+  html.hero-grow .hero-verb[data-stage="2"] { animation-name: hero-grow-verb-2; }
+  html.hero-grow .hero-verb[data-stage="3"] { animation-name: hero-grow-verb-3; }
+}
+
+/* Timeline (share of 3.6s): 作る 4–38%, 守る 33–67%, 育てる 62–96%. */
+@keyframes hero-grow-base {
+  0%, 94% { opacity: .2; }
+  100%    { opacity: 1; }
+}
+@keyframes hero-grow-make {
+  0%, 4%   { visibility: visible; --hg-make: 0%; animation-timing-function: cubic-bezier(.45, .05, .25, 1); }
+  38%, 100% { visibility: visible; --hg-make: 56%; }
+}
+@keyframes hero-grow-guard {
+  0%, 33%  { visibility: visible; --hg-guard: 0%; opacity: 0; animation-timing-function: cubic-bezier(.45, .05, .25, 1); }
+  47%      { opacity: 1; }
+  67%, 100% { visibility: visible; --hg-guard: 11%; opacity: 1; }
+}
+@keyframes hero-grow-rise {
+  0%, 62%  { visibility: visible; --hg-grow: 0%; animation-timing-function: cubic-bezier(.45, .05, .25, 1); }
+  96%, 100% { visibility: visible; --hg-grow: 124%; }
+}
+@keyframes hero-grow-verb-1 {
+  0%, 4%   { background-size: 0% .3em; background-position: 0 92%; animation-timing-function: cubic-bezier(.45, .05, .25, 1); }
+  20%      { background-size: 100% .3em; background-position: 0 92%; }
+  36%      { background-size: 100% .3em; background-position: 100% 92%; animation-timing-function: cubic-bezier(.45, .05, .25, 1); }
+  48%, 100% { background-size: 0% .3em; background-position: 100% 92%; }
+}
+@keyframes hero-grow-verb-2 {
+  0%, 33%  { background-size: 0% .3em; background-position: 0 92%; animation-timing-function: cubic-bezier(.45, .05, .25, 1); }
+  49%      { background-size: 100% .3em; background-position: 0 92%; }
+  65%      { background-size: 100% .3em; background-position: 100% 92%; animation-timing-function: cubic-bezier(.45, .05, .25, 1); }
+  77%, 100% { background-size: 0% .3em; background-position: 100% 92%; }
+}
+@keyframes hero-grow-verb-3 {
+  0%, 62%  { background-size: 0% .3em; background-position: 0 92%; animation-timing-function: cubic-bezier(.45, .05, .25, 1); }
+  78%      { background-size: 100% .3em; background-position: 0 92%; }
+  90%      { background-size: 100% .3em; background-position: 100% 92%; animation-timing-function: cubic-bezier(.45, .05, .25, 1); }
+  100%     { background-size: 0% .3em; background-position: 100% 92%; }
+}
+
 /* ---- Trust / partners ---------------------------------------------------- */
 .partners { border-bottom: 1px solid var(--line); background-color: var(--paper); background-image: var(--grain); }
 /* padding shorthand would wipe .container's 24px inset and shift this strip
