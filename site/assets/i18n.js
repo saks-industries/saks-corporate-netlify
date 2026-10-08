@@ -20,6 +20,10 @@
     "nav.products": "製品",
     "nav.contact": "お問い合わせ",
     "nav.menu": "メニュー",
+    "a11y.skip": "本文へスキップ",
+    "a11y.nav": "メインメニュー",
+    "a11y.lang": "言語",
+    "a11y.home": "Saks Industriesホーム",
     "footer.tagline": "プロトタイプから量産まで、多分野にわたるシステムを設計・構築します。",
     "footer.company": "会社",
     "footer.legal": "規約",
@@ -120,6 +124,10 @@
     "contact.info.hours.title": "受付時間",
     "contact.info.hours.line": "平日 9:00–18:00（日本時間）",
     "contact.info.partners": "テクノロジーパートナー",
+    "contact.info.label": "連絡先",
+    "contact.form.required": "必須",
+    "contact.form.optional": "任意",
+    "contact.form.error": "必須項目を入力してから送信してください。",
 
     // privacy policy
     "privacy.title": "プライバシーポリシー — Saks Industries",
@@ -227,6 +235,12 @@
       btn.setAttribute("aria-pressed", String(btn.dataset.lang === lang));
     });
 
+    document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-aria");
+      if (!enAttr.has(el)) enAttr.set(el, el.getAttribute("aria-label") || "");
+      el.setAttribute("aria-label", (lang === "ja" && JA[key] != null) ? JA[key] : enAttr.get(el));
+    });
+
     try { localStorage.setItem(STORE_KEY, lang); } catch (e) { /* ignore */ }
 
     // Product cards listen for this. Page chrome uses data-i18n; catalog copy does not.
@@ -261,7 +275,9 @@
         link.addEventListener("click", function () { setNavOpen(false); });
       });
       document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") setNavOpen(false);
+        if (event.key !== "Escape" || !navBar.classList.contains("is-open")) return;
+        setNavOpen(false);
+        navToggle.focus();
       });
       window.addEventListener("resize", function () {
         if (window.innerWidth > 900) setNavOpen(false);
@@ -276,23 +292,85 @@
     // Contact form (SAK-33). No form-backend secret is available in this repo,
     // so submit opens a mailto: to hello@saks.industries — zero backend, works
     // everywhere, nothing is silently dropped. Native HTML5 validation (required
-    // + type=email) gates the submit, so this handler only runs on valid input.
+    // + type=email) still blocks a truly empty or malformed submit. Whitespace-only
+    // values pass `required`, so the handler checks a trimmed value and shows
+    // the same empty-state banner the `invalid` event uses.
     // When the board picks a hosted form backend, set CONTACT_ENDPOINT to its URL
     // and this will POST JSON there instead, falling back to mailto on failure.
     var CONTACT_EMAIL = "hello@saks.industries";
     var CONTACT_ENDPOINT = ""; // board-owned: hosted form backend URL (empty => mailto)
+    var REQUIRED_IDS = ["f-name", "f-email", "f-message"];
 
     var form = document.querySelector("form[data-contact-form]");
     if (form) {
+      var fieldById = function (id) { return document.getElementById(id); };
+      var val = function (id) {
+        var el = fieldById(id);
+        return el ? String(el.value || "").trim() : "";
+      };
+      var isBad = function (el) {
+        return !el || !String(el.value || "").trim() || !el.checkValidity();
+      };
+      var markContactErrors = function () {
+        form.classList.add("is-submitted");
+        var err = document.getElementById("contact-form-error");
+        var ok = form.querySelector("[data-form-ok]");
+        if (ok) ok.hidden = true;
+        if (err) err.hidden = false;
+        REQUIRED_IDS.forEach(function (id) {
+          var el = fieldById(id);
+          if (!el) return;
+          if (isBad(el)) {
+            el.setAttribute("aria-invalid", "true");
+            el.setAttribute("aria-describedby", "contact-form-error");
+          } else {
+            el.removeAttribute("aria-invalid");
+            el.removeAttribute("aria-describedby");
+          }
+        });
+      };
+      var clearContactErrors = function () {
+        form.classList.remove("is-submitted");
+        var err = document.getElementById("contact-form-error");
+        if (err) err.hidden = true;
+        REQUIRED_IDS.forEach(function (id) {
+          var el = fieldById(id);
+          if (!el) return;
+          el.removeAttribute("aria-invalid");
+          el.removeAttribute("aria-describedby");
+        });
+      };
+      var focusFirstBad = function () {
+        for (var i = 0; i < REQUIRED_IDS.length; i++) {
+          var el = fieldById(REQUIRED_IDS[i]);
+          if (isBad(el)) { el.focus(); return; }
+        }
+      };
+
+      form.addEventListener("invalid", function () { markContactErrors(); }, true);
+      form.addEventListener("input", function () {
+        if (!form.classList.contains("is-submitted")) return;
+        var anyBad = false;
+        REQUIRED_IDS.forEach(function (id) {
+          var el = fieldById(id);
+          if (!el) return;
+          if (isBad(el)) anyBad = true;
+        });
+        if (!anyBad) clearContactErrors();
+        else markContactErrors();
+      });
+
       form.addEventListener("submit", function (e) {
         e.preventDefault();
-        var val = function (id) {
-          var el = document.getElementById(id);
-          return el ? String(el.value || "").trim() : "";
-        };
         var name = val("f-name"), email = val("f-email");
         var subject = val("f-subject") || "Website enquiry";
         var message = val("f-message");
+        if (!name || !email || !message || !form.checkValidity()) {
+          markContactErrors();
+          focusFirstBad();
+          return;
+        }
+        clearContactErrors();
         var ok = form.querySelector("[data-form-ok]");
         var showOk = function () { if (ok) { ok.hidden = false; ok.focus(); } };
 
