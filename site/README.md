@@ -26,6 +26,7 @@ site/
   assets/
     styles.css      Design tokens in :root, all component styles
     i18n.js         EN/JA toggle + JA dictionary + preview form handler
+    hero-grow.js    Home hero "growing" animation helper (optional; CSS does the work)
     products-catalog.js   Renders product cards; follows the lang toggle
     products-catalog.json Generated. Do not edit by hand.
     products/       Card art PNGs referenced by the catalog
@@ -64,6 +65,18 @@ GitHub Pages runs the same script before upload. Card art is `assets/products/<n
   counsel review. Footer social is GitHub only; LinkedIn stays off until a URL
   is provided.
 - Team members and news items are **placeholder demo content** pending real bios/copy.
+
+## Home hero animation
+
+The home hero image plays a quiet three-stage reveal once on load, in step with
+the headline: 作る / build (left planting), 守る / protect (scarecrow and sluice
+gate), 育てる / grow (the rice rises from the bottom up). It is CSS in
+`styles.css` ("Hero growing animation"), opted into by a small inline gate in
+`index.html` `<head>`; `assets/hero-grow.js` only waits for the image, syncs the
+headline brush strokes, and cleans up. Reduced motion, no JS, print, or an older
+browser get the static image. The overlays reuse `hero-tanbo.webp`/`.jpg`, and
+the resting state is the plain `<img>` (no opacity, filter, or mask). If the
+hero art is ever replaced, re-check the band percentages noted in `styles.css`.
 
 ## Run locally
 
