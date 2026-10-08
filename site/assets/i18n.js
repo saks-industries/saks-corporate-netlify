@@ -66,7 +66,7 @@
     "home.news.eyebrow": "最新情報",
     "home.news.h2": "ニュースとアップデート",
     "home.news.tag.product": "製品",
-    "home.news1.title": "ZaySay Cloudの提供を開始。トレンドになる前に、製品についての声を把握できます。",
+    "home.news1.title": "ZaySay Cloudのプライベートプレビューを開始。トレンドになる前に、製品についての声を把握できます。",
     "home.cta.h2": "つくりたいシステムがありますか？",
     "home.cta.p": "課題をお聞かせください。多分野の実装経験を持つチームが、実現までご一緒します。",
 
