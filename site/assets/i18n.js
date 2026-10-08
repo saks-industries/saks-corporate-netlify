@@ -49,6 +49,7 @@
     "home.title": "Saks Industries — 多分野のためのシステム",
     "home.hero.eyebrow": "あらゆる分野のためのシステム",
     "home.hero.h1": "システムを<wbr>作る、<wbr>守る、<wbr>育てる",
+    "home.hero.art": "田植え、案山子と水門、実る稲穂を描いた田んぼの風景",
     "home.hero.p": "Saks Industries は、製造・物流・エネルギーなど幅広い分野で、ソフトウェアとハードウェアのシステムを設計・構築・運用します。最初の試作から量産規模まで一貫して支援します。",
     "home.partners.label": "信頼できる技術パートナー",
     "home.partners.msft": "Microsoft AI Cloud パートナー",
@@ -64,12 +65,8 @@
     "home.svc3.desc": "既存のツールをそのまま活かします。ERP・IoT・レガシーシステムを一つの信頼できる基盤に統合します。",
     "home.news.eyebrow": "最新情報",
     "home.news.h2": "ニュースとアップデート",
-    "home.news.tag.company": "会社",
-    "home.news.tag.partner": "パートナー",
     "home.news.tag.product": "製品",
     "home.news1.title": "ZaySay Cloudの提供を開始。トレンドになる前に、製品についての声を把握できます。",
-    "home.news2.title": "Saks Industries、システム事業をエネルギー分野へ拡大",
-    "home.news3.title": "AWS パートナーとして3年連続の認定を更新",
     "home.cta.h2": "つくりたいシステムがありますか？",
     "home.cta.p": "課題をお聞かせください。多分野の実装経験を持つチームが、実現までご一緒します。",
 
@@ -82,16 +79,16 @@
     "about.mission.h2": "多分野のためのシステムを、設計・構築する。",
     "about.mission.p1": "私たちは、業界固有の複雑さを、動き続ける実用的なシステムへと落とし込みます。試作から量産、そして日々の運用まで一貫して伴走します。",
     "about.mission.p2": "誇大な約束はしません。確かに動くものを、責任を持って届けます。",
-    "about.stat1.label": "事業年数",
-    "about.stat2.label": "取引企業数",
-    "about.stat3.label": "納品プロジェクト数",
-    "about.team.eyebrow": "チーム",
-    "about.team.h2": "つくる人たち",
-    "about.team.lede": "エンジニアリング、デザイン、運用の専門家が集まっています。",
-    "about.team1.role": "創業者 兼 CEO",
-    "about.team2.role": "最高技術責任者",
-    "about.team3.role": "エンジニアリング統括",
-    "about.team4.role": "デザイン統括",
+    "about.address.name": "サックス・インダストリーズ合同会社",
+    "about.address.line": "〒141-0021<wbr> 東京都品川区上大崎3-5-2<wbr> リードシー目黒イーストビル518",
+    "about.expertise.eyebrow": "得意分野",
+    "about.expertise.h2": "できること",
+    "about.expertise1.title": "新技術の<wbr>導入",
+    "about.expertise1.p": "新しい技術を、今の仕事の流れに合わせて取り入れます。",
+    "about.expertise2.title": "レガシーシステムの<wbr>クラウド化",
+    "about.expertise2.p": "動いている古い仕組みを、クラウドで続けられる形に移します。",
+    "about.expertise3.title": "ECサイトの<wbr>フル制作",
+    "about.expertise3.p": "お店のサイトを、画面の設計から公開までまとめてつくります。",
 
     // products
     "products.title": "製品 — Saks Industries",
@@ -235,6 +232,12 @@
       var key = el.getAttribute("data-i18n-aria");
       if (!enAria.has(el)) enAria.set(el, el.getAttribute("aria-label") || "");
       el.setAttribute("aria-label", (lang === "ja" && JA[key] != null) ? JA[key] : enAria.get(el));
+    });
+
+    document.querySelectorAll("[data-i18n-alt]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-alt");
+      if (!enAttr.has(el)) enAttr.set(el, el.getAttribute("alt") || "");
+      el.setAttribute("alt", (lang === "ja" && JA[key] != null) ? JA[key] : enAttr.get(el));
     });
 
     var ogLocale = document.querySelector('meta[property="og:locale"]');
