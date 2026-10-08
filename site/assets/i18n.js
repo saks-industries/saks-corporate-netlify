@@ -44,7 +44,7 @@
     // home
     "home.title": "Saks Industries — 多分野のためのシステム",
     "home.hero.eyebrow": "あらゆる分野のためのシステム",
-    "home.hero.h1": "産業を前進させる<wbr>システムを、<wbr>私たちがつくる。",
+    "home.hero.h1": "システムを<wbr>作る、<wbr>守る、<wbr>育てる",
     "home.hero.p": "Saks Industries は、製造・物流・エネルギーなど幅広い分野で、ソフトウェアとハードウェアのシステムを設計・構築・運用します。最初の試作から量産規模まで一貫して支援します。",
     "home.partners.label": "信頼できる技術パートナー",
     "home.partners.msft": "Microsoft AI Cloud パートナー",
@@ -92,7 +92,7 @@
     // products
     "products.title": "製品 — Saks Industries",
     "products.hero.eyebrow": "製品",
-    "products.hero.h1": "現場のために<wbr>設計された、<wbr>システム製品。",
+    "products.hero.h1": "システム製品。",
     "products.hero.p": "監視から意思決定まで。運用の現実に耐える製品群です。ご要望に合わせて構成しますので、まずはお見積もりをご依頼ください。",
     "products.grid.eyebrow": "製品ラインナップ",
     "products.grid.h2": "分散する運用を、ひとつに。",
