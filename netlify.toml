@@ -1,0 +1,14 @@
+# Netlify production config for the Saks corporate site.
+# Static site: the catalog build regenerates product data from catalog/products/*.yaml.
+[build]
+  publish = "site"
+  command = "npm ci && npm run build:catalog"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Serve the custom 404 page for unknown paths.
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
