@@ -254,20 +254,21 @@ p  { margin: 0 0 1em; }
 .hero-copy p { font-size: 1.15rem; color: var(--muted); max-width: 46ch; }
 .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
 .hero-art {
-  aspect-ratio: 4 / 3; border-radius: var(--radius); background: var(--bg-ink);
-  border: 4px double rgba(244,239,230,.7);
+  aspect-ratio: 4 / 3; border-radius: var(--radius);
+  background-color: var(--paper); background-image: var(--grain);
+  border: 4px double var(--ink);
   box-shadow: var(--shadow); position: relative; overflow: hidden;
   display: grid; place-items: center;
 }
 .hero-art::before {
   content: ""; position: absolute; inset: 14px;
-  border: 1px solid rgba(244,239,230,.45);
+  border: 1px solid var(--ink);
   pointer-events: none;
   background-image:
-    radial-gradient(circle at 8px 8px, var(--on-ink) 2.5px, transparent 2.8px),
-    radial-gradient(circle at calc(100% - 8px) 8px, var(--on-ink) 2.5px, transparent 2.8px),
-    radial-gradient(circle at 8px calc(100% - 8px), var(--on-ink) 2.5px, transparent 2.8px),
-    radial-gradient(circle at calc(100% - 8px) calc(100% - 8px), var(--on-ink) 2.5px, transparent 2.8px);
+    radial-gradient(circle at 8px 8px, var(--ink) 2.5px, transparent 2.8px),
+    radial-gradient(circle at calc(100% - 8px) 8px, var(--ink) 2.5px, transparent 2.8px),
+    radial-gradient(circle at 8px calc(100% - 8px), var(--ink) 2.5px, transparent 2.8px),
+    radial-gradient(circle at calc(100% - 8px) calc(100% - 8px), var(--ink) 2.5px, transparent 2.8px);
 }
 .hero-art img {
   position: relative; z-index: 1;
@@ -453,8 +454,8 @@ p  { margin: 0 0 1em; }
 /* The official mark's inner panel is transparent. On the dark footer, a washi
    tile sits behind the image so the サ stays visible. The PNG is unchanged. */
 .site-footer .brand-mark {
-  background-color: #f7f3ec;
-  box-shadow: 0 0 0 3px #f7f3ec, 0 0 0 4px var(--ink);
+  background-color: var(--paper);
+  box-shadow: 0 0 0 3px var(--paper), 0 0 0 4px var(--ink);
 }
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; }
 .site-footer .brand-name,
