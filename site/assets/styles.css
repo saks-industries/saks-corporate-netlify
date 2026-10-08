@@ -122,6 +122,8 @@ p  { margin: 0 0 1em; }
 /* ---- Buttons ------------------------------------------------------------- */
 .btn {
   display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+  /* Native <button> does not inherit the page font. Match <a class="btn">. */
+  font-family: inherit; line-height: inherit;
   font-weight: 600; font-size: .98rem; padding: 12px 22px; border-radius: var(--radius-s);
   border: 1.5px solid transparent; cursor: pointer; transition: transform .08s ease, background .15s ease;
   text-decoration: none;
@@ -498,6 +500,83 @@ p  { margin: 0 0 1em; }
 }
 @media (max-width: 620px) {
   .grid-3, .grid-4, .grid-2, .stats { grid-template-columns: 1fr; }
+  .stat { border-left: 0; border-top: 1px solid var(--line); }
+  .stat:first-child { border-top: 0; }
   .hero-btns .btn { flex: 1; }
   .cta-band { padding: 32px 22px; }
+}
+
+/* ---- Contact polish + shared a11y (appended so earlier rhythm rules stay intact) ---- */
+:root {
+  /* Focus and control edges stay on the Showa ink and stone, which already clear 3:1.
+     Dark surfaces restate a washi ring below so this block does not paint sumi on sumi. */
+  --focus: var(--ink);
+  --control-line: var(--muted);
+}
+
+:focus-visible { outline-color: var(--ink); }
+.lang-btn:focus-visible { outline-color: var(--ink); }
+.site-footer :focus-visible,
+.page-hero :focus-visible,
+.cta-band :focus-visible,
+.lang-btn[aria-pressed="true"]:focus-visible { outline-color: var(--on-ink); }
+main[tabindex="-1"]:focus { outline: none; }
+
+/* Mobile header shows the language control before the drawer; desktop shows it after the links.
+   Separate nodes keep tab order equal to that visual order. */
+.lang-toggle-desktop { display: none; }
+.nav-toggle,
+.lang-toggle { border-color: var(--control-line); }
+.lang-btn { color: var(--muted); }
+.btn--secondary { border-color: var(--control-line); }
+
+.field label { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.field-flag {
+  flex: none; font-size: .75rem; font-weight: 700; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--brand-dark);
+}
+.field-flag--optional { color: var(--muted); font-weight: 600; }
+.field input,
+.field textarea { border-color: var(--control-line); }
+.field input::placeholder,
+.field textarea::placeholder { color: var(--muted); opacity: 1; }
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--focus);
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+  box-shadow: none;
+}
+.field input[aria-invalid="true"],
+.field textarea[aria-invalid="true"],
+.is-submitted .field input:invalid,
+.is-submitted .field textarea:invalid { border-color: #9f1239; }
+.field input[aria-invalid="true"]:focus,
+.field textarea[aria-invalid="true"]:focus,
+.is-submitted .field input:invalid:focus,
+.is-submitted .field textarea:invalid:focus { outline-color: #9f1239; border-color: #9f1239; }
+
+.contact-panel {
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 28px 28px 32px;
+}
+.contact-panel .section-head { margin-bottom: 20px; }
+.contact-panel .section-head .lede { margin: 0; }
+.contact-aside-title { font-size: 1.25rem; margin: 0 0 4px; }
+.contact-email { margin-top: 8px; }
+.contact-partners { padding-top: 18px; display: grid; gap: 10px; }
+.badge-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.form-status { border-radius: var(--radius-s); padding: 12px 14px; margin: 0 0 18px; }
+.form-status:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+.form-status--ok { background: #e7f6ee; border: 1px solid #1f7a45; color: #14532d; }
+.form-status--ok a { color: #14532d; font-weight: 700; text-decoration: underline; }
+.form-status--error { background: #fdecee; border: 1px solid #9f1239; color: #9f1239; }
+
+@media (min-width: 901px) {
+  .lang-toggle-mobile { display: none; }
+  .lang-toggle-desktop { display: inline-flex; }
+}
+@media (max-width: 620px) {
+  .contact-panel { padding: 22px 18px 26px; }
+  .contact-panel .btn { width: 100%; }
 }

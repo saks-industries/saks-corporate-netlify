@@ -29,7 +29,7 @@
   <link rel="apple-touch-icon" href="assets/saks-mark-180.png" sizes="180x180" />
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 
   <header class="site-header">
     <div class="container nav">
@@ -41,71 +41,92 @@
         <span class="nav-toggle-bars" aria-hidden="true"></span>
         <span class="sr-only" data-i18n="nav.menu">Menu</span>
       </button>
-      <nav class="nav-links" id="site-nav" aria-label="Primary">
+      <div class="lang-toggle lang-toggle-mobile" role="group" aria-label="Language" data-i18n-aria="a11y.lang">
+        <button class="lang-btn" type="button" data-lang="en" lang="en" aria-pressed="true" aria-label="English">EN</button>
+        <button class="lang-btn" type="button" data-lang="ja" lang="ja" aria-pressed="false" aria-label="日本語">JA</button>
+      </div>
+      <nav class="nav-links" id="site-nav" aria-label="Primary" data-i18n-aria="a11y.nav">
         <a class="nav-link" href="index.html" data-i18n="nav.home">Home</a>
         <a class="nav-link" href="about.html" data-i18n="nav.about">About</a>
         <a class="nav-link" href="products.html" data-i18n="nav.products">Products</a>
         <a class="nav-link btn btn--primary nav-cta" href="contact.html" aria-current="page" data-i18n="nav.contact">Contact</a>
       </nav>
-      <div class="lang-toggle" role="group" aria-label="Language">
-        <button class="lang-btn" type="button" data-lang="en" aria-pressed="true">EN</button>
-        <button class="lang-btn" type="button" data-lang="ja" aria-pressed="false">JA</button>
+      <div class="lang-toggle lang-toggle-desktop" role="group" aria-label="Language" data-i18n-aria="a11y.lang">
+        <button class="lang-btn" type="button" data-lang="en" lang="en" aria-pressed="true" aria-label="English">EN</button>
+        <button class="lang-btn" type="button" data-lang="ja" lang="ja" aria-pressed="false" aria-label="日本語">JA</button>
       </div>
     </div>
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
     <section class="page-hero">
       <div class="container">
-        <span class="eyebrow" data-i18n="contact.hero.eyebrow">Get in touch</span>
-        <h1 data-i18n="contact.hero.h1">Tell us what you're building.</h1>
-        <p data-i18n="contact.hero.p">A project inquiry, a quote, or a partnership — reach out and we'll take it from there.</p>
+        <div class="hero-copy">
+          <span class="eyebrow" data-i18n="contact.hero.eyebrow">Get in touch</span>
+          <h1 data-i18n="contact.hero.h1">Tell us what you're building.</h1>
+          <p data-i18n="contact.hero.p">A project inquiry, a quote, or a partnership — reach out and we'll take it from there.</p>
+        </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section section--soft" aria-labelledby="contact-form-h">
       <div class="container contact-grid">
-        <!-- Form column -->
-        <div>
-          <h2 data-i18n="contact.form.h2">Send us a message</h2>
-          <p data-form-ok role="status" tabindex="-1" hidden
-             style="background:#e7f8ee;border:1px solid #b7e4c7;color:#1b6b3a;padding:12px 14px;border-radius:8px;margin-bottom:18px;">
-            <span data-i18n="contact.form.ok">Opening your email app with your message ready to send. If nothing opens, email us directly at</span>
-            <a href="mailto:hello@saks.industries">hello@saks.industries</a>.
-          </p>
+        <div class="contact-panel">
+          <div class="section-head">
+            <h2 id="contact-form-h" data-i18n="contact.form.h2">Send us a message</h2>
+            <p class="lede" data-i18n="contact.form.note">We'll get back to you within two business days.</p>
+          </div>
           <!-- Fields locked to Name / Email / Subject / Message (SAK-9 board decision). -->
           <!-- Submit builds a mailto: to hello@saks.industries (works with no backend).
                A hosted form backend is a pending board decision (SAK-33): once chosen,
                set CONTACT_ENDPOINT in assets/i18n.js to POST instead. go.saks.industries
                is a Short.io link-shortener, NOT a form endpoint — do not post there. -->
-          <form data-contact-form>
+          <form id="contact-form" data-contact-form aria-labelledby="contact-form-h">
+            <p class="form-status form-status--error" id="contact-form-error" data-form-error role="alert" tabindex="-1" hidden>
+              <span data-i18n="contact.form.error">Fill in the required fields before sending.</span>
+            </p>
+            <p class="form-status form-status--ok" data-form-ok role="status" tabindex="-1" hidden>
+              <span data-i18n="contact.form.ok">Opening your email app with your message ready to send. If nothing opens, email us directly at</span>
+              <a href="mailto:hello@saks.industries">hello@saks.industries</a>.
+            </p>
             <div class="field">
-              <label for="f-name" data-i18n="contact.form.name">Name</label>
+              <label for="f-name">
+                <span data-i18n="contact.form.name">Name</span>
+                <span class="field-flag" data-i18n="contact.form.required">Required</span>
+              </label>
               <input id="f-name" name="name" type="text" autocomplete="name" required
                      placeholder="Jane Doe" data-i18n-ph="contact.form.name.ph" />
             </div>
             <div class="field">
-              <label for="f-email" data-i18n="contact.form.email">Email</label>
+              <label for="f-email">
+                <span data-i18n="contact.form.email">Email</span>
+                <span class="field-flag" data-i18n="contact.form.required">Required</span>
+              </label>
               <input id="f-email" name="email" type="email" autocomplete="email" required
                      placeholder="you@example.com" data-i18n-ph="contact.form.email.ph" />
             </div>
             <div class="field">
-              <label for="f-subject" data-i18n="contact.form.subject">Subject</label>
+              <label for="f-subject">
+                <span data-i18n="contact.form.subject">Subject</span>
+                <span class="field-flag field-flag--optional" data-i18n="contact.form.optional">Optional</span>
+              </label>
               <input id="f-subject" name="subject" type="text"
                      placeholder="How can we help?" data-i18n-ph="contact.form.subject.ph" />
             </div>
             <div class="field">
-              <label for="f-message" data-i18n="contact.form.message">Message</label>
+              <label for="f-message">
+                <span data-i18n="contact.form.message">Message</span>
+                <span class="field-flag" data-i18n="contact.form.required">Required</span>
+              </label>
               <textarea id="f-message" name="message" required
                         placeholder="Tell us about your project" data-i18n-ph="contact.form.message.ph"></textarea>
             </div>
-            <button class="btn btn--primary btn--lg" type="submit" data-i18n="contact.form.submit">Send message</button>
-            <p class="form-note" data-i18n="contact.form.note">We'll get back to you within two business days.</p>
+            <button class="btn btn--primary btn--lg contact-submit" type="submit" data-i18n="contact.form.submit">Send message</button>
           </form>
         </div>
 
-        <!-- Info column -->
-        <aside aria-label="Contact details">
+        <aside class="contact-panel contact-aside" aria-labelledby="contact-info-h">
+          <h2 id="contact-info-h" class="contact-aside-title" data-i18n="contact.info.label">Contact details</h2>
           <div class="info-block">
             <div class="info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
             <div>
@@ -117,7 +138,7 @@
             <div class="info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
             <div>
               <div class="info-title" data-i18n="contact.info.email.title">Email</div>
-              <p><a href="mailto:hello@saks.industries">hello@saks.industries</a></p>
+              <a class="btn btn--secondary contact-email" href="mailto:hello@saks.industries">hello@saks.industries</a>
             </div>
           </div>
           <div class="info-block">
@@ -127,9 +148,9 @@
               <p data-i18n="contact.info.hours.line">Weekdays 9:00–18:00 (JST)</p>
             </div>
           </div>
-          <div style="padding-top:18px;">
-            <div class="partners-label" style="margin-bottom:10px;" data-i18n="contact.info.partners">Technology partners</div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <div class="contact-partners">
+            <div class="partners-label" data-i18n="contact.info.partners">Technology partners</div>
+            <div class="badge-row">
               <span class="badge"><span class="dot"></span><span data-i18n="home.partners.msft">Microsoft AI Cloud Partner</span></span>
               <span class="badge"><span class="dot"></span><span data-i18n="home.partners.aws">AWS Partner</span></span>
             </div>

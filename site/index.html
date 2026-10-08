@@ -30,7 +30,7 @@
   <link rel="apple-touch-icon" href="assets/saks-mark-180.png" sizes="180x180" />
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 
   <!-- ============ Shared header / nav ============ -->
   <header class="site-header">
@@ -43,20 +43,24 @@
         <span class="nav-toggle-bars" aria-hidden="true"></span>
         <span class="sr-only" data-i18n="nav.menu">Menu</span>
       </button>
-      <nav class="nav-links" id="site-nav" aria-label="Primary">
+      <div class="lang-toggle lang-toggle-mobile" role="group" aria-label="Language" data-i18n-aria="a11y.lang">
+        <button class="lang-btn" type="button" data-lang="en" lang="en" aria-pressed="true" aria-label="English">EN</button>
+        <button class="lang-btn" type="button" data-lang="ja" lang="ja" aria-pressed="false" aria-label="日本語">JA</button>
+      </div>
+      <nav class="nav-links" id="site-nav" aria-label="Primary" data-i18n-aria="a11y.nav">
         <a class="nav-link" href="index.html" aria-current="page" data-i18n="nav.home">Home</a>
         <a class="nav-link" href="about.html" data-i18n="nav.about">About</a>
         <a class="nav-link" href="products.html" data-i18n="nav.products">Products</a>
         <a class="nav-link btn btn--primary nav-cta" href="contact.html" data-i18n="nav.contact">Contact</a>
       </nav>
-      <div class="lang-toggle" role="group" aria-label="Language">
-        <button class="lang-btn" type="button" data-lang="en" aria-pressed="true">EN</button>
-        <button class="lang-btn" type="button" data-lang="ja" aria-pressed="false">JA</button>
+      <div class="lang-toggle lang-toggle-desktop" role="group" aria-label="Language" data-i18n-aria="a11y.lang">
+        <button class="lang-btn" type="button" data-lang="en" lang="en" aria-pressed="true" aria-label="English">EN</button>
+        <button class="lang-btn" type="button" data-lang="ja" lang="ja" aria-pressed="false" aria-label="日本語">JA</button>
       </div>
     </div>
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
     <!-- ============ Hero ============ -->
     <section class="hero">
       <div class="container hero-grid">

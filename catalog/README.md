@@ -35,7 +35,7 @@ Do not invent a custom Kind. Annotations are strings, which is what Backstage ex
 | `saks.industries/published` | `"true"` to show the card. Anything else is omitted from the JSON. |
 | `saks.industries/blurb-en` / `blurb-ja` | Card body. The EN/JA toggle swaps these. `metadata.description` is the EN fallback. |
 | `saks.industries/tag-en` / `tag-ja` | Category chip. Kept off `metadata.tags` so the chip can be bilingual. |
-| `saks.industries/image` | Site-relative from the HTML root, no leading slash. Example: `assets/products/zaysay.svg`. |
+| `saks.industries/image` | Site-relative from the HTML root, no leading slash. Example: `assets/products/zaysay.png`. |
 | `saks.industries/sort-order` | Integer string. Lower comes first. |
 | `saks.industries/docs` | Optional GitHub blob URL or path. Not fetched or copied at build time. |
 
@@ -45,7 +45,7 @@ Entities that are not `spec.type: product`, and products that are not published,
 
 ## Images
 
-Designer drops final art at `site/assets/products/<name>.png` (or `.svg`) and sets `saks.industries/image` to that path. Until then each product has a simple SVG placeholder. A missing file does not fail the build; the card shows the existing empty `.product-img` state.
+Card art lives at `site/assets/products/<name>.png`. Set `saks.industries/image` to that path. A missing file does not fail the build; the card shows the existing empty `.product-img` state.
 
 ## Backstage later
 

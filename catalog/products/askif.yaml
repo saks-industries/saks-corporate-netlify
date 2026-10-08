@@ -15,7 +15,7 @@ metadata:
     saks.industries/blurb-ja: "ask.if、ask.switch、ask.scoreで、モデルの確率的な答えを型付きの制御フローに変える意思決定キット。"
     saks.industries/tag-en: "Applied AI"
     saks.industries/tag-ja: "応用AI"
-    saks.industries/image: assets/products/askif.svg
+    saks.industries/image: assets/products/askif.png
     saks.industries/sort-order: "40"
     saks.industries/docs: "https://github.com/asakaxgit/askif"
 spec:
