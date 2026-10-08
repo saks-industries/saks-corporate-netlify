@@ -266,26 +266,14 @@ p  { margin: 0 0 1em; }
 html[lang="ja"] .hero .hero-copy h1 { letter-spacing: .04em; }
 .hero .hero-copy p { line-height: 1.65; margin-bottom: 0; }
 .hero-art {
-  aspect-ratio: 4 / 3; border-radius: var(--radius);
-  background-color: var(--paper); background-image: var(--grain);
+  border-radius: var(--radius);
   border: 4px double var(--ink);
-  box-shadow: var(--shadow); position: relative; overflow: hidden;
-  display: grid; place-items: center;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  line-height: 0;
 }
-.hero-art::before {
-  content: ""; position: absolute; inset: 14px;
-  border: 1px solid var(--ink);
-  pointer-events: none;
-  background-image:
-    radial-gradient(circle at 8px 8px, var(--ink) 2.5px, transparent 2.8px),
-    radial-gradient(circle at calc(100% - 8px) 8px, var(--ink) 2.5px, transparent 2.8px),
-    radial-gradient(circle at 8px calc(100% - 8px), var(--ink) 2.5px, transparent 2.8px),
-    radial-gradient(circle at calc(100% - 8px) calc(100% - 8px), var(--ink) 2.5px, transparent 2.8px);
-}
-.hero-art img {
-  position: relative; z-index: 1;
-  width: min(62%, 261px); height: auto; max-width: 261px;
-}
+.hero-art picture, .hero-art img { display: block; width: 100%; height: auto; }
 
 /* ---- Trust / partners ---------------------------------------------------- */
 .partners { border-bottom: 1px solid var(--line); background-color: var(--paper); background-image: var(--grain); }
@@ -549,7 +537,6 @@ html[lang="ja"] .news-item h3 { letter-spacing: .04em; }
     --product-gap: 24px;
   }
   .hero-grid { grid-template-columns: 1fr; }
-  .hero-art { order: -1; }
   .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .contact-grid, .footer-grid { grid-template-columns: 1fr; gap: 32px; }
   .section.legal-intro { padding: 40px 0 0; }

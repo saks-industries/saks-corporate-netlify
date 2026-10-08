@@ -49,6 +49,7 @@
     "home.title": "Saks Industries — 多分野のためのシステム",
     "home.hero.eyebrow": "あらゆる分野のためのシステム",
     "home.hero.h1": "システムを<wbr>作る、<wbr>守る、<wbr>育てる",
+    "home.hero.art": "田植え、案山子と水門、実る稲穂を描いた田んぼの風景",
     "home.hero.p": "Saks Industries は、製造・物流・エネルギーなど幅広い分野で、ソフトウェアとハードウェアのシステムを設計・構築・運用します。最初の試作から量産規模まで一貫して支援します。",
     "home.partners.label": "信頼できる技術パートナー",
     "home.partners.msft": "Microsoft AI Cloud パートナー",
@@ -235,6 +236,12 @@
       var key = el.getAttribute("data-i18n-aria");
       if (!enAria.has(el)) enAria.set(el, el.getAttribute("aria-label") || "");
       el.setAttribute("aria-label", (lang === "ja" && JA[key] != null) ? JA[key] : enAria.get(el));
+    });
+
+    document.querySelectorAll("[data-i18n-alt]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-alt");
+      if (!enAttr.has(el)) enAttr.set(el, el.getAttribute("alt") || "");
+      el.setAttribute("alt", (lang === "ja" && JA[key] != null) ? JA[key] : enAttr.get(el));
     });
 
     var ogLocale = document.querySelector('meta[property="og:locale"]');
