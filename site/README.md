@@ -28,7 +28,7 @@ site/
     i18n.js         EN/JA toggle + JA dictionary + preview form handler
     products-catalog.js   Renders product cards; follows the lang toggle
     products-catalog.json Generated. Do not edit by hand.
-    products/       Placeholder art (Designer replaces these files)
+    products/       Card art PNGs referenced by the catalog
   .nojekyll         Serve files as-is on GitHub Pages
 ```
 
@@ -40,7 +40,7 @@ Card copy lives in [`catalog/products/`](../catalog/README.md), not in `products
 node scripts/build-catalog.mjs
 ```
 
-GitHub Pages runs the same script before upload. Placeholder images are `assets/products/<name>.svg`. Drop final art in that folder and point `saks.industries/image` at it (site-relative, no leading slash).
+GitHub Pages runs the same script before upload. Card art is `assets/products/<name>.png` (site-relative, no leading slash), pointed at by `saks.industries/image`.
 
 ## Locked product decisions honored (SAK-9 board)
 
@@ -60,8 +60,9 @@ GitHub Pages runs the same script before upload. Placeholder images are `assets/
   secret in this repo, nothing is silently dropped). To use a hosted form
   backend later, set `CONTACT_ENDPOINT` in `assets/i18n.js`. Note:
   `go.saks.industries` is a Short.io link-shortener, **not** a form endpoint.
-- **Legal / social:** Privacy/Terms and LinkedIn/X links are still `#`
-  placeholders pending board-supplied copy/handles; GitHub links to the org.
+- **Legal / social:** Privacy and Terms are published as interim drafts pending
+  counsel review. Footer social is GitHub only; LinkedIn stays off until a URL
+  is provided.
 - Team members and news items are **placeholder demo content** pending real bios/copy.
 
 ## Run locally
