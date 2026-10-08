@@ -32,6 +32,14 @@
     "cta.getquote": "見積もりを依頼",
     "cta.learnmore": "詳しく見る",
 
+    // meta descriptions — same claims as the English <meta name="description">
+    "home.desc": "Saks Industries は、製造・物流・エネルギーなど幅広い分野で、ソフトウェアとハードウェアのシステムを設計・構築・運用します。",
+    "about.desc": "Saks Industries は、分野を越えて動くシステムをつくるエンジニア、デザイナー、オペレーターのチームです。",
+    "products.desc": "運用の現実に合わせて構成するシステム製品です。まずはお見積もりをご依頼ください。",
+    "contact.desc": "プロジェクト、見積もり、パートナーシップについて Saks Industries へお問い合わせください。",
+    "privacy.desc": "Saks Industries LLC のプライバシーポリシー。",
+    "terms.desc": "Saks Industries LLC の利用規約。",
+
     // home
     "home.title": "Saks Industries — 多分野のためのシステム",
     "home.hero.eyebrow": "あらゆる分野のためのシステム",
@@ -195,6 +203,17 @@
       if (!enAttr.has(el)) enAttr.set(el, el.getAttribute("placeholder") || "");
       el.setAttribute("placeholder", (lang === "ja" && JA[key] != null) ? JA[key] : enAttr.get(el));
     });
+
+    document.querySelectorAll("[data-i18n-content]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-content");
+      if (!enAttr.has(el)) enAttr.set(el, el.getAttribute("content") || "");
+      el.setAttribute("content", (lang === "ja" && JA[key] != null) ? JA[key] : enAttr.get(el));
+    });
+
+    var ogLocale = document.querySelector('meta[property="og:locale"]');
+    var ogLocaleAlt = document.querySelector('meta[property="og:locale:alternate"]');
+    if (ogLocale) ogLocale.setAttribute("content", lang === "ja" ? "ja_JP" : "en_US");
+    if (ogLocaleAlt) ogLocaleAlt.setAttribute("content", lang === "ja" ? "en_US" : "ja_JP");
 
     // <title> uses data-i18n on a <title data-i18n="..."> when present
     var titleEl = document.querySelector("title[data-i18n]");
