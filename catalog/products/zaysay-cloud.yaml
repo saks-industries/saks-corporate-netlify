@@ -17,7 +17,6 @@ metadata:
     saks.industries/tag-ja: "プライベートプレビュー・ソーシャルインテリジェンス"
     saks.industries/image: assets/products/zaysay.png
     saks.industries/sort-order: "10"
-    saks.industries/docs: "https://github.com/asakaxgit/ZaySay-Cloud"
 spec:
   type: product
   lifecycle: production
