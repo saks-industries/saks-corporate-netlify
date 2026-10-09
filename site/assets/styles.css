@@ -495,6 +495,26 @@ html[lang="ja"] .company-address {
   word-break: keep-all; line-break: strict; overflow-wrap: anywhere;
 }
 
+/* ---- Company IDs + map ---------------------------------------------------- */
+.company-ids {
+  max-width: 40rem; margin: 14px auto 0; display: flex; flex-wrap: wrap;
+  justify-content: center; gap: 6px 28px; font-size: .9rem; color: var(--muted);
+}
+.company-id { display: flex; gap: 10px; align-items: baseline; }
+.company-id dt { margin: 0; }
+.company-id dd { margin: 0; color: var(--ink); font-variant-numeric: tabular-nums; letter-spacing: .03em; }
+.company-map {
+  max-width: 48rem; margin: 26px auto 0; padding: 4px;
+  border: 4px double var(--ink); background: var(--paper, #f7f3ea);
+}
+.company-map iframe {
+  display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; border: 0;
+  filter: grayscale(1) contrast(1.05);
+}
+.company-map figcaption { margin-top: 8px; text-align: center; font-size: .85rem; }
+.company-map figcaption a { color: var(--ink); }
+@media (max-width: 560px) { .company-map iframe { aspect-ratio: 4 / 3; } }
+
 /* ---- Products ------------------------------------------------------------ */
 .products-grid { gap: var(--product-gap); }
 .product-card { padding: 0; gap: 0; height: 100%; }
