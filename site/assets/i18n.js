@@ -80,7 +80,7 @@
     "about.mission.p1": "私たちは、業界固有の複雑さを、動き続ける実用的なシステムへと落とし込みます。試作から量産、そして日々の運用まで一貫して伴走します。",
     "about.mission.p2": "誇大な約束はしません。確かに動くものを、責任を持って届けます。",
     "about.address.name": "サックス・インダストリーズ合同会社",
-    "about.address.line": "〒141-0021<wbr> 東京都品川区上大崎3-5-2<wbr> リードシー目黒イーストビル518",
+    "about.address.line": "〒141-0021<wbr> 東京都品川区上大崎3丁目5番2号",
     "about.expertise.eyebrow": "得意分野",
     "about.expertise.h2": "できること",
     "about.expertise1.title": "新技術の<wbr>導入",
