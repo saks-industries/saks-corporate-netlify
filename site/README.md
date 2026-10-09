@@ -57,7 +57,7 @@ GitHub Pages runs the same script before upload. Card art is `assets/products/<n
   when the domain is provided. Note: `saks.industries` currently serves a
   separate, externally-built (popodesign) site on Netlify that this repo does
   not control — cutover requires a board decision.
-- **Contact form:** submits via `mailto:hello@saks.industries` (no backend
+- **Contact form:** submits via a `mailto:` to the contact address (assembled in `i18n.js`, deliberately not shown on the page) (no backend
   secret in this repo, nothing is silently dropped). To use a hosted form
   backend later, set `CONTACT_ENDPOINT` in `assets/i18n.js`. Note:
   `go.saks.industries` is a Short.io link-shortener, **not** a form endpoint.

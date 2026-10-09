@@ -80,7 +80,7 @@
             <p class="lede" data-i18n="contact.form.note">We'll get back to you within two business days.</p>
           </div>
           <!-- Fields locked to Name / Email / Subject / Message (SAK-9 board decision). -->
-          <!-- Submit builds a mailto: to hello@saks.industries (works with no backend).
+          <!-- Submit builds a mailto: to the contact address, assembled in assets/i18n.js (works with no backend).
                A hosted form backend is a pending board decision (SAK-33): once chosen,
                set CONTACT_ENDPOINT in assets/i18n.js to POST instead. go.saks.industries
                is a Short.io link-shortener, NOT a form endpoint — do not post there. -->
@@ -89,8 +89,7 @@
               <span data-i18n="contact.form.error">Fill in the required fields before sending.</span>
             </p>
             <p class="form-status form-status--ok" data-form-ok role="status" tabindex="-1" hidden>
-              <span data-i18n="contact.form.ok">Opening your email app with your message ready to send. If nothing opens, email us directly at</span>
-              <a href="mailto:hello@saks.industries">hello@saks.industries</a>.
+              <span data-i18n="contact.form.ok">Opening your email app with your message ready to send.</span>
             </p>
             <div class="field">
               <label for="f-name">
@@ -135,13 +134,6 @@
             <div>
               <div class="info-title" data-i18n="contact.info.office.title">Head Office</div>
               <p data-i18n="contact.info.office.line">3-5-2 Kamiosaki, Shinagawa-ku, Tokyo 141-0021, Japan</p>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
-            <div>
-              <div class="info-title" data-i18n="contact.info.email.title">Email</div>
-              <a class="btn btn--secondary contact-email" href="mailto:hello@saks.industries">hello@saks.industries</a>
             </div>
           </div>
           <div class="info-block">

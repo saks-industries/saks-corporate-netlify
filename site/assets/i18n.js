@@ -118,7 +118,7 @@
     "contact.form.message.ph": "ご相談内容をご記入ください",
     "contact.form.submit": "メッセージを送信",
     "contact.form.note": "通常2営業日以内にご返信します。",
-    "contact.form.ok": "メールアプリを起動しました。内容をご確認のうえ送信してください。起動しない場合は、こちらまで直接ご連絡ください：",
+    "contact.form.ok": "メールアプリを起動しました。内容をご確認のうえ送信してください。",
     "contact.info.office.title": "本社",
     "contact.info.office.line": "〒141-0021 東京都品川区上大崎3丁目5番2号",
     "contact.info.email.title": "メール",
@@ -137,7 +137,7 @@
     "privacy.updated": "最終更新：2026年8月",
     "privacy.notice": "本ポリシーは個人情報の保護に関する法律（個人情報保護法）に基づく暫定文書であり、正式公表前に法務レビューを受ける予定です。",
     "privacy.s1.h": "1. 個人情報取扱事業者",
-    "privacy.s1.p": "サックス・インダストリーズ合同会社（以下「当社」）が本ポリシーに責任を持つ個人情報取扱事業者です。お問い合わせ先：hello@saks.industries",
+    "privacy.s1.p": "サックス・インダストリーズ合同会社（以下「当社」）が本ポリシーに責任を持つ個人情報取扱事業者です。お問い合わせ先：<a href="contact.html">お問い合わせフォーム</a>をご利用ください。",
     "privacy.s2.h": "2. 収集する個人情報",
     "privacy.s2.p": "当社は、お問い合わせフォームまたはその他の手段でご連絡いただく際に、お名前・メールアドレス・メッセージ内容などの個人情報をご提供いただく場合があります。",
     "privacy.s3.h": "3. 利用目的",
@@ -147,13 +147,13 @@
     "privacy.s5.h": "5. 安全管理措置",
     "privacy.s5.p": "個人情報の漏えい・滅失・毀損を防ぐため、適切な技術的・組織的安全管理措置を講じています。",
     "privacy.s6.h": "6. 開示・訂正・削除等のご請求（個人情報保護法）",
-    "privacy.s6.p": "個人情報保護法に基づき、当社が保有する個人情報の開示・訂正・追加・削除・利用停止をご請求いただけます。hello@saks.industries までご連絡ください。法定の期限内に対応いたします。",
+    "privacy.s6.p": "個人情報保護法に基づき、当社が保有する個人情報の開示・訂正・追加・削除・利用停止をご請求いただけます。当社の<a href="contact.html">お問い合わせフォーム</a>よりご連絡ください。法定の期限内に対応いたします。",
     "privacy.s7.h": "7. クッキー・アナリティクス",
     "privacy.s7.p": "現在、本サイトはトラッキングクッキーや第三者アナリティクスを使用していません。変更が生じる場合は本ポリシーを改定します。",
     "privacy.s8.h": "8. 本ポリシーの変更",
     "privacy.s8.p": "本ポリシーは随時改定することがあります。重要な変更はこのページでお知らせします。改定後も本サイトをご利用いただくことで、変更後のポリシーに同意したものとみなします。",
     "privacy.s9.h": "9. お問い合わせ",
-    "privacy.s9.p": "本ポリシーまたは個人情報に関するご質問は hello@saks.industries までお寄せください。",
+    "privacy.s9.p": "本ポリシーまたは個人情報に関するご質問は <a href="contact.html">お問い合わせフォーム</a>よりお寄せください。",
 
     // terms of use
     "terms.title": "利用規約 — Saks Industries",
@@ -164,7 +164,7 @@
     "terms.s1.h": "1. 同意",
     "terms.s1.p": "本ウェブサイト（以下「本サイト」）にアクセスまたは利用することにより、本利用規約に同意したものとみなします。同意いただけない場合は、本サイトのご利用をお控えください。",
     "terms.s2.h": "2. 運営者",
-    "terms.s2.p": "本サイトはサックス・インダストリーズ合同会社が運営しています。お問い合わせ先：hello@saks.industries",
+    "terms.s2.p": "本サイトはサックス・インダストリーズ合同会社が運営しています。お問い合わせ先：<a href="contact.html">お問い合わせフォーム</a>をご利用ください。",
     "terms.s3.h": "3. 利用条件",
     "terms.s3.p": "本サイトは合法的な目的にのみご利用ください。当社の書面による事前承諾なく、本サイトのコンテンツを複製・再配布・商業目的で利用することを禁じます。",
     "terms.s4.h": "4. 知的財産権",
@@ -178,7 +178,7 @@
     "terms.s8.h": "8. 変更",
     "terms.s8.p": "本規約はいつでも改定することがあります。改定後も本サイトをご利用いただくことで、変更後の規約に同意したものとみなします。定期的にご確認ください。",
     "terms.s9.h": "9. お問い合わせ",
-    "terms.s9.p": "本規約に関するご質問は hello@saks.industries までお寄せください。"
+    "terms.s9.p": "本規約に関するご質問は <a href="contact.html">お問い合わせフォーム</a>よりお寄せください。"
   };
 
   var STORE_KEY = "saks-lang";
@@ -309,14 +309,14 @@
     if (subjectParam && subjectField) subjectField.value = subjectParam;
 
     // Contact form (SAK-33). No form-backend secret is available in this repo,
-    // so submit opens a mailto: to hello@saks.industries — zero backend, works
+    // so submit opens a mailto: to the contact address (kept out of the page text to avoid spam harvesting) — zero backend, works
     // everywhere, nothing is silently dropped. Native HTML5 validation (required
     // + type=email) still blocks a truly empty or malformed submit. Whitespace-only
     // values pass `required`, so the handler checks a trimmed value and shows
     // the same empty-state banner the `invalid` event uses.
     // When the board picks a hosted form backend, set CONTACT_ENDPOINT to its URL
     // and this will POST JSON there instead, falling back to mailto on failure.
-    var CONTACT_EMAIL = "hello@saks.industries";
+    var CONTACT_EMAIL = ["hello", "saks.industries"].join("@"); // assembled so scrapers do not find it in the source
     var CONTACT_ENDPOINT = ""; // board-owned: hosted form backend URL (empty => mailto)
     var REQUIRED_IDS = ["f-name", "f-email", "f-message"];
 
